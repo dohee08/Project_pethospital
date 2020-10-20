@@ -155,7 +155,7 @@ public class HospitalRegister {
 //			String did = "test";  
 //			String dpass = "1234";
 			
-			//TextField에서 가져온 값
+			//회원가입 TextField에서 가져온 값
 			String uid = tid.getText().trim();
 			String upass = tpass.getText().trim();
 			String uname = tname.getText().trim();

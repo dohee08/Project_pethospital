@@ -22,6 +22,10 @@ public class HospitalMgmUI extends JFrame{
 //		public static final ArrayList<MemberVO> list =new ArrayList<MemberVO>();
 //		public MemberMgmSystem system = new MemberMgmSystem();
 		
+//		public static final int REGISTER = 1;
+//		public static final int LIST = 2;
+//		public static final int SEARCH = 3;
+		
 		public static final int REGISTER = 1;
 		public static final int LIST = 2;
 		public static final int SEARCH = 3;
@@ -29,14 +33,18 @@ public class HospitalMgmUI extends JFrame{
 		public static final int DELETE = 5;
 		
 		JPanel showPane, showButtonPane;
-		JButton btnLogin, btnJoin;
+		JButton btnLogin, btnJoin, btnManager;
 		JPanel mainPane, menuPane;	
-		JButton btnReg, btnList, btnSearch, btnUpdate, btnDelete,	btnExit;
+		JButton btnReg, btnList, btnSearch, btnUpdate, btnDelete;
+		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
 		JLabel jl_title, jl_img;
 		JFrame fmain;
 		JPanel main_panel, button_panel, insert_panel;
 
-
+		JPanel HospiResPane = new JPanel();
+		JPanel SalonResPane = new JPanel();
+		JPanel MemInfoPane = new JPanel();
+		
 		JPanel regPane = new JPanel(new GridLayout(10,1));
 		JPanel listPane = new JPanel();
 		JPanel searchPane = new JPanel();
@@ -53,10 +61,11 @@ public class HospitalMgmUI extends JFrame{
 		
 		//Method
 		public void showMain() {
-			fmain = new JFrame("동물 병원 예약 시스템");
+			fmain = new JFrame("애견병원 예약 시스템");
 			showPane = new JPanel();
 			showButtonPane = new JPanel();
 			btnLogin = new JButton("로그인");
+			btnManager = new JButton("관리자");
 			btnJoin = new JButton("회원가입");
 			
 			jl_title = new JLabel("\n== 애견병원 시스템에 오신것을 환영합니다 ==");
@@ -64,10 +73,12 @@ public class HospitalMgmUI extends JFrame{
 			jl_title.setFont(new Font("맑은 고딕",Font.BOLD,16));
 			btnLogin.setFont(font);
 			btnJoin.setFont(font);
+			btnManager.setFont(font);
 			
 			showPane.add(jl_img);
 			showPane.add(jl_title);	
 			showButtonPane.add(btnLogin);
+			showButtonPane.add(btnManager);
 			showButtonPane.add(btnJoin);
 			
 			fmain.add(showPane, BorderLayout.CENTER);
@@ -85,7 +96,9 @@ public class HospitalMgmUI extends JFrame{
 			fmain.setVisible(true);
 			
 			btnLogin.addActionListener(new HospitalMgmUIEvent(this));
+			btnManager.addActionListener(new HospitalMgmUIEvent(this));
 			btnJoin.addActionListener(new HospitalMgmUIEvent(this));
+			fmain.addWindowListener(new HospitalMgmUIEvent(this));
 		}
 		
 		public void start() {	//메인 UI 연결!!!
@@ -95,28 +108,47 @@ public class HospitalMgmUI extends JFrame{
 			
 		    main_panel = new JPanel();
 		    button_panel = new JPanel();
-		    insert_panel = new JPanel();
-		    String[] names = {"병원 예약","미용 예약", "내정보"};
+		    insert_panel = new JPanel();	// --ㅇㅇ가 로그인 하였습니다--
+//		    String[] names = {"병원 예약", "미용 예약", "회원 정보", "종료"};
 		      
-		    main_panel = new JPanel();
 		    insert_panel = new JPanel(new BorderLayout());
-		    button_panel = new JPanel(new GridLayout(1,3));
+		    button_panel = new JPanel(new GridLayout(1,4));
 		    button_panel.setSize(300,300);
-		      
-		      
-		    for(String name: names) {
-		      JButton button = new JButton(name);
-		      button_panel.add(button);
-//		       button.addActionListener(this);
-		    }
+		    
+		    //메인 UI 버튼 정의
+		    btnHospiRes = new JButton("병원 예약");
+			btnSalonRes = new JButton("미용 예약");
+			btnMyPage = new JButton("회원 정보");
+			btnExit = new JButton("종료");
+			
+			button_panel.add(btnHospiRes);
+			button_panel.add(btnSalonRes);
+			button_panel.add(btnMyPage);
+			button_panel.add(btnExit);
+			
+			//메인 UI 버튼 이벤트 정의
+			HospitalMgmUIEvent eventObj = new HospitalMgmUIEvent(this);
+			
+			btnHospiRes.addActionListener(eventObj);
+			btnSalonRes.addActionListener(eventObj);
+			btnMyPage.addActionListener(eventObj);
+			btnExit.addActionListener(eventObj);
+			fmain.addWindowListener(eventObj);
 		     
+			//메인 UI 창 위치 정의
 		    fmain.add(BorderLayout.NORTH, button_panel);      
 //		    f.add(BorderLayout.CENTER, main_panel); - 원래는 메인 먼저 띄우기
 		    fmain.add(BorderLayout.CENTER, insert_panel);
 //		    insertForm();
 		      
-		      
-		    fmain.setSize(500,400);
+		    //메인 UI 창 화면 띄우기
+		    Dimension fsize = getSize();
+			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
+			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
+			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
+			
+			setLocation(width, height);
+		    fmain.setSize(1000,700);
 		    fmain.setVisible(true);
 //		    f.addWindowListener(this);   
 		 }
@@ -186,21 +218,21 @@ public class HospitalMgmUI extends JFrame{
 		
 		public void switchPane(String menu) {
 			resetPane();			
-			if(menu.equals("register")) {
-				regPane.removeAll();
-				regPane.setVisible(true);
-			}else if(menu.equals("list")) {		
-				listPane.removeAll();
-				listPane.setVisible(true);
-			}else if(menu.equals("search")) {		
-				searchPane.removeAll();
-				searchPane.setVisible(true);
-			}else if(menu.equals("update")) {		
-				updatePane.removeAll();
-				updatePane.setVisible(true);
-			}else if(menu.equals("delete")) {		
-				deletePane.removeAll();
-				deletePane.setVisible(true);
+			if(menu.equals("병원 예약")) {
+				HospiResPane.removeAll();
+				HospiResPane.setVisible(true);
+			}else if(menu.equals("미용 예약")) {		
+				SalonResPane.removeAll();
+				SalonResPane.setVisible(true);
+			}else if(menu.equals("회원 정보")) {		
+				MemInfoPane.removeAll();
+				MemInfoPane.setVisible(true);
+//			}else if(menu.equals("update")) {		
+//				updatePane.removeAll();
+//				updatePane.setVisible(true);
+//			}else if(menu.equals("delete")) {		
+//				deletePane.removeAll();
+//				deletePane.setVisible(true);
 			}
 		}
 		
@@ -208,25 +240,25 @@ public class HospitalMgmUI extends JFrame{
 			resetPane();
 			switch(menu) {
 			case 1 : 
-				regPane.removeAll();
-				regPane.setVisible(true);
+				HospiResPane.removeAll();
+				HospiResPane.setVisible(true);
 				break;
 			case 2 : 
-				listPane.removeAll();
-				listPane.setVisible(true);
+				SalonResPane.removeAll();
+				SalonResPane.setVisible(true);
 				break;
 			case 3 : 
-				searchPane.removeAll();
-				searchPane.setVisible(true);
+				MemInfoPane.removeAll();
+				MemInfoPane.setVisible(true);
 				break;
-			case 4 : 
-				updatePane.removeAll();
-				updatePane.setVisible(true);
-				break;
-			case 5 : 
-				deletePane.removeAll();
-				deletePane.setVisible(true);
-				break;	
+//			case 4 : 
+//				updatePane.removeAll();
+//				updatePane.setVisible(true);
+//				break;
+//			case 5 : 
+//				deletePane.removeAll();
+//				deletePane.setVisible(true);
+//				break;	
 			}
 		}//switchPane method
 
@@ -268,18 +300,27 @@ public class HospitalMgmUI extends JFrame{
 				}else if(btnJoin == obj) {
 					new HospitalRegister(main);
 //					start();
-				}else if(btnReg == obj) {
+				}else if(btnManager == obj) {
+					new HospitalManager(main);
+				}else if(btnHospiRes == obj) {
+					// 병원예약 창으로 넘기기!
+					JOptionPane.showMessageDialog(null, "병원예약");
 //					new MemberRegister(main).register();
-				}else if(btnList == obj) {
+				}else if(btnSalonRes == obj) {
+					// 미용예약 창으로 넘기기!
+					JOptionPane.showMessageDialog(null, "미용예약");
 //					new MemberList(main).list();
-				}else if(btnSearch == obj) {
+				}else if(btnMyPage == obj) {
+					// 회원 정보 창으로 넘기기!
+					JOptionPane.showMessageDialog(null, "회원정보");
 //					new MemberSearch(main).search();
-				}else if(btnUpdate == obj) {
-					//update();
-//					new MemberUpdate(main).update();
-				}else if(btnDelete == obj) {
-					//delete();
-//					new MemberDelete(main).delete();
+//				}else if(btnUpdate == obj) {
+//					//update();
+////					new MemberUpdate(main).update();
+//				}else if(btnDelete == obj) {
+//					//delete();
+////					new MemberDelete(main).delete();
+//				}
 				}else if(btnExit == obj) {
 					String msg = "프로그램을 종료하시겠습니까?";
 					int result = JOptionPane.showConfirmDialog(null, getMsg(msg));
