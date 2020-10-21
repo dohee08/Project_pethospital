@@ -22,8 +22,12 @@ public class HospitalLogin {
 		JFrame jf;
 		JTextField tid;  
 		JPasswordField tpass;
+		
 		HospitalMgmUI main;
 		
+		public HospitalLogin() {
+			
+		}
 		//Constructor
 		public HospitalLogin(HospitalMgmUI main) {	
 			this.main = main;
@@ -138,6 +142,7 @@ public class HospitalLogin {
 					//로그인성공 : id,pass 동일
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 					jf.setVisible(false);
+					main.callId(uid);
 					main.start();
 					
 				}else {
@@ -149,4 +154,5 @@ public class HospitalLogin {
 				JOptionPane.showMessageDialog(null, "로그인 실패, 아이디 다름");
 			}
 		}
+		
 }
