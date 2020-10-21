@@ -23,7 +23,6 @@ public class HospitalRegister {
 	//Field
 		JFrame jf;
 		JTextField tid, tpass, tname, tphone;  
-//		JPasswordField tpass;
 		HospitalMgmUI main;
 		
 		//Constructor

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +21,9 @@ import javax.swing.JTextField;
 public class HospitalManager {
 	JFrame jf;
 	JPanel main_panel, button_panel;
-	JTextField tid, tpass, tname, tphone;  
+	JPanel listPane, deletePane;
 	JButton btnList, btnDelete;
+	TextArea ta;
 	HospitalMgmUI main;
 	
 	public HospitalManager(HospitalMgmUI main) {
@@ -32,6 +34,8 @@ public class HospitalManager {
 		
 		main_panel = new JPanel();
 	    button_panel = new JPanel();
+	    listPane = new JPanel();
+	    deletePane = new JPanel();
 	    
 	    button_panel = new JPanel(new GridLayout(2,1));
 	    button_panel.setSize(50,100);
