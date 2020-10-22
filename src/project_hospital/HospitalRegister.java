@@ -39,13 +39,13 @@ public class HospitalRegister {
 			JPanel jp_button = new JPanel();
 				
 			JLabel title = new JLabel("회원가입 폼");		
-			JLabel id = new JLabel("아이디   ");
-			JLabel pass = new JLabel("패스워드   ");
-			JLabel name = new JLabel("이름	");
-			JLabel phone = new JLabel("전화번호	");
+			JLabel id = new JLabel("아이디 ");
+			JLabel pass = new JLabel("패스워드");
+			JLabel name = new JLabel("이름  ");
+			JLabel phone = new JLabel("전화번호");
 			
 			tid = new JTextField(15);
-			tpass = new JTextField(15);
+			tpass = new JTextField(14);
 			tname = new JTextField(15);
 			tphone = new JTextField(15);
 			

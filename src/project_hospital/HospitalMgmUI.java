@@ -244,7 +244,6 @@ public class HospitalMgmUI extends JFrame{
 
 				if(btnLogin ==obj) {
 					new HospitalLogin(main);
-//					new MemberLogin(main);
 				}else if(btnJoin == obj) {
 					new HospitalRegister(main);
 //					start();
