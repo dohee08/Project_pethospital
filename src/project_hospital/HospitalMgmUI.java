@@ -27,7 +27,7 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-		JPanel mainPane, menuPane;
+		JPanel mainPane, menuPane, buttonPane,mypage_menu_panel;
 		JButton btnLogin, btnJoin, btnManager;
 		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
 		JLabel jl_title, jl_img;
@@ -37,7 +37,7 @@ public class HospitalMgmUI extends JFrame{
 		
 		String id;	//Login에서 가져온 id
 
-		JPanel HospiResPane = new JPanel();
+		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel();
 		JPanel MyPagePane = new JPanel();
 		
@@ -101,6 +101,7 @@ public class HospitalMgmUI extends JFrame{
 		    status_panel = new JPanel(new BorderLayout());
 		    menuPane = new JPanel(new GridLayout(1,4));
 		    menuPane.setSize(300,300);
+		    mypage_menu_panel  = new JPanel(new GridLayout(3,1)); //마이페이지 메뉴
 		    
 		    //메인 UI> 회원 아이디 상태 띄우기
 		    jl_status = new JLabel("-- " + id + "가 로그인 하였습니다 --");
@@ -141,21 +142,23 @@ public class HospitalMgmUI extends JFrame{
 		    add(BorderLayout.NORTH, menuPane);      
 		    add(BorderLayout.CENTER, mainPane); 
 		    add(BorderLayout.SOUTH, status_panel);
+		    add(BorderLayout.WEST,mypage_menu_panel);
 		    
 		    //메인 UI 창 화면 띄우기
-		    Dimension fsize = getSize();
-			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
-			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
-			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
-			
-			setLocation(width, height);
-		    setSize(1000,700);
+//		    Dimension fsize = getSize();
+//			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
+//			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
+//			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
+//			
+//			setLocation(width, height);
+		    setSize(800,600);
 		    setVisible(true);
 		 }//start method
 		
 		
 		//메뉴 이동 제어
 		public void resetPane() {
+			mypage_menu_panel.setVisible(false);
 			showPane.setVisible(false);
 			showButtonPane.setVisible(false);
 			mainPane.setVisible(false);
@@ -167,6 +170,7 @@ public class HospitalMgmUI extends JFrame{
 		public void switchPane(String menu) {
 			resetPane();			
 			if(menu.equals("병원 예약")) {
+				
 				HospiResPane.removeAll();
 				HospiResPane.setVisible(true);
 			}else if(menu.equals("미용 예약")) {		
@@ -174,7 +178,9 @@ public class HospitalMgmUI extends JFrame{
 				SalonResPane.setVisible(true);
 			}else if(menu.equals("회원 정보")) {		
 				MyPagePane.removeAll();
+				mypage_menu_panel.removeAll();
 				MyPagePane.setVisible(true);
+				mypage_menu_panel.setVisible(true);
 //			}else if(menu.equals("update")) {		
 //				updatePane.removeAll();
 //				updatePane.setVisible(true);
@@ -197,7 +203,9 @@ public class HospitalMgmUI extends JFrame{
 				break;
 			case 3 : 
 				MyPagePane.removeAll();
+				mypage_menu_panel.removeAll();
 				MyPagePane.setVisible(true);
+				mypage_menu_panel.setVisible(true);
 				break;
 //			case 4 : 
 //				updatePane.removeAll();
@@ -251,7 +259,7 @@ public class HospitalMgmUI extends JFrame{
 					new HospitalManager(main);
 				}else if(btnHospiRes == obj) {
 					// 병원예약 창으로 넘기기!
-					JOptionPane.showMessageDialog(null, "병원예약");
+					new HospitalReserve(main).reserve();
 //					new MemberRegister(main).register();
 				}else if(btnSalonRes == obj) {
 					// 미용예약 창으로 넘기기!
@@ -260,6 +268,7 @@ public class HospitalMgmUI extends JFrame{
 				}else if(btnMyPage == obj) {
 					// 회원 정보 창으로 넘기기!
 					JOptionPane.showMessageDialog(null, "회원정보");
+					new HospitalMyPage(main).MyPage();
 //					new MemberSearch(main).search();
 //				}else if(btnUpdate == obj) {
 //					//update();
