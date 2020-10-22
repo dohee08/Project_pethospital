@@ -27,7 +27,7 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-		JPanel mainPane, menuPane, buttonPane;
+		JPanel mainPane, menuPane;
 		JButton btnLogin, btnJoin, btnManager;
 		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
 		JLabel jl_title, jl_img;
@@ -37,7 +37,7 @@ public class HospitalMgmUI extends JFrame{
 		
 		String id;	//Login에서 가져온 id
 
-		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
+		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
 		JPanel SalonResPane = new JPanel();
 		JPanel MyPagePane = new JPanel();
 		
@@ -143,12 +143,12 @@ public class HospitalMgmUI extends JFrame{
 		    add(BorderLayout.SOUTH, status_panel);
 		    
 		    //메인 UI 창 화면 띄우기
-//		    Dimension fsize = getSize();
-//			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
-//			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
-//			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
-//			
-//			setLocation(width, height);
+		    Dimension fsize = getSize();
+			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
+			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
+			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
+			
+			setLocation(width, height);
 		    setSize(800,600);
 		    setVisible(true);
 		 }//start method

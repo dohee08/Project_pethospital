@@ -20,8 +20,9 @@ public class HospitalReserve {
 
 	HospitalMgmUI main;
 	JPanel HospiResPane;
-	JPanel animal_panel, visitPurpose_panel, symptom_panel, visitDate_panel, visitTime_panel,btnReserve_panel;
+	JPanel title_panel, animal_panel, visitPurpose_panel, symptom_panel, visitDate_panel, visitTime_panel,btnReserve_panel;
 	JLabel la_animal, la_visit_purpose, la_symptom, la_visit_date,la_visit_time;
+	JLabel la_title, la_animal1, la_visit_purpose1, la_visit_purpose2, la_symptom1, la_visit_date1, la_visit_time1;
 	JComboBox jc_animal, jc_visit_time;
 	JCheckBox jch_visit_p1, jch_visit_p2;
 	JTextField jt_symptom, jt_visit_date;
@@ -48,6 +49,7 @@ public class HospitalReserve {
 		 la_symptom = new JLabel("증상");
 		 la_visit_date = new JLabel("예약 날짜");
 		 la_visit_time = new JLabel("예약 시간");
+		 
 		
 		 String[] animal_kinds = {"선택해주세요","강아지", "고양이","햄스터","토끼", "병아리","기타 등" };
 		 String[] visit_times = {"선택해주세요","09:00 ~ 10:00", "10:00 ~ 11:00","11:00 ~ 12:00","13:00 ~ 14:00", 
@@ -145,7 +147,8 @@ public class HospitalReserve {
 	public void reserveOkForm() {
 		JFrame jf = new JFrame("예약 확인");
 		JPanel jp = new JPanel(new GridLayout(7,1));
-		
+			
+		 title_panel = new JPanel();
 		 animal_panel = new JPanel();
 		 visitPurpose_panel = new JPanel();
 		 symptom_panel = new JPanel();
@@ -153,27 +156,39 @@ public class HospitalReserve {
 		 visitTime_panel = new JPanel();
 		 btnReserve_panel = new JPanel();
 		
-		 la_animal = new JLabel("동물");
-		 la_visit_purpose = new JLabel("방문 이유");
-		 la_symptom = new JLabel("증상");
-		 la_visit_date = new JLabel("예약 날짜");
-		 la_visit_time = new JLabel("예약 시간");
-		
-		 animal_panel.add(la_animal); 		jc_animal.getSelectedItem();	
-		 visitPurpose_panel.add(la_visit_purpose);
-		 symptom_panel.add(la_symptom); 
-		 visitDate_panel.add(la_visit_date); 	
-		 visitTime_panel.add(la_visit_time); 	
+		 la_title = new JLabel(" -- 예약하신 내용입니다.  --");
+		 la_animal = new JLabel("동물 : ");
+		 la_visit_purpose = new JLabel("방문 이유 : ");
+		 la_symptom = new JLabel("증상 :");
+		 la_visit_date = new JLabel("예약 날짜 : ");
+		 la_visit_time = new JLabel("예약 시간 : ");
 		 
-		 	jp.add(animal_panel);
-			jp.add(visitPurpose_panel);
-			jp.add(symptom_panel);
-			jp.add(visitDate_panel);
-			jp.add(visitTime_panel);
+		 la_animal1 = new JLabel(String.valueOf(jc_animal.getSelectedItem()));
+		 la_visit_purpose1 = new JLabel(jch_visit_p1.getText());
+		 la_visit_purpose2 = new JLabel(jch_visit_p2.getText());
+		 la_symptom1 = new JLabel(jt_symptom.getText());
+		 la_visit_date1 = new JLabel(jt_visit_date.getText());
+		 la_visit_time1 = new JLabel(String.valueOf(jc_visit_time.getSelectedItem()));
+		 
+		 
+		 
+		 title_panel.add(la_title);
+		 animal_panel.add(la_animal); 		animal_panel.add(la_animal1);	
+//체크		 visitPurpose_panel.add(la_visit_purpose);  visitPurpose_panel.add(la_visit_purpose1); //visitPurpose_panel.add(la_visit_purpose2);
+		 symptom_panel.add(la_symptom);  symptom_panel.add(la_symptom1); 
+		 visitDate_panel.add(la_visit_date); 	visitDate_panel.add(la_visit_date1);
+		 visitTime_panel.add(la_visit_time); 	visitTime_panel.add(la_visit_time1);
+		 
+		 jp.add(title_panel);
+		 jp.add(animal_panel);       	  
+		 jp.add(visitPurpose_panel);
+		 jp.add(symptom_panel);
+		 jp.add(visitDate_panel);
+		 jp.add(visitTime_panel);
 			
-			jf.add(jp, BorderLayout.CENTER);
-			jf.setVisible(true);
-			jf.setSize(400,400);
+		 jf.add(jp, BorderLayout.CENTER);
+		 jf.setVisible(true);
+		 jf.setSize(400,300);
 	}
 	
 	
@@ -185,9 +200,10 @@ public class HospitalReserve {
 			
 			if(btn_reserve == obj) {
 				if(regFormCheck()) { 		
-					registerProc();	
-					JOptionPane.showMessageDialog(null, "예약 완료");
+					registerProc();
 					reserveOkForm();
+//					JOptionPane.showMessageDialog(null, "예약 완료");
+					
 				}else {
 					JOptionPane.showMessageDialog(null, "예약 미완료");
 				}
