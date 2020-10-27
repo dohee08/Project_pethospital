@@ -40,13 +40,13 @@ public class HospitalMgmUI extends JFrame{
 		
 		String id;	//Login¿¡¼­ °¡Á®¿Â id
 
-<<<<<<< HEAD
-		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
-		JPanel SalonResPane = new JPanel();
-=======
+
+//		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
+//		JPanel SalonResPane = new JPanel();
+
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
->>>>>>> branch 'develop' of https://github.com/dohee08/Project_pethospital.git
+
 		JPanel MyPagePane = new JPanel();
 		
 		public static Font font = new Font("¸¼Àº °íµñ", Font.BOLD, 12);
