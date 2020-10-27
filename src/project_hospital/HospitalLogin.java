@@ -129,29 +129,23 @@ public class HospitalLogin {
 		
 		/** 로그인 체크 **/
 		public void loginCheck() {
-			String did = "test";  
-			String dpass = "1234";
+//			String did = "test";  
+//			String dpass = "1234";
 			String uid = tid.getText().trim();
 			String upass = tpass.getText().trim();
 			
-//			boolean result = main.system.login(uid, upass);
+			boolean result = main.system.memlogin(uid, upass);
 			
-			if(did.equals(uid) ) {
-				
-				if(dpass.equals(upass)) {
-					//로그인성공 : id,pass 동일
-					JOptionPane.showMessageDialog(null, "로그인 성공");
-					jf.setVisible(false);
-					main.callId(uid);
-					main.start();
+			if(result) {
+				//로그인성공 : id,pass 동일
+				JOptionPane.showMessageDialog(null, "로그인 성공");
+				jf.setVisible(false);
+				main.callId(uid);
+				main.start();
 					
-				}else {
-					//로그인 실패 : id 동일, pass 다름
-						JOptionPane.showMessageDialog(null, "로그인 실패");
-				}
 			}else {
-				//System.out.println("로그인 실패");
-				JOptionPane.showMessageDialog(null, "로그인 실패, 아이디 다름");
+				//로그인 실패 : id 동일, pass 다름
+				JOptionPane.showMessageDialog(null, "로그인 실패");
 			}
 		}
 		

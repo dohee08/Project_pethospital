@@ -2,9 +2,9 @@ package project_hospital;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import db.conn.DBConn;
-
-
 
 public class HospitalDAO extends DBConn {
 	/*
@@ -140,10 +140,39 @@ public class HospitalDAO extends DBConn {
 		 return list;
 	}//select
 		
+	/** 멤버 전체 조회 */
+	public ArrayList<UserVO> memberSelect(){
+			
+		ArrayList<UserVO> memlist = new ArrayList<UserVO>();
+		
+		try {
+			String sql ="select mid, mpass, mphone, mname, mkind from member";
+			
+			getPreparedStatement(sql);
+			rs=pstmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+				
+				vo.setMid(rs.getString(1));
+				vo.setMpass(rs.getString(2));
+				vo.setMphone(rs.getString(3));
+				vo.setMname(rs.getString(4));
+				vo.setMkind(rs.getString(5));
+				
+				memlist.add(vo);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return memlist;
+	}//select
 
 	/** 병원예약번호 검색
 	 *  */
 		public int hsearch(String hno) {
+
 			int result = 0;
 		
 			try {
@@ -151,7 +180,6 @@ public class HospitalDAO extends DBConn {
 				getPreparedStatement(sql);
 				
 				pstmt.setString(1, hno);
-				
 				rs=pstmt.executeQuery();
 				
 				if(rs.next()) {
@@ -202,14 +230,12 @@ public class HospitalDAO extends DBConn {
 				String sql="update hbooking set hyear =? ,hmonth =? , hday =?, htime =? where hno =?";
 				getPreparedStatement(sql);
 				
-			
 				pstmt.setString(1, vo.getHyear());
 				pstmt.setString(2, vo.getHmonth());
 				pstmt.setString(3, vo.getHday());
 				pstmt.setString(4, vo.getHtime());
 				pstmt.setString(5, vo.getHno());
 
-				
 				System.out.println(pstmt.executeUpdate());
 				
 				int count = pstmt.executeUpdate();
@@ -426,8 +452,121 @@ public class HospitalDAO extends DBConn {
 				
 			} catch (Exception e) {
 				e.printStackTrace();
+		}
+		return result;
+	}
+		
+	/** 회원 로그인 -- 시작할 때 **/
+	public boolean memlogin(String id, String pass) {
+		boolean result = false;
+			
+		try {
+			String sql = "SELECT COUNT(MID) FROM MEMBER WHERE MID=? AND MPASS=? ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pass);
+			
+			rs = pstmt.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count=rs.getInt(1);
 			}
-			return result;
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+				
+			
+	/** 매니저 로그인 -- 시작할 때*/
+	public boolean manlogin(String id, String pass) {
+		boolean result = false;
+			
+		try {
+			String sql = "select count(sid) from manager where sid=? and spass=? "; 
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pass);
+				
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1) != 0) 
+					result = true;
+		
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+		return result;
+	}
+		
+	/** 회원가입 -- 시작할 때**/
+	public boolean register(UserVO vo) {
+		boolean result = false;
+		
+		try {
+		//아이디가 있을경우
+		//아이디가 없을경우
+			String sql = "insert into member values(?,?,?,?,?) "; 
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, vo.getMid());
+			pstmt.setString(2, vo.getMpass());
+			pstmt.setString(3, vo.getMphone());
+			pstmt.setString(4, vo.getMname());
+			pstmt.setString(5, vo.getMkind());
+					
+			pstmt.executeUpdate();
+			result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
+		return result;
+	}
+		
+	/** delSelect(String mid) **/
+	public boolean delSelect(String mid) {
+		boolean result = false;
+		
+		try {
+			String sql = "SELECT COUNT(*) FROM MEMBER WHERE MID=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, mid);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1) != 0) result = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+		
+	/** delete(String mid) **/
+	public boolean delete(String mid) {
+		boolean result = false;
+		
+		try {
+			String sql = "DELETE FROM MEMBER WHERE MID=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, mid);
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

@@ -234,7 +234,6 @@ public class HospitalMgmUI extends JFrame{
 			return label;
 		}
 		
-		
 		//이벤트 처리 클래스
 		class HospitalMgmUIEvent extends WindowAdapter
 								implements ActionListener{
