@@ -27,11 +27,10 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-//<<<<<<< HEAD
+
 		JPanel mainPane, menuPane;
-//=======
+
 		JPanel  buttonPane,mypage_menu_panel;
-//>>>>>>> branch 'develop' of https://github.com/dohee08/Project_pethospital.git
 		JButton btnLogin, btnJoin, btnManager;
 		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
 		JLabel jl_title, jl_img;

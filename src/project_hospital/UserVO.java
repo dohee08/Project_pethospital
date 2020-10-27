@@ -1,96 +1,124 @@
 package project_hospital;
 
 public class UserVO {
-	String rno,rname,rdate,rtime,rkind; //예약수정 pname 은 겹친다.
-
-	String id,pass,phone,pkind,kg,pname; //내정보수정
-
-	public String getRno() {
-		return rno;
+	String mid, mpass, mphone, mname, mkg, mkind, mage, mgender; //Member
+	String bno, bkind, btime, byear, bmonth, bday, btext, bsymptom, bid; // Booking
+	String sid, spass; // Manager
+	
+	public String getMid() {
+		return mid;
 	}
-
-	public void setRno(String rno) {
-		this.rno = rno;
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
-
-	public String getRname() {
-		return rname;
+	public String getMpass() {
+		return mpass;
 	}
-
-	public void setRname(String rname) {
-		this.rname = rname;
+	public void setMpass(String mpass) {
+		this.mpass = mpass;
 	}
-
-	public String getRdate() {
-		return rdate;
+	public String getMphone() {
+		return mphone;
 	}
-
-	public void setRdate(String rdate) {
-		this.rdate = rdate;
+	public void setMphone(String mphone) {
+		this.mphone = mphone;
 	}
-
-	public String getRtime() {
-		return rtime;
+	public String getMname() {
+		return mname;
 	}
-
-	public void setRtime(String rtime) {
-		this.rtime = rtime;
+	public void setMname(String mname) {
+		this.mname = mname;
 	}
-
-	public String getRkind() {
-		return rkind;
+	public String getMkg() {
+		return mkg;
 	}
-
-	public void setRkind(String rkind) {
-		this.rkind = rkind;
+	public void setMkg(String mkg) {
+		this.mkg = mkg;
 	}
-
-	public String getId() {
-		return id;
+	public String getMkind() {
+		return mkind;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setMkind(String mkind) {
+		this.mkind = mkind;
 	}
-
-	public String getPass() {
-		return pass;
+	public String getMage() {
+		return mage;
 	}
-
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setMage(String mage) {
+		this.mage = mage;
 	}
-
-	public String getPhone() {
-		return phone;
+	public String getMgender() {
+		return mgender;
 	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMgender(String mgender) {
+		this.mgender = mgender;
 	}
-
-	public String getPkind() {
-		return pkind;
+	public String getBno() {
+		return bno;
 	}
-
-	public void setPkind(String pkind) {
-		this.pkind = pkind;
+	public void setBno(String bno) {
+		this.bno = bno;
 	}
-
-	public String getKg() {
-		return kg;
+	public String getBkind() {
+		return bkind;
 	}
-
-	public void setKg(String kg) {
-		this.kg = kg;
+	public void setBkind(String bkind) {
+		this.bkind = bkind;
 	}
-
-	public String getPname() {
-		return pname;
+	public String getBtime() {
+		return btime;
 	}
-
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setBtime(String btime) {
+		this.btime = btime;
 	}
+	public String getByear() {
+		return byear;
+	}
+	public void setByear(String byear) {
+		this.byear = byear;
+	}
+	public String getBmonth() {
+		return bmonth;
+	}
+	public void setBmonth(String bmonth) {
+		this.bmonth = bmonth;
+	}
+	public String getBday() {
+		return bday;
+	}
+	public void setBday(String bday) {
+		this.bday = bday;
+	}
+	public String getBtext() {
+		return btext;
+	}
+	public void setBtext(String btext) {
+		this.btext = btext;
+	}
+	public String getBsymptom() {
+		return bsymptom;
+	}
+	public void setBsymptom(String bsymptom) {
+		this.bsymptom = bsymptom;
+	}
+	public String getBid() {
+		return bid;
+	}
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	public String getSid() {
+		return sid;
+	}
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+	public String getSpass() {
+		return spass;
+	}
+	public void setSpass(String spass) {
+		this.spass = spass;
+	}
+	
 
 }

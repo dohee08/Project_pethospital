@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
@@ -21,12 +22,13 @@ public class HospitalReserve {
 	HospitalMgmUI main;
 	JPanel HospiResPane;
 	JPanel title_panel, animal_panel, visitPurpose_panel, symptom_panel, visitDate_panel, visitTime_panel,btnReserve_panel;
-	JLabel la_animal, la_visit_purpose, la_symptom, la_visit_date,la_visit_time;
-	JLabel la_title, la_animal1, la_visit_purpose1, la_visit_purpose2, la_symptom1, la_visit_date1, la_visit_time1;
+	JLabel la_animal, la_visit_purpose, la_symptom, la_visit_year,la_visit_month,la_visit_day,la_visit_date,la_visit_time;
+	JLabel la_title, la_animal1, la_visit_purpose1, la_visit_purpose2, la_symptom1, la_visit_year1,la_visit_month1,la_visit_day1, la_visit_time1;
 	JComboBox jc_animal, jc_visit_time;
 	JCheckBox jch_visit_p1, jch_visit_p2;
-	JTextField jt_symptom, jt_visit_date;
-	Button btn_reserve;					////////////////
+	JTextArea jta_symptom;
+	JTextField jt_visit_year, jt_visit_month, jt_visit_day;
+	Button btn_reserve;					
 	
 	public HospitalReserve() {}
 	public HospitalReserve(HospitalMgmUI main) {
@@ -48,6 +50,11 @@ public class HospitalReserve {
 		 la_visit_purpose = new JLabel("방문 이유");
 		 la_symptom = new JLabel("증상");
 		 la_visit_date = new JLabel("예약 날짜");
+		 la_visit_year = new JLabel("년");
+		 la_visit_month = new JLabel("월");
+		 la_visit_day = new JLabel("일");
+		 
+		 
 		 la_visit_time = new JLabel("예약 시간");
 		 
 		
@@ -58,8 +65,10 @@ public class HospitalReserve {
 		 jc_animal = new JComboBox(animal_kinds);
 		 jch_visit_p1 = new JCheckBox("진료");
 		 jch_visit_p2 = new JCheckBox("접종");
-		 jt_symptom = new JTextField(20);
-		 jt_visit_date = new JTextField(20);
+		 jta_symptom = new JTextArea();
+		 jt_visit_year = new JTextField(7);
+		 jt_visit_month = new JTextField(7);
+		 jt_visit_day = new JTextField(7);
 		 jc_visit_time = new JComboBox(visit_times);
 		 
 		 btn_reserve = new Button("예약하기");
@@ -68,8 +77,11 @@ public class HospitalReserve {
 		animal_panel.add(la_animal); 			animal_panel.add(jc_animal);
 		visitPurpose_panel.add(la_visit_purpose);
 		visitPurpose_panel.add(jch_visit_p1); visitPurpose_panel.add(jch_visit_p2);		
-		symptom_panel.add(la_symptom); symptom_panel.add(jt_symptom);
-		visitDate_panel.add(la_visit_date); 	visitDate_panel.add(jt_visit_date);
+		symptom_panel.add(la_symptom); symptom_panel.add(jta_symptom);
+		visitDate_panel.add(la_visit_date); 	visitDate_panel.add(jt_visit_year); visitDate_panel.add(la_visit_year);
+		visitDate_panel.add(jt_visit_month); 	visitDate_panel.add(la_visit_month); 
+		visitDate_panel.add(jt_visit_day);		visitDate_panel.add(la_visit_day);
+		
 		visitTime_panel.add(la_visit_time); 	visitTime_panel.add(jc_visit_time);
 		btnReserve_panel.add(btn_reserve);
 		
@@ -99,13 +111,20 @@ public class HospitalReserve {
 		}else if(!jch_visit_p1.isSelected() && !jch_visit_p2.isSelected()) {   
 			JOptionPane.showMessageDialog(null, main.getMsg("방문 이유를 체크해주세요"));
 			jch_visit_p1.requestFocus();
-		}else if(jt_symptom.getText().equals("")) {
+		}else if(jta_symptom.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, main.getMsg("증상을 입력해주세요"));
-			jt_symptom.requestFocus();
-		}else if(jt_visit_date.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 입력해주세요"));
-			jt_visit_date.requestFocus();
-		}else if(jc_visit_time.getSelectedItem().toString().equals("선택해주세요")) {
+			jta_symptom.requestFocus();
+		}else if(jt_visit_year.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 다 입력해주세요"));
+			jt_visit_year.requestFocus();
+		}else if(jt_visit_month.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 다 입력해주세요"));
+			jt_visit_month.requestFocus();
+		}else if(jt_visit_day.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 다 입력해주세요"));
+			jt_visit_day.requestFocus();
+		}
+		else if(jc_visit_time.getSelectedItem().toString().equals("선택해주세요")) {
 			JOptionPane.showMessageDialog(null, main.getMsg("예약 시간을 선택해주세요"));
 			jc_visit_time.requestFocus();
 		}
@@ -139,7 +158,7 @@ public class HospitalReserve {
 		System.out.println(jc_animal.getSelectedItem());
 		System.out.println(jch_visit_p1.getText());
 		System.out.println(jch_visit_p2.getText());
-		System.out.println(jt_symptom.getText());
+		System.out.println(jta_symptom.getText());
 		System.out.println(jt_visit_date.getText());
 		System.out.println(jc_visit_time.getSelectedItem());
 		
@@ -164,19 +183,34 @@ public class HospitalReserve {
 		 la_visit_time = new JLabel("예약 시간 : ");
 		 
 		 la_animal1 = new JLabel(String.valueOf(jc_animal.getSelectedItem()));
+//		 if(jch_visit_p1.isSelected()) {
 		 la_visit_purpose1 = new JLabel(jch_visit_p1.getText());
+//		 if(jch_visit_p2.isSelected()) {
 		 la_visit_purpose2 = new JLabel(jch_visit_p2.getText());
-		 la_symptom1 = new JLabel(jt_symptom.getText());
-		 la_visit_date1 = new JLabel(jt_visit_date.getText());
+
+		 la_symptom1 = new JLabel(jta_symptom.getText());
+		 la_visit_year1 = new JLabel(jt_visit_year.getText()+"년");
+		 la_visit_month1 = new JLabel(jt_visit_month.getText()+"월");
+		 la_visit_day1 = new JLabel(jt_visit_day.getText()+"일");
 		 la_visit_time1 = new JLabel(String.valueOf(jc_visit_time.getSelectedItem()));
 		 
 		 
 		 
 		 title_panel.add(la_title);
 		 animal_panel.add(la_animal); 		animal_panel.add(la_animal1);	
-//체크		 visitPurpose_panel.add(la_visit_purpose);  visitPurpose_panel.add(la_visit_purpose1); //visitPurpose_panel.add(la_visit_purpose2);
+		 visitPurpose_panel.add(la_visit_purpose);  
+		 if(jch_visit_p1.isSelected()) {
+		 visitPurpose_panel.add(la_visit_purpose1); 
+		 }
+		 if(jch_visit_p2.isSelected()) {
+			 visitPurpose_panel.add(la_visit_purpose2);
+		 }
 		 symptom_panel.add(la_symptom);  symptom_panel.add(la_symptom1); 
-		 visitDate_panel.add(la_visit_date); 	visitDate_panel.add(la_visit_date1);
+		 visitDate_panel.add(la_visit_date); 	
+		 visitDate_panel.add(la_visit_year1); 
+		 visitDate_panel.add(la_visit_month1);
+		 visitDate_panel.add(la_visit_day1);
+		 
 		 visitTime_panel.add(la_visit_time); 	visitTime_panel.add(la_visit_time1);
 		 
 		 jp.add(title_panel);
