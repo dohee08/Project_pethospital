@@ -9,8 +9,8 @@ import java.sql.Statement;
 public class DBConn {	//DB연동 공통모듈 생성
 	//Field
 	private String url = "jdbc:oracle:thin:@127.0.0.1:1521";
-	private String user = "scott";
-	private String pass = "tiger";
+	private String user = "pet";
+	private String pass = "1234";
 	
 	public Connection conn;		//다른 패키지에서 호출할 수 있도록 public
 	public Statement stmt;

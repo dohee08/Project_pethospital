@@ -1,96 +1,129 @@
 package project_hospital;
 
 public class UserVO {
-	String rno,rname,rdate,rtime,rkind; //예약수정 pname 은 겹친다.
-
-	String id,pass,phone,pkind,kg,pname; //내정보수정
-
-	public String getRno() {
-		return rno;
+	String mid,mpass,mphone,mname,mkind;
+	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
+	String sno,syear,smonth,sday,stime,sgender,stext,smid;
+	
+	public String getMid() {
+		return mid;
 	}
-
-	public void setRno(String rno) {
-		this.rno = rno;
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
-
-	public String getRname() {
-		return rname;
+	public String getMpass() {
+		return mpass;
 	}
-
-	public void setRname(String rname) {
-		this.rname = rname;
+	public void setMpass(String mpass) {
+		this.mpass = mpass;
 	}
-
-	public String getRdate() {
-		return rdate;
+	public String getMphone() {
+		return mphone;
 	}
-
-	public void setRdate(String rdate) {
-		this.rdate = rdate;
+	public void setMphone(String mphone) {
+		this.mphone = mphone;
 	}
-
-	public String getRtime() {
-		return rtime;
+	public String getMname() {
+		return mname;
 	}
-
-	public void setRtime(String rtime) {
-		this.rtime = rtime;
+	public void setMname(String mname) {
+		this.mname = mname;
 	}
-
-	public String getRkind() {
-		return rkind;
+	public String getMkind() {
+		return mkind;
 	}
-
-	public void setRkind(String rkind) {
-		this.rkind = rkind;
+	public void setMkind(String mkind) {
+		this.mkind = mkind;
 	}
-
-	public String getId() {
-		return id;
+	public String getHno() {
+		return hno;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setHno(String hno) {
+		this.hno = hno;
 	}
-
-	public String getPass() {
-		return pass;
+	public String getHsymptom() {
+		return hsymptom;
 	}
-
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setHsymptom(String hsymptom) {
+		this.hsymptom = hsymptom;
 	}
-
-	public String getPhone() {
-		return phone;
+	public String getHyear() {
+		return hyear;
 	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setHyear(String hyear) {
+		this.hyear = hyear;
 	}
-
-	public String getPkind() {
-		return pkind;
+	public String getHmonth() {
+		return hmonth;
 	}
-
-	public void setPkind(String pkind) {
-		this.pkind = pkind;
+	public void setHmonth(String hmonth) {
+		this.hmonth = hmonth;
 	}
-
-	public String getKg() {
-		return kg;
+	public String getHday() {
+		return hday;
 	}
-
-	public void setKg(String kg) {
-		this.kg = kg;
+	public void setHday(String hday) {
+		this.hday = hday;
 	}
-
-	public String getPname() {
-		return pname;
+	public String getHtime() {
+		return htime;
 	}
-
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setHtime(String htime) {
+		this.htime = htime;
 	}
-
+	public String getHmid() {
+		return hmid;
+	}
+	public void setHmid(String hmid) {
+		this.hmid = hmid;
+	}
+	public String getSno() {
+		return sno;
+	}
+	public void setSno(String sno) {
+		this.sno = sno;
+	}
+	public String getSyear() {
+		return syear;
+	}
+	public void setSyear(String syear) {
+		this.syear = syear;
+	}
+	public String getSmonth() {
+		return smonth;
+	}
+	public void setSmonth(String smonth) {
+		this.smonth = smonth;
+	}
+	public String getSday() {
+		return sday;
+	}
+	public void setSday(String sday) {
+		this.sday = sday;
+	}
+	public String getStime() {
+		return stime;
+	}
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+	public String getSgender() {
+		return sgender;
+	}
+	public void setSgender(String sgender) {
+		this.sgender = sgender;
+	}
+	public String getStext() {
+		return stext;
+	}
+	public void setStext(String stext) {
+		this.stext = stext;
+	}
+	public String getSmid() {
+		return smid;
+	}
+	public void setSmid(String smid) {
+		this.smid = smid;
+	}
+	
 }
