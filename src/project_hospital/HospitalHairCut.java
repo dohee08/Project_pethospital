@@ -1,10 +1,6 @@
 package project_hospital;
-
-import java.awt.*; 
-import java.sql.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 
 public class HospitalHairCut extends JFrame {
@@ -112,7 +108,9 @@ public class HospitalHairCut extends JFrame {
 			if(!integerOrNot(date1) || !integerOrNot(date2) || !integerOrNot(date3)){
 				JOptionPane.showMessageDialog(null, "날짜는 문자를 입력할 수 없습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 			}
-			result = true;
+			else {
+				result = true;
+			}
 		}
 
 		return result;
