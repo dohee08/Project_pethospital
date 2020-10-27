@@ -7,6 +7,34 @@ import db.conn.DBConn;
 
 
 public class HospitalDAO extends DBConn {
+	/*
+	 * 미용등록
+	 */
+	public boolean insert(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = "insert into SALONRES values(?,?,?,?,?,?,?,?)";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getSno());
+			pstmt.setString(2, vo.getSyear());
+			pstmt.setString(3, vo.getSmonth());
+			pstmt.setString(4, vo.getSday());
+			pstmt.setString(5, vo.getStime());
+			pstmt.setString(6, vo.getSgender());
+			pstmt.setString(7, vo.getStext());
+			pstmt.setString(8, vo.getSmid());
+			
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	/** * 전체조회 병원편
 	 * */
 	public ArrayList<UserVO> hselectall (String id){

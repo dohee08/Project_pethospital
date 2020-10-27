@@ -2,13 +2,17 @@ package project_hospital;
 
 import java.util.ArrayList;
 
+
 public class HospitalMgmSystem {
 	//field
 		HospitalDAO dao = new HospitalDAO();
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 		
 		//Method
-		
+		/** 미용등록 */
+		public boolean hairCut(UserVO vo) {
+			return dao.insert(vo);
+		}
 		/** 병원전체 리스트 출력 */
 		public ArrayList<UserVO> hselectList(String id){
 			return dao.hselectall(id);
