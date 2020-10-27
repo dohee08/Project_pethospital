@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,16 +19,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class HospitalMgmUI extends JFrame{
-	//Field
-//		public static final ArrayList<MemberVO> list =new ArrayList<MemberVO>();
-//		public MemberMgmSystem system = new MemberMgmSystem();
+		//Field
+		public static final ArrayList<UserVO> list =new ArrayList<UserVO>();
+		public HospitalMgmSystem system = new HospitalMgmSystem();
 		
 		public static final int HOSPIRES = 1;
 		public static final int SALONRES = 2;
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-		JPanel mainPane, menuPane, buttonPane,mypage_menu_panel;
+
+		JPanel mainPane, menuPane;
+
+		JPanel  buttonPane,mypage_menu_panel;
 		JButton btnLogin, btnJoin, btnManager;
 		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
 		JLabel jl_title, jl_img;
@@ -37,8 +41,13 @@ public class HospitalMgmUI extends JFrame{
 		
 		String id;	//Login에서 가져온 id
 
+
+//		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
+//		JPanel SalonResPane = new JPanel();
+
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
-		JPanel SalonResPane = new JPanel();
+		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
+
 		JPanel MyPagePane = new JPanel();
 		
 		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -145,12 +154,12 @@ public class HospitalMgmUI extends JFrame{
 		    add(BorderLayout.WEST,mypage_menu_panel);
 		    
 		    //메인 UI 창 화면 띄우기
-//		    Dimension fsize = getSize();
-//			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
-//			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
-//			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
-//			
-//			setLocation(width, height);
+		    Dimension fsize = getSize();
+			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
+			int width = (int)(scsize.getWidth()-fsize.getWidth())/2;
+			int height =(int)(scsize.getHeight()-fsize.getHeight())/2;
+			
+			setLocation(width, height);
 		    setSize(800,600);
 		    setVisible(true);
 		 }//start method
@@ -242,7 +251,7 @@ public class HospitalMgmUI extends JFrame{
 			//윈도우 이벤트 처리
 			public void windowClosing(WindowEvent we) {
 				JOptionPane.showMessageDialog(null,getMsg("프로그램 종료!!!"));
-//				system.dao.close();
+				system.dao.close();
 				System.exit(0);
 			}
 			
@@ -263,8 +272,7 @@ public class HospitalMgmUI extends JFrame{
 //					new MemberRegister(main).register();
 				}else if(btnSalonRes == obj) {
 					// 미용예약 창으로 넘기기!
-					JOptionPane.showMessageDialog(null, "미용예약");
-//					new MemberList(main).list();
+					new HospitalHairCut(main).hairCut();
 				}else if(btnMyPage == obj) {
 					// 회원 정보 창으로 넘기기!
 					JOptionPane.showMessageDialog(null, "회원정보");
@@ -282,7 +290,7 @@ public class HospitalMgmUI extends JFrame{
 					int result = JOptionPane.showConfirmDialog(null, getMsg(msg));
 					if(result == 0)  {
 						//DB close
-//						system.dao.close();		//부모 메소드 사용가능
+						system.dao.close();		//부모 메소드 사용가능
 						System.exit(0);
 					}
 				}

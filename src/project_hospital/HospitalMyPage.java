@@ -2,7 +2,6 @@ package project_hospital;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -14,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,18 +32,23 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		JPanel MyPagePane;
 		JPanel mypage_menu_panel;
 		JPanel jp_change,content_panel,menu_panel,check_panel,search_panel,update_panel,update_bottom
-				,select_panel,login_panel,all_panel;
+				,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel,intro_panel;
 		JTextField  jt_kind, jt_delete,tf_id;
-		TextField tf_update,tf_up_last;
+		TextField tf_update,tf_up_last,hyear,hmonth,hday,mkind,mname,syear,smonth,sday,stime;
+		JComboBox jc_visit_time;
 		JPasswordField tf_pass;
 		JButton  view, update, change;
 		Button update_search;
-		String[] form_names = {"아이디","비밀번호","전화번호","동물이름","종류","몸무게"};
-		String[] up_names = {"예약종류","이름","예약날짜","예약시간"};
+		String[] form_names = {"아이디","비밀번호","전화번호","동물이름","종류"};
+		String[] up_names = {"예약번호","이름","년","월","일","예약시간"};
 		ArrayList<TextField> tf_change_list;
 		ArrayList<TextField> tf_update_list;
 		HospitalMgmSystem hms;
 		int idx = -1;
+		
+		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","13:00", 
+				 "14:00","15:00","16:00", "17:00", "18:00"};
+		 
 		
 		public HospitalMyPage() {}
 		public HospitalMyPage(HospitalMgmUI main) {
@@ -53,11 +58,17 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		}
 		
 		//JTable
-		Object[] columns = {"예약번호","예약종류","이름","날짜","시간"};
+		Object[] columns = {"예약번호","이름","년","월","일","시간"};
 		DefaultTableModel model =new DefaultTableModel(columns,0);
 		JTable table= new JTable(model);
-		Object[] row =new Object[5];  //Jtable에 추가되는 하나의 row 추가될 객체
+		Object[] row =new Object[6];  //Jtable에 추가되는 하나의 row 추가될 객체
 		
+		
+		//JTable
+		Object[] scolumns = {"예약번호","이름","년","월","일","시간"};
+		DefaultTableModel smodel =new DefaultTableModel(scolumns,0);
+		JTable stable= new JTable(model);
+		Object[] srow =new Object[6];  //Jtable에 추가되는 하나의 row 추가될 객체
 		
 		public static final int SELECT = 1;
 		public static final int UPDATE = 2;
@@ -76,7 +87,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			check_panel = new JPanel();
 			update_panel = new JPanel();
 			search_panel = new JPanel();
-			select_panel = new JPanel();
+			hselect_panel = new JPanel();
+			sselect_panel = new JPanel();
+			allselect_panel = new JPanel();
+			intro_panel = new JPanel();
 			update_bottom = new JPanel();
 			login_panel = new JPanel(new BorderLayout());
 			all_panel = new JPanel(new BorderLayout());
@@ -105,34 +119,48 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update.addActionListener(this);
 			change.addActionListener(this);
 		}
+		
+		
 		//Method
 		/** 내정보 수정 창 */
-		public void change() {
+		public void change(UserVO vo) {
 		//	resetMenuPanel();
 		//	switchPanel(CHANGE);
 			jp_change.removeAll();
 			tf_change_list = new ArrayList<TextField>();
-		
+			
 			
 			
 			String title = "--- 내 정보 수정하기 ---";
 			JLabel title_label = new JLabel(title);
-			JPanel label_panel = new JPanel(new GridLayout(6,1));
-			JPanel tf_panel = new JPanel(new GridLayout(6,1));
+			JPanel label_panel = new JPanel(new GridLayout(5,1));
+			JPanel tf_panel = new JPanel(new GridLayout(5,1));
 			JPanel btn_panel = new JPanel();
-			JButton btn_insert = new JButton("수정하기");
-			JButton btn_reset = new JButton("취소");
-			btn_panel.add(btn_insert); btn_panel.add(btn_reset);
+			Button mem_insert = new Button("정보 수정");
+			Button mem_reset = new Button("취소");
+			btn_panel.add(mem_insert); btn_panel.add(mem_reset);
+			
+			String[] data_list = new String[5];
+			data_list[0]= vo.getMid();
+			data_list[1]= vo.getMpass();
+			data_list[2]= vo.getMphone();
+			data_list[3]= vo.getMname();
+			data_list[4]= vo.getMkind();
+			
+			
+			int i = 0;
 			
 			for(String name :form_names) {
 				JPanel p1 = new JPanel(); //label
 				JPanel p2 = new JPanel(); //tf
 				JLabel label = new JLabel(name);
 				TextField tf = new TextField(30);
+				tf.setText(data_list[i]);
 				p1.add(label); label_panel.add(p1);
 				p2.add(tf);	   tf_panel.add(p2);
 				
 				tf_change_list.add(tf);
+				i++;
 					
 			}
 			
@@ -146,87 +174,140 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 
 			MyPagePane.add(content_panel);
 			
-			btn_insert.addActionListener(this);
-			btn_reset.addActionListener(this);
+			mem_insert.addActionListener(this);
+			mem_reset.addActionListener(this);
 			
 		}
 		
 		
-		public void change(String id, String pass) {
-			//	resetMenuPanel();
-			//	switchPanel(CHANGE);
-				jp_change.removeAll();
-				tf_change_list = new ArrayList<TextField>();
+		/** 내정보 수정처리 메소드 
+		 * */
+		public void memberupdateProc() {
+			ArrayList<String> dataList = new ArrayList<String>();
 			
-				
-				
-				String title = "--- 내 정보 수정하기 ---";
-				JLabel title_label = new JLabel(title);
-				JPanel label_panel = new JPanel(new GridLayout(6,1));
-				JPanel tf_panel = new JPanel(new GridLayout(6,1));
-				JPanel btn_panel = new JPanel();
-				JButton btn_insert = new JButton("수정하기");
-				JButton btn_reset = new JButton("취소");
-				btn_panel.add(btn_insert); btn_panel.add(btn_reset);
-				
-				for(String name :form_names) {
-					JPanel p1 = new JPanel(); //label
-					JPanel p2 = new JPanel(); //tf
-					JLabel label = new JLabel(name);
-					TextField tf = new TextField(30);
-					p1.add(label); label_panel.add(p1);
-					p2.add(tf);	   tf_panel.add(p2);
-					
-					tf_change_list.add(tf);
-						
-				}
-				
-				jp_change.setLayout(new BorderLayout());
-				jp_change.add(BorderLayout.NORTH,title_label);
-				jp_change.add(BorderLayout.WEST,label_panel);
-				jp_change.add(BorderLayout.CENTER,tf_panel);
-				jp_change.add(BorderLayout.SOUTH,btn_panel);
-				
-				content_panel.add(jp_change);
-
-				MyPagePane.add(content_panel);
-				
-				btn_insert.addActionListener(this);
-				btn_reset.addActionListener(this);
-				
+			for(TextField tf :  tf_change_list) {
+				dataList.add(tf.getText().trim());
 			}
+			
+			UserVO vo = new UserVO();
+			
+			vo.setMid(dataList.get(0));
+			vo.setMpass(dataList.get(1));
+			vo.setMphone(dataList.get(2));
+			vo.setMname(dataList.get(3));
+			vo.setMkind(dataList.get(4));
+			
+			
+			System.out.println(vo.getMid());
+			System.out.println(vo.getMpass());
+			System.out.println(vo.getMphone());
+			System.out.println(vo.getMname());
+			System.out.println(vo.getMkind());
+			
+			
+			if(hms.memberupdate(vo)) {
+				//수정 성공
+				JOptionPane.showMessageDialog(null, "수정완료!");
+			}else {
+				JOptionPane.showMessageDialog(null, "수정실패");
+			}
+		} //수정처리
 		
-		/** 예약정보 보는창 */
-		public void checklist() {
+		/** 예약정보 초기창 
+		 * */
+		public void introCheckList() {
 			resetMenuPanel();
 			switchPanel(SELECT);
-			select_panel.removeAll();
+			intro_panel.removeAll();
 			
-			createJtableData();	//출력되는 데이터 가져오기
+			Button h = new Button("병원예약확인");
+			Button s = new Button("미용예약확인");
+			
+			intro_panel.add(h);
+			intro_panel.add(s);
+			
+			content_panel.add(BorderLayout.NORTH,intro_panel);
+			
+			h.addActionListener(this);
+			s.addActionListener(this);
+		}
+		
+			
+		/** 병원 예약정보 보는창 */
+		public void checklisth() {
+			resetMenuPanel();
+			switchPanel(SELECT);
+			allselect_panel.removeAll();
+			hselect_panel.removeAll();
+			
+			hcreateJtableData();	//출력되는 데이터 가져오기
+			model.setColumnIdentifiers(columns);
+			table.setModel(model);
+			
+			screateJtableData();	//출력되는 데이터 가져오기
 			model.setColumnIdentifiers(columns);
 			table.setModel(model);
 			
 			
-
 			DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		    TableColumnModel tcm = table.getColumnModel();
 		    
 		    table.getColumn("예약번호").setCellRenderer(dtcr);
-		    table.getColumn("예약종류").setCellRenderer(dtcr);
 		    table.getColumn("이름").setCellRenderer(dtcr);
-		    table.getColumn("날짜").setCellRenderer(dtcr);
+		    table.getColumn("년").setCellRenderer(dtcr);
+		    table.getColumn("월").setCellRenderer(dtcr);
+		    table.getColumn("일").setCellRenderer(dtcr);
 		    table.getColumn("시간").setCellRenderer(dtcr);
 			
 		    JScrollPane pane=new JScrollPane(table);
 			pane.setBounds(0,100,600,250);
 			
-			select_panel.setLayout(new BorderLayout());
-			select_panel.add(BorderLayout.NORTH, new Label("예약조회"));
-			select_panel.add(BorderLayout.CENTER,pane);
-			content_panel.add(select_panel);
+			hselect_panel.setLayout(new BorderLayout());
+			hselect_panel.add(BorderLayout.NORTH, new Label("병원예약조회"));
+			hselect_panel.add(BorderLayout.CENTER,pane);
+			allselect_panel.add(hselect_panel);
+			allselect_panel.setVisible(true);
+			content_panel.add(BorderLayout.CENTER,allselect_panel);
 			
 			MyPagePane.add(content_panel);    
 		}
+		
+		
+		/** 미용예약정보 보는창 */
+		public void checklists() {
+			resetMenuPanel();
+			switchPanel(SELECT);
+			allselect_panel.removeAll();
+			sselect_panel.removeAll();
+
+			screateJtableData();	//출력되는 데이터 가져오기
+			smodel.setColumnIdentifiers(scolumns);
+			stable.setModel(smodel);
+			
+			
+			DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		    TableColumnModel tcm = stable.getColumnModel();
+		    
+		    stable.getColumn("예약번호").setCellRenderer(dtcr);
+		    stable.getColumn("이름").setCellRenderer(dtcr);
+		    stable.getColumn("년").setCellRenderer(dtcr);
+		    stable.getColumn("월").setCellRenderer(dtcr);
+		    stable.getColumn("일").setCellRenderer(dtcr);
+		    stable.getColumn("시간").setCellRenderer(dtcr);
+			
+		    JScrollPane pane=new JScrollPane(stable);
+			pane.setBounds(0,100,200,250);
+			
+			sselect_panel.setLayout(new BorderLayout());
+			sselect_panel.add(BorderLayout.NORTH, new Label("미용예약조회"));
+			sselect_panel.add(BorderLayout.CENTER,pane);
+			allselect_panel.add(sselect_panel);
+			allselect_panel.setVisible(true);
+			content_panel.add(BorderLayout.CENTER,allselect_panel);
+			
+			MyPagePane.add(content_panel);    
+		}
+		
 		
 		/** 예약정보 수정창 */
 		public void update() {
@@ -264,74 +345,78 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 		}
 		
-		/** 수정 데이터 등록 폼 */
-		public void updateOKForm() {
-			Panel update_bottom = new Panel(new BorderLayout());
-			Panel label_panel = new Panel(new GridLayout(4,1));
-			Panel tf_panel = new Panel(new GridLayout(4,1));
-			Panel btn_panel = new Panel();
-			Button btn_update = new Button("수정완료");
-			Button btn_reset = new Button("수정취소");
-			btn_panel.add(btn_update);
-			btn_panel.add(btn_reset);
-			
-			for(int i=0;i<up_names.length;i++) {
-				Panel p1 = new Panel();
-				Panel p2 = new Panel();
-				Label label = new Label(up_names[i]);
-				TextField tf = new TextField(20);
-				p1.add(label);   p2.add(tf);
-				label_panel.add(p1);
-				tf_panel.add(p2);
-				
-			}	
-			update_bottom.add(BorderLayout.NORTH, new Label());
-			update_bottom.add(BorderLayout.WEST, label_panel);
-			update_bottom.add(BorderLayout.CENTER, tf_panel);
-			update_bottom.add(BorderLayout.SOUTH, btn_panel);
-			
-			update_panel.add(BorderLayout.CENTER, update_bottom);
-			content_panel.add(update_panel);
-			MyPagePane.add(content_panel);
-			tf_up_last = tf_update_list.get(tf_update_list.size()-1);
-			tf_up_last.addActionListener(this);
-			
-		}
 		
-		
-		/** 수정 데이터 등록 폼 */
-		public void updateOKForm(UserVO vo) {
+		/** 병원수정 데이터 등록 폼 */
+		public void hupdateOKForm(UserVO vo) {
 			update_bottom.removeAll();
 			
 			Panel update_bottom = new Panel(new BorderLayout());
-			Panel label_panel = new Panel(new GridLayout(4,1));
-			Panel tf_panel = new Panel(new GridLayout(4,1));
+			Panel label_panel = new Panel(new GridLayout(6,1));
+			Panel tf_panel = new Panel(new GridLayout(6,1));
 			Panel btn_panel = new Panel();
-			Button btn_update = new Button("수정완료");
+			Button btn_hupdate = new Button("병원예약수정");
 			Button btn_reset = new Button("수정취소");
-			btn_panel.add(btn_update);
+			Button btn_hdelete = new Button("병원예약삭제");
+			btn_panel.add(btn_hupdate);
 			btn_panel.add(btn_reset);
+			btn_panel.add(btn_hdelete);
 			
-			String[] data_list = new String[4];
-			data_list[0] = vo.getRkind();
-			data_list[1]=vo.getRname();
-			data_list[2]=vo.getRdate();
-			data_list[3]=vo.getRtime();
+			jc_visit_time = new JComboBox(visit_times);
+			
+			String[] data_list = new String[7];
+	
+			data_list[0]=vo.getMname();
+			data_list[1]=vo.getHyear();
+			data_list[2]=vo.getHmonth();
+			data_list[3]=vo.getHday();
+
 			
 			
-			for(int i=0;i<up_names.length;i++) {
-				Panel p1 = new Panel();
-				Panel p2 = new Panel();
-				Label label = new Label(up_names[i]);
-				TextField tf = new TextField(20);
-				tf.setText(data_list[i]);
-	;			p1.add(label);   p2.add(tf);
-				label_panel.add(p1);
-				tf_panel.add(p2);
-				
-				tf_update_list.add(tf);
-				
-			}	
+			Panel date = new Panel();
+			
+
+			
+			Label lname = new Label("이름");
+			mname = new TextField(20);
+			mname.setText(data_list[0]);
+			
+			Label ldate = new Label("예약날짜") ;
+			
+			Label lyear = new Label("년");
+			hyear = new TextField(5);
+			hyear.setText(data_list[1]);
+			
+			Label lmonth = new Label("월");
+			hmonth = new TextField(5);
+			hmonth.setText(data_list[2]);
+			
+			Label lday = new Label("일");
+			hday = new TextField(5);
+			hday.setText(data_list[3]);
+			
+			date.add(hyear); date.add(lyear);
+			date.add(hmonth); date.add(lmonth); 
+			date.add(hday);date.add(lday);
+			
+			
+			Label ltime = new Label("예약시간");
+	
+			label_panel.add(new Label("병원예약입니다"));
+			label_panel.add(lname);	
+			label_panel.add(ldate);
+			label_panel.add(ltime);
+			label_panel.add(new Label());
+			label_panel.add(new Label());
+	
+			
+			tf_panel.add(new Label());
+			tf_panel.add(mname);
+			tf_panel.add(date);
+			tf_panel.add(jc_visit_time);
+			tf_panel.add(new Label());
+			tf_panel.add(new Label());
+
+			
 			update_bottom.add(BorderLayout.NORTH, new Label());
 			update_bottom.add(BorderLayout.WEST, label_panel);
 			update_bottom.add(BorderLayout.CENTER, tf_panel);
@@ -342,34 +427,99 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			content_panel.setVisible(true);
 			MyPagePane.add(content_panel);
 			
-			btn_update.addActionListener(this);
+			jc_visit_time.addActionListener(this);
+			btn_hupdate.addActionListener(this);
 			btn_reset.addActionListener(this);
+			btn_hdelete.addActionListener(this);
 			
 		}
 		
-		/** 수정처리 메소드 */
-		public void updateProc() {
-			ArrayList<String> dataList = new ArrayList<String>();
+		/** 미용수정 데이터 등록 폼 */
+		public void supdateOKForm(UserVO vo) {
+			update_bottom.removeAll();
 			
-			for(TextField tf : tf_update_list) {
-				dataList.add(tf.getText().trim());
-			}
+			Panel update_bottom = new Panel(new BorderLayout());
+			Panel label_panel = new Panel(new GridLayout(6,1));
+			Panel tf_panel = new Panel(new GridLayout(6,1));
+			Panel btn_panel = new Panel();
+			Button btn_supdate = new Button("미용예약수정");
+			Button btn_reset = new Button("수정취소");
+			Button btn_sdelete = new Button("미용예약삭제");
+			btn_panel.add(btn_supdate);
+			btn_panel.add(btn_reset);
+			btn_panel.add(btn_sdelete);
 			
-			UserVO vo = new UserVO();
+			jc_visit_time = new JComboBox(visit_times);
 			
-			vo.setRno(dataList.get(0));
-			vo.setRkind(dataList.get(1));
-			vo.setRname(dataList.get(2));
-			vo.setRdate(dataList.get(3));
-			vo.setRtime(dataList.get(4));
+			String[] data_list = new String[7];
+	
+			data_list[0]=vo.getMname();
+			data_list[1]=vo.getSyear();
+			data_list[2]=vo.getSmonth();
+			data_list[3]=vo.getSday();
+
 			
-			if(hms.update(vo)) {
-				//수정 성공
-				JOptionPane.showMessageDialog(null, "수정완료!");
-			}else {
-				JOptionPane.showMessageDialog(null, "수정실패");
-			}
-		} //수정처리
+			
+			Panel date = new Panel();
+			
+			
+			
+			Label lname = new Label("이름");
+			mname = new TextField(20);
+			mname.setText(data_list[0]);
+			
+			Label ldate = new Label("예약날짜") ;
+			
+			Label lyear = new Label("년");
+			syear = new TextField(5);
+			syear.setText(data_list[1]);
+			
+			Label lmonth = new Label("월");
+			smonth = new TextField(5);
+			smonth.setText(data_list[2]);
+			
+			Label lday = new Label("일");
+			sday = new TextField(5);
+			sday.setText(data_list[3]);
+			
+			date.add(syear); date.add(lyear);
+			date.add(smonth); date.add(lmonth); 
+			date.add(sday);date.add(lday);
+			
+			
+			Label ltime = new Label("예약시간");
+			
+			label_panel.add(new Label("미용예약입니다"));
+			label_panel.add(lname);	
+			label_panel.add(ldate);
+			label_panel.add(ltime);
+			label_panel.add(new Label());
+			label_panel.add(new Label());
+			
+			
+			tf_panel.add(new Label());
+			tf_panel.add(mname);
+			tf_panel.add(date);
+			tf_panel.add(jc_visit_time);
+			tf_panel.add(new Label());
+			tf_panel.add(new Label());
+			
+			update_bottom.add(BorderLayout.NORTH, new Label());
+			update_bottom.add(BorderLayout.WEST, label_panel);
+			update_bottom.add(BorderLayout.CENTER, tf_panel);
+			update_bottom.add(BorderLayout.SOUTH, btn_panel);
+			
+			update_panel.add(BorderLayout.CENTER, update_bottom);
+			content_panel.add(update_panel);
+			content_panel.setVisible(true);
+			MyPagePane.add(content_panel);
+			
+			jc_visit_time.addActionListener(this);
+			btn_supdate.addActionListener(this);
+			btn_reset.addActionListener(this);
+			btn_sdelete.addActionListener(this);
+			
+		}
 		
 		
 		/** 수정 검색처리 */
@@ -379,15 +529,109 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			if(rno.equals("")) {
 				JOptionPane.showMessageDialog(null, "예약번호를 입력해주세요");
 			}else {
-				idx = hms.searchRno(rno);
-				if(idx != 0) {
-					UserVO vo = hms.selectUser(rno);
-					updateOKForm(vo);
-				}else {
-					updateFailForm();
+				if(rno.indexOf("S")>=0) {
+					idx = hms.ssearchsno(rno);
+					if(idx != 0) {
+						UserVO vo = hms.sselectUser(rno);
+						supdateOKForm(vo);						
+					}
+					else {
+						updateFailForm();
+					}
+				}else if(rno.indexOf("H")>=0) {
+					idx = hms.hsearchhno(rno);
+					if(idx != 0) {
+						UserVO vo = hms.hselectUser(rno);
+						hupdateOKForm(vo);						
+					}else {
+						updateFailForm();
+					
+					}
 				}
 			}
 		}
+		
+
+		/** 병원수정처리 메소드 */
+		public void hupdateProc(String time) {
+			ArrayList<String> dataList = new ArrayList<String>();
+			
+			dataList.add(tf_update.getText());
+			dataList.add(hyear.getText());
+			dataList.add(hmonth.getText());
+			dataList.add(hday.getText());
+			dataList.add(time);
+			
+			UserVO vo = new UserVO();
+			
+						
+			vo.setHno(dataList.get(0));
+			vo.setHyear(dataList.get(1));
+			vo.setHmonth(dataList.get(2));
+			vo.setHday(dataList.get(3));
+			vo.setHtime(dataList.get(4));
+			
+			
+			if(hms.update(vo)) {
+				//수정 성공
+				JOptionPane.showMessageDialog(null, "수정완료!");
+			}else {
+				JOptionPane.showMessageDialog(null, "수정실패");
+			}
+		} //수정처리
+	
+		/** 미용수정처리 메소드 */
+		public void supdateProc(String time) {
+			ArrayList<String> dataList = new ArrayList<String>();
+			
+			dataList.add(tf_update.getText());
+			dataList.add(syear.getText());
+			dataList.add(smonth.getText());
+			dataList.add(sday.getText());
+			dataList.add(time);
+			
+			UserVO vo = new UserVO();
+			
+						
+			vo.setSno(dataList.get(0));
+			vo.setSyear(dataList.get(1));
+			vo.setSmonth(dataList.get(2));
+			vo.setSday(dataList.get(3));
+			vo.setStime(dataList.get(4));
+			
+			
+			if(hms.supdate(vo)) {
+				//수정 성공
+				JOptionPane.showMessageDialog(null, "수정완료!");
+			}else {
+				JOptionPane.showMessageDialog(null, "수정실패");
+			}
+		} //수정처리
+		
+		/** 미용예약 삭제 
+		 * */
+		public void sdelete() {
+			String sno = tf_update.getText();
+			if(hms.sdelete(sno)) {
+				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
+			}else {
+				JOptionPane.showMessageDialog(null, "취소실패");
+			}
+			
+		}
+		
+		/** 병원예약 삭제 
+		 * */
+		public void hdelete() {
+			String hno = tf_update.getText();
+			if(hms.hdelete(hno)) {
+				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
+			}else {
+				JOptionPane.showMessageDialog(null, "취소실패");
+			}
+			
+		}
+		
 		
 		/** 예약정보가 없을때 */
 		public void updateFailForm() {
@@ -406,7 +650,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			// 1번 예약확인 2번 예약변경및 수정 3번 내정보 수정
 			switch(menu) {
 			case 1:
-				select_panel.setVisible(true); break;
+				intro_panel.setVisible(true);  break;
 			case 2:
 				update_panel.setVisible(true); break;
 			case 3:
@@ -419,7 +663,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		 * 모든 메뉴의 패널들을 비활성
 		 */
 		public void resetMenuPanel() {
-			select_panel.setVisible(false);
+			intro_panel.setVisible(false);
+			allselect_panel.setVisible(false);
 			update_panel.setVisible(false);
 			jp_change.setVisible(false);
 			login_panel.setVisible(false);
@@ -427,25 +672,48 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		
 		
 		
-		/** 예약 목록에서 출력될 데이터 가져오기 */
-		public void createJtableData() {
+		/** 예약 목록에서 출력될 병원데이터 가져오기 */
+		public void hcreateJtableData() {
 			
-			ArrayList<UserVO> list = hms.selectList();
+			ArrayList<UserVO> list = hms.hselectList(main.id);
 			
 			model.setNumRows(0);
 			for(UserVO vo : list) {
 				if(vo != null) {
-					row[0]=vo.getRno();
-					row[1]=vo.getRkind();
-					row[2]=vo.getRname();
-					row[3]=vo.getRdate();
-					row[4]=vo.getRtime();
+					row[0]=vo.getHno();
+					row[1]=vo.getMname();
+					row[2]=vo.getHyear();
+					row[3]=vo.getHmonth();
+					row[4]=vo.getHday();
+					row[5]=vo.getHtime();
 					
 					model.addRow(row);
 				}
 				table.repaint();
 			}
 			model.fireTableDataChanged();
+		}
+		
+		/** 예약 목록에서 출력될 미용데이터 가져오기 */
+		public void screateJtableData() {
+			
+			ArrayList<UserVO> list = hms.sselectList(main.id);
+			
+			smodel.setNumRows(0);
+			for(UserVO vo : list) {
+				if(vo != null) {
+					srow[0]=vo.getSno();
+					srow[1]=vo.getMname();
+					srow[2]=vo.getSyear();
+					srow[3]=vo.getSmonth();
+					srow[4]=vo.getSday();
+					srow[5]=vo.getStime();
+					
+					smodel.addRow(srow);
+				}
+				stable.repaint();
+			}
+			smodel.fireTableDataChanged();
 		}
 		
 		/** 내정보 들어가기전에 로그인 창 */
@@ -499,10 +767,11 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				 boolean result = hms.login(id, pass);
 				
 				if(result) {
+					UserVO vo = hms.selectMember(id);
 					JOptionPane.showMessageDialog(null, "로그인 성공!");
 					login_panel.setVisible(false);
 					jp_change.setVisible(true);
-					change(id,pass);
+					change(vo);
 				}else {
 					JOptionPane.showMessageDialog(null, "아이디 또는 패스워드가 일치하지 않습니다");
 					tf_id.setText("");  tf_pass.setText("");
@@ -527,19 +796,43 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 					}else if(name.equals("취소")) {
 						JOptionPane.showMessageDialog(null, "수정취소");
 					}else if(name.equals("예약내역")) {
-						checklist();
+						introCheckList();
+//						checklisth();
+//						checklists();
 					}else if(name.equals("예약수정")) {
 						update();
 					}else if(name.equals("내정보수정")) {
 						logincheck();
 					}else if(obj == update_search || obj == tf_update) {
 						updateSearchProc();			
-					}else if(name.equals("수정완료") || obj == tf_up_last) {
-						updateProc();
+					}else if(name.equals("병원예약수정") || obj == tf_up_last) {
+						String time = jc_visit_time.getSelectedItem().toString();
+						hupdateProc(time);
 					}else if(name.equals("수정취소")) {
 						JOptionPane.showMessageDialog(null,"수정취소");
 					}else if(name.equals("로그인")) {
 						loginProc();
+					}else if(name.equals("정보 수정")) {
+						memberupdateProc();			
+					}else if(name.equals("미용예약수정") || obj == tf_up_last) {
+						String time = jc_visit_time.getSelectedItem().toString();
+						supdateProc(time);
+					}else if(name.equals("병원예약삭제")) {
+						String msg = "정말로 예약을 삭제하시겠습니까?";
+						int result = JOptionPane.showConfirmDialog(null,msg);
+						if(result == 0)  {
+							hdelete();
 					}
-				}
+				 }else if(name.equals("미용예약삭제")) {
+						String msg = "정말로 예약을 삭제하시겠습니까?";
+						int result = JOptionPane.showConfirmDialog(null,msg);
+						if(result == 0)  {
+							sdelete();
+					}
+				 }else if(name.equals("병원예약확인")) {
+					 checklisth();
+				 }else if(name.equals("미용예약확인")) {
+					 checklists();
+				 }
+				}//end
 }//class
