@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,9 +19,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class HospitalMgmUI extends JFrame{
-	//Field
-//		public static final ArrayList<MemberVO> list =new ArrayList<MemberVO>();
-//		public MemberMgmSystem system = new MemberMgmSystem();
+		//Field
+		public static final ArrayList<UserVO> list =new ArrayList<UserVO>();
+		public HospitalMgmSystem system = new HospitalMgmSystem();
 		
 		public static final int HOSPIRES = 1;
 		public static final int SALONRES = 2;
@@ -250,7 +251,7 @@ public class HospitalMgmUI extends JFrame{
 			//윈도우 이벤트 처리
 			public void windowClosing(WindowEvent we) {
 				JOptionPane.showMessageDialog(null,getMsg("프로그램 종료!!!"));
-//				system.dao.close();
+				system.dao.close();
 				System.exit(0);
 			}
 			
@@ -289,7 +290,7 @@ public class HospitalMgmUI extends JFrame{
 					int result = JOptionPane.showConfirmDialog(null, getMsg(msg));
 					if(result == 0)  {
 						//DB close
-//						system.dao.close();		//부모 메소드 사용가능
+						system.dao.close();		//부모 메소드 사용가능
 						System.exit(0);
 					}
 				}

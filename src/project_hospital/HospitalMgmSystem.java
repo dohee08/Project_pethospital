@@ -13,6 +13,12 @@ public class HospitalMgmSystem {
 		public boolean hairCut(UserVO vo) {
 			return dao.insert(vo);
 		}
+		
+		/** 병원 예약 등록 **/
+		public boolean Hospital_reserve(UserVO vo) {
+			return dao.Hospital_reserve(vo);
+		}
+		
 		/** 병원전체 리스트 출력 */
 		public ArrayList<UserVO> hselectList(String id){
 			return dao.hselectall(id);

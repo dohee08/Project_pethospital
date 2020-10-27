@@ -35,6 +35,36 @@ public class HospitalDAO extends DBConn {
 		
 		return result;
 	}
+	
+	/* 
+	 * 병원 예약 등록 
+	 */
+	public boolean Hospital_reserve(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			
+			String sql = "insert into hbooking values(?,?,?,?,?,?,?)";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getHno());
+			pstmt.setString(2, vo.getHsymptom());
+			pstmt.setString(3, vo.getHyear());
+			pstmt.setString(4, vo.getHmonth());
+			pstmt.setString(5, vo.getHday());
+			pstmt.setString(6, vo.getHtime());
+			pstmt.setString(7, vo.getMid());
+			
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	/** * 전체조회 병원편
 	 * */
 	public ArrayList<UserVO> hselectall (String id){
