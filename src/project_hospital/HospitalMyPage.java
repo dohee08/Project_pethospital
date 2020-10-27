@@ -32,7 +32,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		JPanel MyPagePane;
 		JPanel mypage_menu_panel;
 		JPanel jp_change,content_panel,menu_panel,check_panel,search_panel,update_panel,update_bottom
-				,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel;
+				,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel,intro_panel;
 		JTextField  jt_kind, jt_delete,tf_id;
 		TextField tf_update,tf_up_last,hyear,hmonth,hday,mkind,mname,syear,smonth,sday,stime;
 		JComboBox jc_visit_time;
@@ -90,6 +90,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			hselect_panel = new JPanel();
 			sselect_panel = new JPanel();
 			allselect_panel = new JPanel();
+			intro_panel = new JPanel();
 			update_bottom = new JPanel();
 			login_panel = new JPanel(new BorderLayout());
 			all_panel = new JPanel(new BorderLayout());
@@ -212,13 +213,31 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			}
 		} //수정처리
 		
-		
+		/** 예약정보 초기창 
+		 * */
+		public void introCheckList() {
+			resetMenuPanel();
+			switchPanel(SELECT);
+			intro_panel.removeAll();
+			
+			Button h = new Button("병원예약확인");
+			Button s = new Button("미용예약확인");
+			
+			intro_panel.add(h);
+			intro_panel.add(s);
+			
+			content_panel.add(BorderLayout.NORTH,intro_panel);
+			
+			h.addActionListener(this);
+			s.addActionListener(this);
+		}
 		
 			
 		/** 병원 예약정보 보는창 */
 		public void checklisth() {
 			resetMenuPanel();
 			switchPanel(SELECT);
+			allselect_panel.removeAll();
 			hselect_panel.removeAll();
 			
 			hcreateJtableData();	//출력되는 데이터 가져오기
@@ -247,7 +266,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			hselect_panel.add(BorderLayout.NORTH, new Label("병원예약조회"));
 			hselect_panel.add(BorderLayout.CENTER,pane);
 			allselect_panel.add(hselect_panel);
-			content_panel.add(allselect_panel);
+			allselect_panel.setVisible(true);
+			content_panel.add(BorderLayout.CENTER,allselect_panel);
 			
 			MyPagePane.add(content_panel);    
 		}
@@ -257,6 +277,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void checklists() {
 			resetMenuPanel();
 			switchPanel(SELECT);
+			allselect_panel.removeAll();
 			sselect_panel.removeAll();
 
 			screateJtableData();	//출력되는 데이터 가져오기
@@ -281,7 +302,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			sselect_panel.add(BorderLayout.NORTH, new Label("미용예약조회"));
 			sselect_panel.add(BorderLayout.CENTER,pane);
 			allselect_panel.add(sselect_panel);
-			content_panel.add(allselect_panel);
+			allselect_panel.setVisible(true);
+			content_panel.add(BorderLayout.CENTER,allselect_panel);
 			
 			MyPagePane.add(content_panel);    
 		}
@@ -628,7 +650,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			// 1번 예약확인 2번 예약변경및 수정 3번 내정보 수정
 			switch(menu) {
 			case 1:
-				allselect_panel.setVisible(true); break;
+				intro_panel.setVisible(true);  break;
 			case 2:
 				update_panel.setVisible(true); break;
 			case 3:
@@ -641,6 +663,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		 * 모든 메뉴의 패널들을 비활성
 		 */
 		public void resetMenuPanel() {
+			intro_panel.setVisible(false);
 			allselect_panel.setVisible(false);
 			update_panel.setVisible(false);
 			jp_change.setVisible(false);
@@ -773,8 +796,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 					}else if(name.equals("취소")) {
 						JOptionPane.showMessageDialog(null, "수정취소");
 					}else if(name.equals("예약내역")) {
-						checklisth();
-						checklists();
+						introCheckList();
+//						checklisth();
+//						checklists();
 					}else if(name.equals("예약수정")) {
 						update();
 					}else if(name.equals("내정보수정")) {
@@ -805,6 +829,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 						if(result == 0)  {
 							sdelete();
 					}
+				 }else if(name.equals("병원예약확인")) {
+					 checklisth();
+				 }else if(name.equals("미용예약확인")) {
+					 checklists();
 				 }
-				}
+				}//end
 }//class
