@@ -9,35 +9,84 @@ public class HospitalMgmSystem {
 		
 		//Method
 		
-		/** 전체 리스트 출력 */
-		public ArrayList<UserVO> selectList(){
-			return dao.select();
+		/** 병원전체 리스트 출력 */
+		public ArrayList<UserVO> hselectList(String id){
+			return dao.hselectall(id);
 		}
 		
-		/** 예약정보 찾기 */
-		public int searchRno (String rno) {
+		/** 미용전체 리스트 출력 */
+		public ArrayList<UserVO> sselectList(String id){
+			return dao.sselectall(id);
+		}
+		
+		/** 병원예약정보 찾기 */
+		public int hsearchhno (String hno) {
 			int idx = 0;
-			idx = dao.search(rno);
+			idx = dao.hsearch(hno);
 			
 			return idx;
 		}
 		
-		/** 예약정보 수정 */
+		/** 병원예약정보 찾기 */
+		public int ssearchsno (String sno) {
+			int idx = 0;
+			idx = dao.ssearch(sno);
+			
+			return idx;
+		}
+		
+		/** 병원예약정보 수정 */
 		public boolean update(UserVO vo) {
 			boolean result = false;
 			
-			result = dao.update(vo);
+			result = dao.hupdate(vo);
 			
 			return result;
 		}
 		
-		/** 예약정보 수정 */
-		public UserVO selectUser(String rno) {
+		/** 미용예약정보 수정 */
+		public boolean supdate(UserVO vo) {
+			boolean result = false;
+			
+			result = dao.supdate(vo);
+			
+			return result;
+		}
+		
+		/** 병원예약정보 찾기*/
+		public UserVO hselectUser(String hno) {
 			UserVO vo = null;
 			
-			vo = dao.select(rno);
+			vo = dao.hselect(hno);
 			return vo;
 		}
+		
+		/** 미용예약정보 찾기*/
+		public UserVO sselectUser(String sno) {
+			UserVO vo = null;
+			
+			vo = dao.sselect(sno);
+			return vo;
+		}
+		
+		/** 내정보 찾기 */
+		public UserVO selectMember(String mid) {
+			UserVO vo = null;
+			
+			vo = dao.mselect(mid);
+			return vo;
+		}
+		
+		/** 내정보 수정 
+		 */
+		public boolean memberupdate(UserVO vo) {
+			boolean result = false;
+			
+			result = dao.memberupdate(vo);
+			
+			return result;
+		}
+		
 		
 		/** 로그인 */
 		public boolean login(String id ,String pass) {
