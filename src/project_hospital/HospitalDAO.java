@@ -274,6 +274,48 @@ public class HospitalDAO extends DBConn {
 			return vo;
 		}
 		
+		/** 예약삭제 병원예약 
+		 * */
+		public boolean hdelete(String hno) {
+			boolean result = false;
+			
+			try {
+				String sql = "delete from hbooking where hno = ?";
+				getPreparedStatement(sql);
+				pstmt.setString(1, hno);
+				int count = pstmt.executeUpdate();
+				
+				if(count!=0) result =true;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+
+
+		/** 예약삭제 미용예약
+		 *
+		 **/
+		public boolean sdelete(String sno) {
+			boolean result = false;
+			
+			try {
+				String sql = "delete from SALONRES where sno = ?";
+				getPreparedStatement(sql);
+				pstmt.setString(1, sno);
+				int count = pstmt.executeUpdate();
+				
+				if(count!=0) result =true;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
 		
 		/**내정보 조회
 		 * */
@@ -357,4 +399,5 @@ public class HospitalDAO extends DBConn {
 			}
 			return result;
 		}
+		
 }
