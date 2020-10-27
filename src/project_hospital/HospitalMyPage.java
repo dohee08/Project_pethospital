@@ -2,7 +2,6 @@ package project_hospital;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -330,13 +329,15 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_bottom.removeAll();
 			
 			Panel update_bottom = new Panel(new BorderLayout());
-			Panel label_panel = new Panel(new GridLayout(4,1));
-			Panel tf_panel = new Panel(new GridLayout(4,1));
+			Panel label_panel = new Panel(new GridLayout(6,1));
+			Panel tf_panel = new Panel(new GridLayout(6,1));
 			Panel btn_panel = new Panel();
 			Button btn_hupdate = new Button("병원예약수정");
 			Button btn_reset = new Button("수정취소");
+			Button btn_hdelete = new Button("병원예약삭제");
 			btn_panel.add(btn_hupdate);
 			btn_panel.add(btn_reset);
+			btn_panel.add(btn_hdelete);
 			
 			jc_visit_time = new JComboBox(visit_times);
 			
@@ -382,11 +383,17 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			label_panel.add(lname);	
 			label_panel.add(ldate);
 			label_panel.add(ltime);
+			label_panel.add(new Label());
+			label_panel.add(new Label());
+	
 			
 			tf_panel.add(new Label());
 			tf_panel.add(mname);
 			tf_panel.add(date);
 			tf_panel.add(jc_visit_time);
+			tf_panel.add(new Label());
+			tf_panel.add(new Label());
+
 			
 			update_bottom.add(BorderLayout.NORTH, new Label());
 			update_bottom.add(BorderLayout.WEST, label_panel);
@@ -401,6 +408,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			jc_visit_time.addActionListener(this);
 			btn_hupdate.addActionListener(this);
 			btn_reset.addActionListener(this);
+			btn_hdelete.addActionListener(this);
 			
 		}
 		
@@ -409,13 +417,15 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_bottom.removeAll();
 			
 			Panel update_bottom = new Panel(new BorderLayout());
-			Panel label_panel = new Panel(new GridLayout(4,1));
-			Panel tf_panel = new Panel(new GridLayout(4,1));
+			Panel label_panel = new Panel(new GridLayout(6,1));
+			Panel tf_panel = new Panel(new GridLayout(6,1));
 			Panel btn_panel = new Panel();
 			Button btn_supdate = new Button("미용예약수정");
 			Button btn_reset = new Button("수정취소");
+			Button btn_sdelete = new Button("미용예약삭제");
 			btn_panel.add(btn_supdate);
 			btn_panel.add(btn_reset);
+			btn_panel.add(btn_sdelete);
 			
 			jc_visit_time = new JComboBox(visit_times);
 			
@@ -461,12 +471,16 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			label_panel.add(lname);	
 			label_panel.add(ldate);
 			label_panel.add(ltime);
+			label_panel.add(new Label());
+			label_panel.add(new Label());
 			
 			
 			tf_panel.add(new Label());
 			tf_panel.add(mname);
 			tf_panel.add(date);
 			tf_panel.add(jc_visit_time);
+			tf_panel.add(new Label());
+			tf_panel.add(new Label());
 			
 			update_bottom.add(BorderLayout.NORTH, new Label());
 			update_bottom.add(BorderLayout.WEST, label_panel);
@@ -481,6 +495,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			jc_visit_time.addActionListener(this);
 			btn_supdate.addActionListener(this);
 			btn_reset.addActionListener(this);
+			btn_sdelete.addActionListener(this);
 			
 		}
 		
@@ -570,6 +585,30 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "수정실패");
 			}
 		} //수정처리
+		
+		/** 미용예약 삭제 
+		 * */
+		public void sdelete() {
+			String sno = tf_update.getText();
+			if(hms.sdelete(sno)) {
+				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
+			}else {
+				JOptionPane.showMessageDialog(null, "취소실패");
+			}
+			
+		}
+		
+		/** 병원예약 삭제 
+		 * */
+		public void hdelete() {
+			String hno = tf_update.getText();
+			if(hms.hdelete(hno)) {
+				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
+			}else {
+				JOptionPane.showMessageDialog(null, "취소실패");
+			}
+			
+		}
 		
 		
 		/** 예약정보가 없을때 */
@@ -754,6 +793,18 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 					}else if(name.equals("미용예약수정") || obj == tf_up_last) {
 						String time = jc_visit_time.getSelectedItem().toString();
 						supdateProc(time);
+					}else if(name.equals("병원예약삭제")) {
+						String msg = "정말로 예약을 삭제하시겠습니까?";
+						int result = JOptionPane.showConfirmDialog(null,msg);
+						if(result == 0)  {
+							hdelete();
 					}
+				 }else if(name.equals("미용예약삭제")) {
+						String msg = "정말로 예약을 삭제하시겠습니까?";
+						int result = JOptionPane.showConfirmDialog(null,msg);
+						if(result == 0)  {
+							sdelete();
+					}
+				 }
 				}
 }//class

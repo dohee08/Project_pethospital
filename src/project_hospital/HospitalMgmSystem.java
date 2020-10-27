@@ -73,6 +73,28 @@ public class HospitalMgmSystem {
 			return vo;
 		}
 		
+		/** 미용예약 삭제 
+		 * *
+		 */
+		public boolean sdelete(String sno) {
+			boolean result = false;
+			
+			result = dao.sdelete(sno);
+			
+			return result;
+		}
+		
+		/** 병원예약 삭제 
+		 * *
+		 */
+		public boolean hdelete(String hno) {
+			boolean result = false;
+			
+			result = dao.hdelete(hno);
+			
+			return result;
+		}
+		
 		/** 내정보 찾기 */
 		public UserVO selectMember(String mid) {
 			UserVO vo = null;
@@ -98,4 +120,5 @@ public class HospitalMgmSystem {
 			
 			return dao.login(id,pass);
 		}
+		
 }
