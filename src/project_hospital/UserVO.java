@@ -1,9 +1,10 @@
 package project_hospital;
 
 public class UserVO {
-	String mid, mpass, mphone, mname, mkg, mkind, mage, mgender; //Member
-	String bno, bkind, btime, byear, bmonth, bday, btext, bsymptom, bid; // Booking
 	String sid, spass; // Manager
+	String mid,mpass,mphone,mname,mkind;
+	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
+	String sno,syear,smonth,sday,stime,sgender,stext,smid;
 	
 	public String getMid() {
 		return mid;
@@ -29,83 +30,49 @@ public class UserVO {
 	public void setMname(String mname) {
 		this.mname = mname;
 	}
-	public String getMkg() {
-		return mkg;
-	}
-	public void setMkg(String mkg) {
-		this.mkg = mkg;
-	}
+
+	
 	public String getMkind() {
 		return mkind;
 	}
 	public void setMkind(String mkind) {
 		this.mkind = mkind;
 	}
-	public String getMage() {
-		return mage;
+	public String getHno() {
+		return hno;
 	}
-	public void setMage(String mage) {
-		this.mage = mage;
+	public void setHno(String hno) {
+		this.hno = hno;
 	}
-	public String getMgender() {
-		return mgender;
+	public String getHsymptom() {
+		return hsymptom;
 	}
-	public void setMgender(String mgender) {
-		this.mgender = mgender;
+	public void setHsymptom(String hsymptom) {
+		this.hsymptom = hsymptom;
 	}
-	public String getBno() {
-		return bno;
+	public String getHyear() {
+		return hyear;
 	}
-	public void setBno(String bno) {
-		this.bno = bno;
+	public void setHyear(String hyear) {
+		this.hyear = hyear;
 	}
-	public String getBkind() {
-		return bkind;
+	public String getHmonth() {
+		return hmonth;
 	}
-	public void setBkind(String bkind) {
-		this.bkind = bkind;
+	public void setHmonth(String hmonth) {
+		this.hmonth = hmonth;
 	}
-	public String getBtime() {
-		return btime;
+	public String getHday() {
+		return hday;
 	}
-	public void setBtime(String btime) {
-		this.btime = btime;
+	public void setHday(String hday) {
+		this.hday = hday;
 	}
-	public String getByear() {
-		return byear;
+	public String getHtime() {
+		return htime;
 	}
-	public void setByear(String byear) {
-		this.byear = byear;
-	}
-	public String getBmonth() {
-		return bmonth;
-	}
-	public void setBmonth(String bmonth) {
-		this.bmonth = bmonth;
-	}
-	public String getBday() {
-		return bday;
-	}
-	public void setBday(String bday) {
-		this.bday = bday;
-	}
-	public String getBtext() {
-		return btext;
-	}
-	public void setBtext(String btext) {
-		this.btext = btext;
-	}
-	public String getBsymptom() {
-		return bsymptom;
-	}
-	public void setBsymptom(String bsymptom) {
-		this.bsymptom = bsymptom;
-	}
-	public String getBid() {
-		return bid;
-	}
-	public void setBid(String bid) {
-		this.bid = bid;
+	public void setHtime(String htime) {
+		this.htime = htime;
 	}
 	public String getSid() {
 		return sid;
@@ -120,5 +87,59 @@ public class UserVO {
 		this.spass = spass;
 	}
 	
-
+	public String getHmid() {
+		return hmid;
+	}
+	public void setHmid(String hmid) {
+		this.hmid = hmid;
+	}
+	public String getSno() {
+		return sno;
+	}
+	public void setSno(String sno) {
+		this.sno = sno;
+	}
+	public String getSyear() {
+		return syear;
+	}
+	public void setSyear(String syear) {
+		this.syear = syear;
+	}
+	public String getSmonth() {
+		return smonth;
+	}
+	public void setSmonth(String smonth) {
+		this.smonth = smonth;
+	}
+	public String getSday() {
+		return sday;
+	}
+	public void setSday(String sday) {
+		this.sday = sday;
+	}
+	public String getStime() {
+		return stime;
+	}
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+	public String getSgender() {
+		return sgender;
+	}
+	public void setSgender(String sgender) {
+		this.sgender = sgender;
+	}
+	public String getStext() {
+		return stext;
+	}
+	public void setStext(String stext) {
+		this.stext = stext;
+	}
+	public String getSmid() {
+		return smid;
+	}
+	public void setSmid(String smid) {
+		this.smid = smid;
+	}
+	
 }
