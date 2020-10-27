@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class HospitalMgmUI extends JFrame{
 	//Field
 //		public static final ArrayList<MemberVO> list =new ArrayList<MemberVO>();
-//		public MemberMgmSystem system = new MemberMgmSystem();
+		public HospitalMgmSystem system = new HospitalMgmSystem();
 		
 		public static final int HOSPIRES = 1;
 		public static final int SALONRES = 2;
@@ -224,7 +224,6 @@ public class HospitalMgmUI extends JFrame{
 			label.setFont(font);
 			return label;
 		}
-		
 		
 		//이벤트 처리 클래스
 		class HospitalMgmUIEvent extends WindowAdapter

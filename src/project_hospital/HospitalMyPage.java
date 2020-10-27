@@ -313,10 +313,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			btn_panel.add(btn_reset);
 			
 			String[] data_list = new String[4];
-			data_list[0] = vo.getRkind();
-			data_list[1]=vo.getRname();
-			data_list[2]=vo.getRdate();
-			data_list[3]=vo.getRtime();
+//			data_list[0] = vo.getRkind();
+//			data_list[1]=vo.getRname();
+//			data_list[2]=vo.getRdate();
+//			data_list[3]=vo.getRtime();
 			
 			
 			for(int i=0;i<up_names.length;i++) {
@@ -357,11 +357,11 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			UserVO vo = new UserVO();
 			
-			vo.setRno(dataList.get(0));
-			vo.setRkind(dataList.get(1));
-			vo.setRname(dataList.get(2));
-			vo.setRdate(dataList.get(3));
-			vo.setRtime(dataList.get(4));
+//			vo.setRno(dataList.get(0));
+//			vo.setRkind(dataList.get(1));
+//			vo.setRname(dataList.get(2));
+//			vo.setRdate(dataList.get(3));
+//			vo.setRtime(dataList.get(4));
 			
 			if(hms.update(vo)) {
 				//수정 성공
@@ -435,12 +435,12 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			model.setNumRows(0);
 			for(UserVO vo : list) {
 				if(vo != null) {
-					row[0]=vo.getRno();
-					row[1]=vo.getRkind();
-					row[2]=vo.getRname();
-					row[3]=vo.getRdate();
-					row[4]=vo.getRtime();
-					
+//					row[0]=vo.getRno();
+//					row[1]=vo.getRkind();
+//					row[2]=vo.getRname();
+//					row[3]=vo.getRdate();
+//					row[4]=vo.getRtime();
+//					
 					model.addRow(row);
 				}
 				table.repaint();
@@ -496,18 +496,18 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "패스워드를 입력해주세요");
 				tf_pass.requestFocus();
 			}else {
-				 boolean result = hms.login(id, pass);
+//				 boolean result = hms.login(id, pass);
 				
-				if(result) {
-					JOptionPane.showMessageDialog(null, "로그인 성공!");
-					login_panel.setVisible(false);
-					jp_change.setVisible(true);
-					change(id,pass);
-				}else {
-					JOptionPane.showMessageDialog(null, "아이디 또는 패스워드가 일치하지 않습니다");
-					tf_id.setText("");  tf_pass.setText("");
-					tf_id.requestFocus();
-				}
+//				if(result) {
+//					JOptionPane.showMessageDialog(null, "로그인 성공!");
+//					login_panel.setVisible(false);
+//					jp_change.setVisible(true);
+//					change(id,pass);
+//				}else {
+//					JOptionPane.showMessageDialog(null, "아이디 또는 패스워드가 일치하지 않습니다");
+//					tf_id.setText("");  tf_pass.setText("");
+//					tf_id.requestFocus();
+//				}
 		}
 		}
 		//윈도우 이벤트 처리
