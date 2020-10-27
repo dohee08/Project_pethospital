@@ -6,6 +6,18 @@ public class UserVO {
 	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
 	String sno,syear,smonth,sday,stime,sgender,stext,smid;
 	
+	public String getSid() {
+		return sid;
+	}
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+	public String getSpass() {
+		return spass;
+	}
+	public void setSpass(String spass) {
+		this.spass = spass;
+	}
 	public String getMid() {
 		return mid;
 	}
@@ -30,8 +42,6 @@ public class UserVO {
 	public void setMname(String mname) {
 		this.mname = mname;
 	}
-
-	
 	public String getMkind() {
 		return mkind;
 	}
@@ -74,19 +84,6 @@ public class UserVO {
 	public void setHtime(String htime) {
 		this.htime = htime;
 	}
-	public String getSid() {
-		return sid;
-	}
-	public void setSid(String sid) {
-		this.sid = sid;
-	}
-	public String getSpass() {
-		return spass;
-	}
-	public void setSpass(String spass) {
-		this.spass = spass;
-	}
-	
 	public String getHmid() {
 		return hmid;
 	}

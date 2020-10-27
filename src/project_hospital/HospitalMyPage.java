@@ -370,8 +370,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			data_list[2]=vo.getHmonth();
 			data_list[3]=vo.getHday();
 
-			
-			
 			Panel date = new Panel();
 			
 
@@ -458,8 +456,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			data_list[2]=vo.getSmonth();
 			data_list[3]=vo.getSday();
 
-			
-			
 			Panel date = new Panel();
 			
 			
@@ -686,7 +682,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 					row[3]=vo.getHmonth();
 					row[4]=vo.getHday();
 					row[5]=vo.getHtime();
-					
 					model.addRow(row);
 				}
 				table.repaint();
