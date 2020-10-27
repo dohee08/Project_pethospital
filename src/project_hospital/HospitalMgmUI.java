@@ -38,7 +38,7 @@ public class HospitalMgmUI extends JFrame{
 		String id;	//Login에서 가져온 id
 
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
-		JPanel SalonResPane = new JPanel();
+		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
 		JPanel MyPagePane = new JPanel();
 		
 		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -263,8 +263,7 @@ public class HospitalMgmUI extends JFrame{
 //					new MemberRegister(main).register();
 				}else if(btnSalonRes == obj) {
 					// 미용예약 창으로 넘기기!
-					JOptionPane.showMessageDialog(null, "미용예약");
-//					new MemberList(main).list();
+					new HospitalHairCut(main).hairCut();
 				}else if(btnMyPage == obj) {
 					// 회원 정보 창으로 넘기기!
 					JOptionPane.showMessageDialog(null, "회원정보");
