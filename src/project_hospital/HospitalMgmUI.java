@@ -1,6 +1,7 @@
 package project_hospital;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -82,11 +83,24 @@ public class HospitalMgmUI extends JFrame{
 			showButtonPane.add(btnManager);
 			showButtonPane.add(btnJoin);
 			
+			showPane.setBackground(Color.WHITE);
+			showButtonPane.setBackground(Color.WHITE);
+			
 			add(showPane, BorderLayout.CENTER);
 			add(showButtonPane, BorderLayout.SOUTH);
 			
 			setSize(600,500);
 			setVisible(true);
+			
+			Color c1 = new Color(255,231,159);
+			Color c2 = new Color(238,217,154);
+			Color c3 = new Color(229,197,148);
+			
+			btnLogin.setBackground(c1);
+			btnManager.setBackground(c2);
+			btnJoin.setBackground(c3);
+			
+			
 			
 			btnLogin.addActionListener(new HospitalMgmUIEvent(this));
 			btnManager.addActionListener(new HospitalMgmUIEvent(this));
