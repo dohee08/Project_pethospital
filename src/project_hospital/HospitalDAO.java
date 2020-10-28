@@ -47,13 +47,15 @@ public class HospitalDAO extends DBConn {
 			String sql = "insert into hbooking values(?,?,?,?,?,?,?)";
 			
 			getPreparedStatement(sql);
+			
 			pstmt.setString(1, vo.getHno());
 			pstmt.setString(2, vo.getHsymptom());
 			pstmt.setString(3, vo.getHyear());
 			pstmt.setString(4, vo.getHmonth());
 			pstmt.setString(5, vo.getHday());
 			pstmt.setString(6, vo.getHtime());
-			pstmt.setString(7, vo.getMid());
+			pstmt.setString(7, vo.getHmid());
+			
 			
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;
