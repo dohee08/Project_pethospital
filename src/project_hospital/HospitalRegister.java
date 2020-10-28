@@ -168,20 +168,28 @@ public class HospitalRegister {
 			String mphone = tphone.getText().trim();
 			String mkind = tkind.getText().trim();
 			
-			vo = new UserVO();
-			vo.setMid(mid);
-			vo.setMpass(mpass);
-			vo.setMname(mname);
-			vo.setMphone(mphone);
-			vo.setMkind(mkind);
-			
-			if(main.system.memRegister(vo)) {
-				JOptionPane.showMessageDialog(null, "회원가입 완료");
+			//mid 중복체크
+			if(main.system.searchMid(mid) == 0) {
+				vo = new UserVO();
+				vo.setMid(mid);
+				vo.setMpass(mpass);
+				vo.setMname(mname);
+				vo.setMphone(mphone);
+				vo.setMkind(mkind);
+				
+				if(main.system.memRegister(vo)) {
+					JOptionPane.showMessageDialog(null, "회원가입 완료");
+					tid.setText("");
+					tpass.setText("");
+					tname.setText("");
+					tphone.setText("");
+					tkind.setText("");
+				}
+				
+			}else {
+				JOptionPane.showMessageDialog(null, "기존 회원이 존재합니다");
 				tid.setText("");
-				tpass.setText("");
-				tname.setText("");
-				tphone.setText("");
-				tkind.setText("");
+				tid.requestFocus();
 			}
 			
 		}
