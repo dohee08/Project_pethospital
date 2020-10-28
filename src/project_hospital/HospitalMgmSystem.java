@@ -2,7 +2,6 @@ package project_hospital;
 
 import java.util.ArrayList;
 
-
 public class HospitalMgmSystem {
 	//field
 		HospitalDAO dao;
@@ -192,6 +191,21 @@ public class HospitalMgmSystem {
 		/** 매니저 - 전체 멤버 리스트 출력 */
 		public ArrayList<UserVO> memberSelectList(){
 			return dao.memberSelect();
+		}
+		
+		/** 매니저 - 수정 검색 **/
+		public int searchMid(String mid) {
+			return dao.searchMid(mid);
+		}
+		
+		/** 매니저 - 수정 멤버 정보 출력 **/
+		public UserVO selectMemInfo(String mid) {
+			return dao.selectMemInfo(mid);
+		}
+		
+		/** 매니저 - 멤버 수정 완료 **/
+		public boolean menUpdate(UserVO vo) {
+			return dao.menUpdate(vo);
 		}
 		
 		/** 매니저 - 삭제 검색**/
