@@ -43,7 +43,6 @@ public class HospitalMgmUI extends JFrame{
 
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
-
 		JPanel MyPagePane = new JPanel();
 		
 		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -71,7 +70,7 @@ public class HospitalMgmUI extends JFrame{
 			btnJoin = new JButton("회원가입");
 			
 			jl_title = new JLabel("\n== 애견병원 시스템에 오신것을 환영합니다 ==");
-			jl_img = new JLabel(new ImageIcon("images/main.png"));
+			jl_img = new JLabel(new ImageIcon("images/pet.jpg"));
 			jl_title.setFont(new Font("맑은 고딕",Font.BOLD,16));
 			btnLogin.setFont(font);
 			btnJoin.setFont(font);
