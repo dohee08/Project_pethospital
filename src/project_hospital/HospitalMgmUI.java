@@ -274,7 +274,6 @@ public class HospitalMgmUI extends JFrame{
 					new HospitalHairCut(main).hairCut();
 				}else if(btnMyPage == obj) {
 					// 회원 정보 창으로 넘기기!
-					JOptionPane.showMessageDialog(null, "회원정보");
 					new HospitalMyPage(main).MyPage();
 //					new MemberSearch(main).search();
 //				}else if(btnUpdate == obj) {
