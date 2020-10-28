@@ -61,6 +61,24 @@ public class HospitalMgmSystem {
 			return result;
 		}
 		
+		/** 수정전에  병원시간 체크 */
+		public int hcheck(UserVO vo) {
+			int result = 0;
+			
+			result = dao.hcheck(vo);
+			
+			return result;
+		}
+		
+		/** 수정전에  미용시간 체크 */
+		public int scheck(UserVO vo) {
+			int result = 0;
+			
+			result = dao.scheck(vo);
+			
+			return result;
+		}
+		
 		/** 미용예약정보 수정 */
 		public boolean supdate(UserVO vo) {
 			boolean result = false;
@@ -126,6 +144,28 @@ public class HospitalMgmSystem {
 			return result;
 		}
 		
+		/** 내정보 삭제전 병원예약 확인 
+		 * 
+		 */
+		public int lastcheckh(String mid) {
+			int result = 0;
+			
+			result = dao.lastcheckh(mid);
+			
+			return result;
+		}
+		
+		
+		/** 내정보 삭제전 미용예약 확인 
+		 * 
+		 */
+		public int lastchecks(String mid) {
+			int result = 0;
+			
+			result = dao.lastchecks(mid);
+			
+			return result;
+		}
 		
 		/** 로그인 */
 		public boolean login(String id ,String pass) {

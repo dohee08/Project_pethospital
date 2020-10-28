@@ -46,8 +46,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		HospitalMgmSystem hms;
 		int idx = -1;
 		
-		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","13:00", 
-				 "14:00","15:00","16:00", "17:00", "18:00"};
+		 String[] visit_times = {"선택해주세요","09:00 ~ 10:00", "10:00 ~ 11:00","11:00 ~ 12:00","12:00 ~ 13:00","13:00 ~ 14:00", 
+				 "14:00 ~ 15:00","15:00 ~ 16:00","16:00 ~ 17:00", "17:00 ~ 18:00", "18:00 ~ 19:00"};
 		 
 		
 		public HospitalMyPage() {}
@@ -72,7 +72,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		
 		public static final int SELECT = 1;
 		public static final int UPDATE = 2;
-//		public static final int CHANGE = 3;
 		public static final int CHECK = 3;
 		
 		//Constructor
@@ -221,11 +220,19 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void memberDelete() {
 			String mid = main.id;
 			
+			if(hms.lastcheckh(mid)==0) {
+				if(hms.lastchecks(mid)==0) {
 			if(hms.delete(mid)) {
 				JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
-				logincheck();
+				System.exit(0);
 			}else {
 				JOptionPane.showMessageDialog(null, "삭제 실패");
+			}
+			}else {
+				JOptionPane.showMessageDialog(null, "미용 예약 삭제를 먼저 해주세요");
+			}}
+			else {
+				JOptionPane.showMessageDialog(null, "병원 예약 삭제를 먼저 해주세요");
 			}
 		}
 		
@@ -584,12 +591,14 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			vo.setHday(dataList.get(3));
 			vo.setHtime(dataList.get(4));
 			
-			
+			if(hms.hcheck(vo)==0) {
 			if(hms.update(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
 			}else {
 				JOptionPane.showMessageDialog(null, "수정실패");
+			}}else {
+				JOptionPane.showMessageDialog(null, "예약시간을 다시 선택해주세요.");
 			}
 		} //수정처리
 	
@@ -612,12 +621,14 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			vo.setSday(dataList.get(3));
 			vo.setStime(dataList.get(4));
 			
-			
+			if(hms.scheck(vo)==0) {
 			if(hms.supdate(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
 			}else {
 				JOptionPane.showMessageDialog(null, "수정실패");
+			}}else {
+				JOptionPane.showMessageDialog(null, "예약시간을 다시 선택해주세요.");
 			}
 		} //수정처리
 		
@@ -638,7 +649,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void hdelete() {
 			String hno = tf_update.getText();
 			if(hms.hdelete(hno)) {
-				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
+				JOptionPane.showMessageDialog(null, "병원예약이 취소되었습니다.");
 			}else {
 				JOptionPane.showMessageDialog(null, "취소실패");
 			}

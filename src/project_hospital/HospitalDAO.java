@@ -218,17 +218,65 @@ public class HospitalDAO extends DBConn {
 				return result;
 			}
 		
+		/** 병원예약시간 겹치는지 확인
+		 * 
+		 */
+		public int hcheck(UserVO vo) {
+			int result = 0;
+			try {
+				String sql1="select count(*) from hbooking where hyear =? and hmonth =? and hday = ? and htime =?";
+				getPreparedStatement(sql1);
+				pstmt.setString(1, vo.getHyear());
+				pstmt.setString(2, vo.getHmonth());
+				pstmt.setString(3, vo.getHday());
+				pstmt.setString(4, vo.getHtime());
+				
+				rs= pstmt.executeQuery();
+				
+				
+				if(rs.next()) {result = rs.getInt(1);}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
 		
 		
+		/** 미용예약시간 겹치는지 확인
+		 * 
+		 */
+		public int scheck(UserVO vo) {
+			int result = 0;
+			try {
+				String sql1="select count(*) from SALONRES where syear =? and smonth =? and sday = ? and stime =?";
+				getPreparedStatement(sql1);
+				pstmt.setString(1, vo.getSyear());
+				pstmt.setString(2, vo.getSmonth());
+				pstmt.setString(3, vo.getSday());
+				pstmt.setString(4, vo.getStime());
+				
+				rs= pstmt.executeQuery();
+				
+				
+				if(rs.next()) {result = rs.getInt(1);}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+			
 		/** 병원 수정
 		 *  */
 		public boolean hupdate(UserVO vo) {
 			boolean result = false;
-			
 			try {
-				
-				String sql="update hbooking set hyear =? ,hmonth =? , hday =?, htime =? where hno =?";
-				getPreparedStatement(sql);
+			
+				String sql2="update hbooking set hyear =? ,hmonth =? , hday =?, htime =? where hno =?";
+				getPreparedStatement(sql2);
 				
 				pstmt.setString(1, vo.getHyear());
 				pstmt.setString(2, vo.getHmonth());
@@ -240,7 +288,7 @@ public class HospitalDAO extends DBConn {
 				
 				int count = pstmt.executeUpdate();
 				if(count != 0) result = true;
-				
+			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -372,6 +420,46 @@ public class HospitalDAO extends DBConn {
 			return result;
 		}
 		
+		/** 내정보 삭제전에 병원예약정보 확인 
+		 * */
+		public int lastcheckh(String mid) {
+			int result = 0;
+			
+			try {
+				String sql = "select count(*) from hbooking h , member m where h.mid = m.mid and h.mid = ?";
+				getPreparedStatement(sql);
+				pstmt.setString(1, mid);
+				
+				rs = pstmt.executeQuery();
+				if(rs.next()) result = rs.getInt(1);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
+		
+		/** 내정보 삭제전에 미용예약정보 확인 
+		 * */
+		public int lastchecks(String mid) {
+			int result = 0;
+			
+			try {
+				String sql = "select count(*) from SALONRES s , member m where s.mid = m.mid and s.mid = ?";
+				getPreparedStatement(sql);
+				pstmt.setString(1, mid);
+				
+				rs = pstmt.executeQuery();
+				if(rs.next()) result = rs.getInt(1);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
 		
 		/**내정보 조회
 		 * */
