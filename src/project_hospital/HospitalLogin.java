@@ -22,7 +22,7 @@ public class HospitalLogin {
 		JFrame jf;
 		JTextField tid;  
 		JPasswordField tpass;
-		
+		HospitalHairCut hc = new HospitalHairCut();
 		HospitalMgmUI main;
 		
 		public HospitalLogin() {

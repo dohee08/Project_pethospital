@@ -17,13 +17,15 @@ public class HospitalHairCut extends JFrame {
 	JRadioButton rb_man, rb_woman; // 남, 여
 	JTextArea ta_text; // 더하고싶은말
 	JButton btn_reserve, btn_reset; // 예약, 취소버튼
+	String mid;
 	
+	//생성자
 	public HospitalHairCut() {}
 	public HospitalHairCut(HospitalMgmUI main) { // 가입용 생성자
 		this.main = main; 
 		this.SalonResPane = main.SalonResPane;
-		
-	}// 생성자
+		this.mid = main.id;
+	}
 
 	public void hairCut() {
 		main.switchPane(HospitalMgmUI.SALONRES);
@@ -84,7 +86,7 @@ public class HospitalHairCut extends JFrame {
 		SalonResPane.add(text_pane);
 		SalonResPane.add(jp_Button);
 	
-		
+		System.out.println(mid);
 		HospitalHairEvent hairEvent = new HospitalHairEvent();
 		btn_reserve.addActionListener(hairEvent);
 		btn_reset.addActionListener(hairEvent);
@@ -152,7 +154,7 @@ public class HospitalHairCut extends JFrame {
 		vo.setStime(time);
 		vo.setSgender(gender);
 		vo.setStext(ta_text.getText().trim());
-		vo.setMid(null);
+		vo.setSmid(mid);
 		
 
 		// MEMBER 테이블에 등록
