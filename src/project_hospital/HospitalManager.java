@@ -1,11 +1,14 @@
 package project_hospital;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextArea;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +35,7 @@ public class HospitalManager {
 	JFrame jf;
 	JPanel main_panel, button_panel;
 	JPanel listPane, updatePane, deletePane;
-	JButton btnList, btnDelete;
+	JButton btnList, btnUpdate, btnDelete;
 	TextArea ta;
 	HospitalMgmUI main;
 
@@ -43,24 +46,15 @@ public class HospitalManager {
 	JLabel jl_deleteSearchName;
 	JTextField jt_deleteSearch;
 	JButton jb_deleteButton;
-//	private JPanel jp_updateMid;
-//	private JPanel jp_updateMpass;
-//	private JPanel jp_updateMphone;
-//	private JPanel jp_updateMname;
-//	private JPanel jp_updateMkind;
-//	private JLabel jl_updateMid;
-//	private JLabel jl_updateMpass;
-//	private JLabel jl_updateMkind;
-//	private JLabel jl_updateMname;
-//	private JLabel jl_updateMphone;
-//	private JLabel jl_updateSearchName;
-//	private JTextField jt_updateMpass;
-//	private JTextField jt_updateMphone;
-//	private JTextField jt_updateMname;
-//	private JButton btnUpdate;
-//	private JTextField jt_updateMkind;
-//	private JButton btnUpdateReset;
-//	private JTextField jt_updateSearch;
+	
+	//수정
+	TextField tf_update;
+	int idx;
+	ArrayList<TextField> tf_update_list; //수정메뉴 선택 시 새로운 값을 가져오기 위해 선언만 해 놓음
+	String[] form_names = {"패스워드", "전화번호", "애견이름", "애견종류"};
+	JButton update_search;
+	JPanel update_bottom;
+	TextField tf_update_last;
 	
 	public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
 	
@@ -75,18 +69,22 @@ public class HospitalManager {
 		main_panel = new JPanel();
 	    button_panel = new JPanel();
 	    listPane = new JPanel();
-	    deletePane = new JPanel();
 	    updatePane = new JPanel();
+	    deletePane = new JPanel();
 	    
-	    button_panel = new JPanel(new GridLayout(2,1));
-	    button_panel.setSize(50,100);
+	    update_bottom = new JPanel(new BorderLayout());
+	    
+	    button_panel = new JPanel(new GridLayout(3,1));
+	    button_panel.setSize(40,100);
 	    
 	    //관리자 UI 버튼 정의
 	    btnList = new JButton("회원 리스트");
+	    btnUpdate = new JButton("회원정보 수정");
 		btnDelete = new JButton("회원정보 삭제");
-		btnList.setFont(font);  btnDelete.setFont(font);	
+		btnList.setFont(font);  btnUpdate.setFont(font);  btnDelete.setFont(font);	
 		
 		button_panel.add(btnList);
+		button_panel.add(btnUpdate);
 		button_panel.add(btnDelete);
 		
 		//메인 UI 창 위치 정의
@@ -98,6 +96,7 @@ public class HospitalManager {
 		
 		//관리자 UI 버튼 이벤트 정의
 		btnList.addActionListener(new JFrameObjectEvent(this));
+		btnUpdate.addActionListener(new JFrameObjectEvent(this));
 		btnDelete.addActionListener(new JFrameObjectEvent(this));
 		jf.addWindowListener(new JFrameObjectEvent(this));
 		
@@ -211,128 +210,149 @@ public class HospitalManager {
 		jf.setVisible(true);
 	}
 	
-	/**
-	public void updateMember() {
-		
-		jp_updateMid = new JPanel();
-		jp_updateMpass = new JPanel();
-		jp_updateMphone = new JPanel();
-		jp_updateMname = new JPanel();
-		jp_updateMkind = new JPanel();
-		
-		jl_updateMid = new JLabel("ID");
-		jl_updateMpass = new JLabel("패스워드");
-		jl_updateMphone = new JLabel("전화번호");
-		jl_updateMname = new JLabel("애견이름");
-		jl_updateMkind = new JLabel("애견종류");
-		
-		jl_updateSearchName = new JLabel("수정 ID >");	
-		jt_updateSearch = new JTextField(20);
-		
-		jt_updateMpass = new JTextField(20);
-		jt_updateMphone = new JTextField(20);
-		jt_updateMname = new JTextField(20);
-		jt_updateMkind = new JTextField(20);
-		
-		btnUpdate = new JButton("수정완료");
-		btnUpdateReset = new JButton("다시쓰기");
-		
-		jl_updateMpass.setFont(font);
-		jl_updateMphone.setFont(font);
-		jl_updateMname.setFont(font);
-		jl_updateMkind.setFont(font);
-		jl_updateSearchName.setFont(font);
-		btnUpdate.setFont(font);
-		btnUpdateReset.setFont(font);
-		
-		
-		jp_updateSearch.add(jl_updateSearchName);
-		jp_updateSearch.add(jt_updateSearch);
-		jp_updateName.add(jl_updateName);
-		jp_updateName.add(jt_updateName);
-		jp_updateAddr.add(jl_updateAddr);
-		jp_updateAddr.add(jt_updateAddr);
-		jp_updateButton.add(btnUpdate);
-		jp_updateButton.add(btnUpdateReset);
-		
-		updatePane.add(jp_updateSearch);
-		updatePane.add(jp_updateName);
-		updatePane.add(jp_updateAddr);
-		updatePane.add(jp_updateButton);
-		
-		main.add(updatePane, BorderLayout.CENTER);
-		main.setVisible(true);
-		
-		jt_updateSearch.addActionListener(new JFrameObjectEvent());
-		btnUpdate.addActionListener(new JFrameObjectEvent());
-		btnUpdateReset.addActionListener(new JFrameObjectEvent());
-		
-		
-	}//update method
-	
-	//updateProc
+	/** 수정 검색 처리 메소드 **/
+	public void updateSearchProc() {
+		String mid = tf_update.getText().trim();
+		if(mid.equals("")) {
+			//TextField에 데이터가 존재 X
+			JOptionPane.showMessageDialog(null, "아이디를 입력해주세요");
+			tf_update.requestFocus();
+		}else {
+			//TextField에 데이터가 존재 O
+			//검색 가능 --> sms 시스템에서 해당데이터 유/무 확인
+			idx = main.system.searchMid(mid);
+//			System.out.println("idx ==========>>" + idx);
+			if(idx != 0) {
+				//sms에 해당 학번의 학생정보 가져오기
+				UserVO vo = main.system.selectMemInfo(mid);
+				//학생정보 존재하는 경우 > 수정 가능
+				updateOKForm(vo);					
+			}else {
+				JOptionPane.showMessageDialog(null, "멤버 정보가 존재하지 않습니다");
+//				updateFailForm();
+			}
+//			JOptionPane.showMessageDialog(null, idx);
+		}
+	}
+	/** 수정 처리 메소드 **/
 	public void updateProc() {
-		String name = jt_updateSearch.getText().trim();
+		JOptionPane.showMessageDialog(null, "수정완료");
 		
-		MemberVO rvo = main.system.search(name);
-		
-		if(rvo != null) {
-			jt_updateName.setText(rvo.getName());
-			jt_updateAddr.setText(rvo.getAddr());
-		}else {
-			JOptionPane.showMessageDialog(null,
-					main.getMsg("수정할 데이터가 존재하지 않습니다."));
-		}		
-	}//updateProc
-	
-	//updateFormCheck
-	public boolean updateFormCheck() {
-		boolean result = false;
-		
-		if(jt_updateSearch.getText().equals("")) {
-			JOptionPane.showMessageDialog(null,
-					main.getMsg("수정명을 입력해주세요"));
-			jt_updateSearch.requestFocus();
-		}else if(jt_updateName.getText().equals("")) {
-			JOptionPane.showMessageDialog(null,
-					main.getMsg("이름을 입력해주세요"));
-			jt_updateName.requestFocus();
-		}else if(jt_updateAddr.getText().equals("")) {
-			JOptionPane.showMessageDialog(null,
-					main.getMsg("주소를 입력해주세요"));
-			jt_updateAddr.requestFocus();
-		}else {
-			result = true;
+		ArrayList<String> dataList = new ArrayList<String>();
+		for(TextField tf : tf_update_list) {
+			dataList.add(tf.getText().trim());
 		}
 		
-		return result;
-	}//updateFormCheck
-	
-	//updateResult
-	public void updateResult() {
-		MemberVO vo = new MemberVO();
-		vo.setUp_name(jt_updateSearch.getText().trim());
-		vo.setName(jt_updateName.getText().trim());
-		vo.setAddr(jt_updateAddr.getText().trim());
-		
-		boolean result = main.system.update(vo);
-		if(result) {
-			JOptionPane.showMessageDialog(null, "수정완료~");
+		UserVO vo = new UserVO();
+		vo.setMid(dataList.get(0));
+		vo.setMpass(dataList.get(1));
+		vo.setMphone(dataList.get(2));
+		vo.setMname(dataList.get(3));
+		vo.setMkind(dataList.get(4));
+
+		if(main.system.menUpdate(vo)) {
+			//수정완료
+			JOptionPane.showMessageDialog(null, "수정이 완료되었습니다.");
+			for(TextField tf : tf_update_list) {
+				tf.setText("");
+			}
+//			selectForm(); //조회화면 호출
+//			selectFormTable();
 		}else {
-			JOptionPane.showMessageDialog(null, "수정실패~");
+			//수정실패
+			JOptionPane.showMessageDialog(null, "수정 실패");
 		}
 		
-//		String name = jt_updateSearch.getText().trim();
-//		for(MemberVO vo : MemberMgmUI.list) {
-//			if(vo.getName().equals(name)) {
-//				vo.setName(jt_updateName.getText());
-//				vo.setAddr(jt_updateAddr.getText());
-//				JOptionPane.showMessageDialog(null,
-//						main.getMsg("수정이 완료되었습니다."));
-//			}
-//		}	
-	}//updateResult
-	**/
+	}
+	
+	/** 멤버 수정 화면 **/
+	public void updateForm() {
+		tf_update_list = new ArrayList<TextField>();
+		
+		//1. 학번 검색 폼 생성 및 검색버튼의 이벤트 추가
+		Panel update_top = new Panel(new BorderLayout());
+		Panel search_panel = new Panel();
+		String title = "-- 수정할 멤버의 아이디를 입력해주세요 --";
+		Label title_label = new Label(title);
+		Label label = new Label("아이디 >");
+		tf_update = new TextField(20);
+		update_search = new JButton("검색"); //Object의 주소로 ActionPerformed
+		
+		tf_update_list.add(tf_update); //수정을 진행할 학번
+		
+		search_panel.add(label);
+		search_panel.add(tf_update);
+		search_panel.add(update_search);
+		
+		update_top.add(BorderLayout.NORTH, title_label);
+		update_top.add(BorderLayout.CENTER, search_panel);
+		
+		updatePane.setLayout(new BorderLayout());
+		updatePane.add(BorderLayout.NORTH,update_top);		
+		jf.add(updatePane);		
+		jf.setVisible(true);
+		
+		tf_update.addActionListener(new JFrameObjectEvent());
+		update_search.addActionListener(new JFrameObjectEvent());
+	}
+	
+	/** 수정 데이터 등록 폼 : 패스워드, 전화번호, 애견이름, 애견종류 **/
+	public void updateOKForm(UserVO vo) {
+		update_bottom.removeAll();
+		
+		Panel label_panel = new Panel(new GridLayout(4,1));
+		Panel tf_panel = new Panel(new GridLayout(4,1));
+		Panel btn_panel = new Panel();
+		Button btn_update = new Button("수정완료");
+		Button btn_reset = new Button("수정취소");
+		btn_panel.add(btn_update);
+		btn_panel.add(btn_reset);
+		
+		String[] data_list = new String[4];
+		data_list[0] = vo.getMpass();
+		data_list[1] = vo.getMphone();
+		data_list[2] = vo.getMname();
+		data_list[3] = vo.getMkind();
+		
+		for(int i=0; i<form_names.length; i++) {
+			Panel p1 = new Panel();
+			Panel p2 = new Panel();
+			Label label = new Label(form_names[i]);
+			TextField tf = new TextField(20);
+			tf.setText(data_list[i]);
+			p1.add(label); 	p2.add(tf);
+			label_panel.add(p1);
+			tf_panel.add(p2);
+			
+			tf_update_list.add(tf);
+		}
+		
+		update_bottom.add(BorderLayout.NORTH, new Label());
+		update_bottom.add(BorderLayout.WEST, label_panel);
+		update_bottom.add(BorderLayout.CENTER, tf_panel);
+		update_bottom.add(BorderLayout.SOUTH, btn_panel);
+		
+		updatePane.add(BorderLayout.CENTER, update_bottom);
+		jf.add(updatePane);
+		jf.setVisible(true);
+		
+		btn_update.addActionListener(new JFrameObjectEvent());
+		btn_reset.addActionListener(new JFrameObjectEvent());
+		tf_update_last = tf_update_list.get(tf_update_list.size()-1);
+		tf_update_last.addActionListener(new JFrameObjectEvent());
+		
+	}
+	/** 수정실패 **/
+	public void updateFailForm() {
+		update_bottom.removeAll();
+		update_bottom.add(BorderLayout.NORTH, new Label());
+		update_bottom.add(BorderLayout.CENTER, new Label("-- 멤버 정보가 존재하지 않습니다 --"));
+		
+		updatePane.add(update_bottom, BorderLayout.CENTER);
+		jf.add(BorderLayout.CENTER, update_bottom);
+		jf.setVisible(true);
+	}
+
 	/** 삭제 화면 **/
 	public void deleteMember() {
 		//deletePane
@@ -387,7 +407,7 @@ public class HospitalManager {
 			listPane.setVisible(true);
 		}else if(menu.equals("회원정보 수정")) {		
 			updatePane.removeAll();
-//			updateMember();
+			updateForm();
 			updatePane.setVisible(true);
 		}else if(menu.equals("회원정보 삭제")) {		
 			deletePane.removeAll();
@@ -459,9 +479,14 @@ public class HospitalManager {
 			//액션 이벤트 처리
 			public void actionPerformed(ActionEvent e) {
 				String bname = e.getActionCommand();
+				Object obj = e.getSource();
+				
 				if(bname.equals("회원 리스트")) {	
 					//리스트 출력
 					main.switchPane("회원 리스트");
+				}else if(bname.equals("회원정보 수정")){
+					// 정보 수정 출력
+					main.switchPane("회원정보 수정");
 				}else if(bname.equals("회원정보 삭제")){
 					// 정보 삭제 출력
 					main.switchPane("회원정보 삭제");
@@ -471,6 +496,12 @@ public class HospitalManager {
 					tid.setText("");
 					tpass.setText("");
 					jf_login.setVisible(true);
+				}else if(obj == update_search || obj == tf_update) {
+					updateSearchProc();
+				}else if(bname.equals("수정완료") || obj == tf_update_last) {
+					updateProc();
+				}else if(bname.equals("수정취소")) {
+					JOptionPane.showMessageDialog(null, "수정취소");
 				}else if(bname.equals("종료")) {
 					System.out.println("--  종료 버튼이 클릭되었습니다. --");
 					System.exit(0);
