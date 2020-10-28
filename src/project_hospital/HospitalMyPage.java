@@ -155,6 +155,11 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JLabel label = new JLabel(name);
 				TextField tf = new TextField(30);
 				tf.setText(data_list[i]);
+				
+				if(i==0) {
+					tf.setEditable(false);
+				}
+				
 				p1.add(label); label_panel.add(p1);
 				p2.add(tf);	   tf_panel.add(p2);
 				
@@ -401,6 +406,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			Label lname = new Label("이름");
 			mname = new TextField(20);
 			mname.setText(data_list[0]);
+			mname.setEditable(false);
 			
 			Label ldate = new Label("예약날짜") ;
 			
@@ -487,6 +493,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			Label lname = new Label("이름");
 			mname = new TextField(20);
 			mname.setText(data_list[0]);
+			mname.setEditable(false);
 			
 			Label ldate = new Label("예약날짜") ;
 			
@@ -817,11 +824,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 					if(name.equals("수정하기")) {
 						JOptionPane.showMessageDialog(null, "수정완료");
 					}else if(name.equals("취소")) {
-						JOptionPane.showMessageDialog(null, "수정취소");
+						logincheck();
 					}else if(name.equals("예약내역")) {
 						introCheckList();
-//						checklisth();
-//						checklists();
 					}else if(name.equals("예약수정")) {
 						update();
 					}else if(name.equals("내정보수정")) {
@@ -832,7 +837,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 						String time = jc_visit_time.getSelectedItem().toString();
 						hupdateProc(time);
 					}else if(name.equals("수정취소")) {
-						JOptionPane.showMessageDialog(null,"수정취소");
+						update();
 					}else if(name.equals("로그인")) {
 						loginProc();
 					}else if(name.equals("정보 수정")) {
