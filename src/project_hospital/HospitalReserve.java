@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 public class HospitalReserve {
 
-	HospitalMgmUI main;
+	HospitalMgmUI HMui;
 	JFrame reserveOKf;
 	JPanel HospiResPane, la_HospiResPane;
 	JPanel title_panel, hno_panel, animal_panel, visitPurpose_panel, symptom_panel, 
@@ -40,15 +40,15 @@ public class HospitalReserve {
 //	String id;
 	
 	public HospitalReserve() {}
-	public HospitalReserve(HospitalMgmUI main) {
-		this.main = main;
-		this.HospiResPane = main.HospiResPane;
+	public HospitalReserve(HospitalMgmUI HMui) {
+		this.HMui = HMui;
+		this.HospiResPane = HMui.HospiResPane;
 	}
 	
 	
 	/** 병원 예약 **/
 	public void reserve() {
-		 main.switchPane(HospitalMgmUI.HOSPIRES);
+		 HMui.switchPane(HospitalMgmUI.HOSPIRES);
 		
 		 animal_panel = new JPanel();
 		 visitPurpose_panel = new JPanel();
@@ -67,8 +67,8 @@ public class HospitalReserve {
 		 la_visit_time = new JLabel("예약 시간");
 		 
 		 String[] animal_kinds = {"선택해주세요","강아지", "고양이","햄스터","토끼", "병아리","기타 등" };
-		 String[] visit_times = {"선택해주세요","09:00 ~ 10:00", "10:00 ~ 11:00","11:00 ~ 12:00","13:00 ~ 14:00", 
-				 "14:00 ~ 15:00","15:00 ~ 16:00","16:00 ~ 17:00", "17:00 ~ 18:00", "18:00 ~ 19:00"};
+		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","13:00", 
+				 					"14:00","15:00","16:00", "17:00", "18:00"};
 		 
 		 jc_animal = new JComboBox(animal_kinds);
 		 jch_visit_p1 = new JCheckBox("진료");
@@ -101,8 +101,8 @@ public class HospitalReserve {
 		HospiResPane.add(btnReserve_panel);
 		
 
-	    main.add(HospiResPane, BorderLayout.CENTER);
-		main.setVisible(true);
+		HMui.add(HospiResPane, BorderLayout.CENTER);
+		HMui.setVisible(true);
 	    
 	    Hospital_ReserveEvent reserveEvent = new Hospital_ReserveEvent();
 		btn_reserve.addActionListener(reserveEvent);
@@ -114,25 +114,25 @@ public class HospitalReserve {
 		boolean result = false;
 		
 		if(jc_animal.getSelectedItem().toString().equals("선택해주세요")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("동물을 선택해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("동물을 선택해주세요"));
 			jc_animal.requestFocus();
 		}else if(!jch_visit_p1.isSelected() && !jch_visit_p2.isSelected()) {   
-			JOptionPane.showMessageDialog(null, main.getMsg("방문 이유를 체크해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("방문 이유를 체크해주세요"));
 			jch_visit_p1.requestFocus();
 		}else if(jta_symptom.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("증상 or 접종명을 입력해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("증상 or 접종명을 입력해주세요"));
 			jta_symptom.requestFocus();
 		}else if(jt_visit_year.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 정확히 입력해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("예약 날짜를 정확히 입력해주세요"));
 			jt_visit_year.requestFocus();
 		}else if(jt_visit_month.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 정확히 입력해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("예약 날짜를 정확히 입력해주세요"));
 			jt_visit_month.requestFocus();
 		}else if(jt_visit_day.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("예약 날짜를 정확히 입력해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("예약 날짜를 정확히 입력해주세요"));
 			jt_visit_day.requestFocus();
 		}else if(jc_visit_time.getSelectedItem().toString().equals("선택해주세요")) {
-			JOptionPane.showMessageDialog(null, main.getMsg("예약 시간을 선택해주세요"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("예약 시간을 선택해주세요"));
 			jc_visit_time.requestFocus();
 		}
 		else {
@@ -154,21 +154,21 @@ public class HospitalReserve {
 		
 			vo.setHno("H_" + rd.nextInt(10000));	
 			vo.setHsymptom(jta_symptom.getText().trim());
-			vo.setHyear(jt_visit_year.getText().trim()+"년");
-			vo.setHmonth(jt_visit_month.getText().trim()+"월");
-			vo.setHday(jt_visit_day.getText().trim()+"일");
+			vo.setHyear(jt_visit_year.getText().trim());
+			vo.setHmonth(jt_visit_month.getText().trim());
+			vo.setHday(jt_visit_day.getText().trim());
 			vo.setHtime(String.valueOf(jc_visit_time.getSelectedItem()));
-			vo.setHmid(main.callId(vo.getMid()));
+			vo.setHmid(HMui.callId(vo.getMid()));
 			
 			//Hbooking 테이블에 등록
-			if(main.system.Hospital_reserve(vo)) {
-				JOptionPane.showMessageDialog(null, main.getMsg("등록 성공!!"));
+			if(HMui.system.Hospital_reserve(vo)) {
+				JOptionPane.showMessageDialog(null, HMui.getMsg("등록 성공!!"));
 				reserveOkForm(vo);
 			}else {
-				JOptionPane.showMessageDialog(null, main.getMsg("등록 실패!!"));
+				JOptionPane.showMessageDialog(null, HMui.getMsg("등록 실패!!"));
 			}
 //			if(HospitalMgmUI.list.add(vo))
-//				JOptionPane.showMessageDialog(null, main.getMsg("등록 성공!!"));
+//				JOptionPane.showMessageDialog(null, HMui.getMsg("등록 성공!!"));
 			
 		}
 	}
