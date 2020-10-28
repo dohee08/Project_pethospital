@@ -2,6 +2,7 @@ package project_hospital;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -31,7 +32,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		HospitalMgmUI main;
 		JPanel MyPagePane;
 		JPanel mypage_menu_panel;
-		JPanel jp_change,content_panel,menu_panel,check_panel,search_panel,update_panel,update_bottom
+		JPanel jp_change,content_panel,check_panel,search_panel,update_panel,update_bottom
 				,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel,intro_panel;
 		JTextField  jt_kind, jt_delete,tf_id;
 		TextField tf_update,tf_up_last,hyear,hmonth,hday,mkind,mname,syear,smonth,sday,stime;
@@ -82,7 +83,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			jp_change = new JPanel();
 			content_panel = new JPanel();
-			menu_panel = new JPanel(new GridLayout(3,1));
 			check_panel = new JPanel();
 			update_panel = new JPanel();
 			search_panel = new JPanel();
@@ -94,11 +94,31 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			login_panel = new JPanel(new BorderLayout());
 			all_panel = new JPanel(new BorderLayout());
 			
+			jp_change.setBackground(Color.white);
+			content_panel.setBackground(Color.white);
+			check_panel.setBackground(Color.white);
+			update_panel.setBackground(Color.white);
+			search_panel.setBackground(Color.white);
+			hselect_panel.setBackground(Color.white);
+			sselect_panel.setBackground(Color.white);
+			allselect_panel.setBackground(Color.white);
+			intro_panel.setBackground(Color.white);
+			update_panel.setBackground(Color.white);
+			login_panel.setBackground(Color.white);
+			all_panel.setBackground(Color.white);
+			MyPagePane.setBackground(Color.white);
 			
+			Color c1 = new Color(255,231,159);
+			Color c2 = new Color(238,217,154);
+			Color c3 = new Color(229,197,148);
 			
 			JButton view = new JButton("예약내역");
 			JButton update = new JButton("예약수정");
 			JButton change = new JButton("내정보수정");
+			
+			view.setBackground(c1);
+			update.setBackground(c2);
+			change.setBackground(c3);
 			
 //			menu_panel.add(view);
 //			menu_panel.add(update);
@@ -139,6 +159,11 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			btn_panel.add(mem_insert); btn_panel.add(mem_reset);
 			btn_panel.add(mem_delete);
 			
+			title_label.setHorizontalAlignment(JLabel.CENTER);
+			label_panel.setBackground(Color.white);
+			tf_panel.setBackground(Color.white);
+			btn_panel.setBackground(Color.white);
+			
 			String[] data_list = new String[5];
 			data_list[0]= vo.getMid();
 			data_list[1]= vo.getMpass();
@@ -155,6 +180,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JLabel label = new JLabel(name);
 				TextField tf = new TextField(30);
 				tf.setText(data_list[i]);
+				
+				p1.setBackground(Color.white);
+				p2.setBackground(Color.white);
 				
 				if(i==0) {
 					tf.setEditable(false);
@@ -248,6 +276,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			resetMenuPanel();
 			switchPanel(SELECT);
 			intro_panel.removeAll();
+			
+			
 			
 			Button h = new Button("병원예약확인");
 			Button s = new Button("미용예약확인");
@@ -349,10 +379,14 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			JPanel update_top = new JPanel(new BorderLayout());
 			JPanel search_panel = new JPanel();
 			String title = "수정할 예약번호를 입력해주세요";
-			Label title_label = new Label(title);
+			JLabel title_label = new JLabel(title);
 			Label label = new Label("예약번호");
 			tf_update = new TextField(20);
 			update_search = new Button("검색");
+			
+			title_label.setHorizontalAlignment(JLabel.CENTER);
+			update_top.setBackground(Color.white);
+			search_panel.setBackground(Color.white);
 			
 			tf_update_list.add(tf_update);
 			
@@ -389,6 +423,12 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			btn_panel.add(btn_hupdate);
 			btn_panel.add(btn_reset);
 			btn_panel.add(btn_hdelete);
+			
+			
+			update_bottom.setBackground(Color.white);
+			label_panel.setBackground(Color.white);
+			tf_panel.setBackground(Color.white);
+			btn_panel.setBackground(Color.white);
 			
 			jc_visit_time = new JComboBox(visit_times);
 			
@@ -428,7 +468,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			
 			Label ltime = new Label("예약시간");
-	
+			
+			
 			label_panel.add(new Label("병원예약입니다"));
 			label_panel.add(lname);	
 			label_panel.add(ldate);
@@ -476,6 +517,12 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			btn_panel.add(btn_supdate);
 			btn_panel.add(btn_reset);
 			btn_panel.add(btn_sdelete);
+			
+
+			update_bottom.setBackground(Color.white);
+			label_panel.setBackground(Color.white);
+			tf_panel.setBackground(Color.white);
+			btn_panel.setBackground(Color.white);
 			
 			jc_visit_time = new JComboBox(visit_times);
 			
@@ -760,6 +807,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			tf_id = new JTextField(9);
 			tf_pass = new JPasswordField(9);
 			Button btn_login = new Button("로그인");
+			
+			ldpa_panel.setBackground(Color.white);
 			
 			ldpa_panel.add(label_id);
 			ldpa_panel.add(tf_id);
