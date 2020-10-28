@@ -28,7 +28,6 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-
 		JPanel mainPane, menuPane;
 
 		JPanel  buttonPane,mypage_menu_panel;
@@ -41,9 +40,6 @@ public class HospitalMgmUI extends JFrame{
 		
 		String id;	//Login에서 가져온 id
 
-
-//		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
-//		JPanel SalonResPane = new JPanel();
 
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
