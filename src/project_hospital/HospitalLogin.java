@@ -1,5 +1,6 @@
 package project_hospital;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -39,14 +40,25 @@ public class HospitalLogin {
 			JPanel jp_pass = new JPanel();
 			JPanel jp_button = new JPanel();
 			
+			//색깔
+			jp_title.setBackground(Color.WHITE);
+			jp_id.setBackground(Color.WHITE);
+			jp_pass.setBackground(Color.WHITE);
+			jp_button.setBackground(Color.WHITE);
+			
 			JLabel title = new JLabel("로그인 폼");		
-			JLabel id = new JLabel("아이디   ");
-			JLabel pass = new JLabel("패스워드   ");
+			JLabel id = new JLabel("아이디");
+			JLabel pass = new JLabel("패스워드");
 			tid = new JTextField(15);
 			tpass = new JPasswordField(15);
 			JButton btnLogin = new JButton("로그인");
 			JButton btnReset = new JButton("취소");
 			JButton btnExit = new JButton("종료");
+			
+			//색깔
+			btnLogin.setBackground(HospitalMgmUI.c1);
+			btnReset.setBackground(HospitalMgmUI.c2);
+			btnExit.setBackground(HospitalMgmUI.c3);
 			
 			title.setFont(font);  id.setFont(font);   pass.setFont(font);
 			btnLogin.setFont(font);    btnReset.setFont(font);
@@ -133,6 +145,7 @@ public class HospitalLogin {
 //			String dpass = "1234";
 			String uid = tid.getText().trim();
 			String upass = tpass.getText().trim();
+			System.out.println("--" + uid);
 			
 			boolean result = main.system.memlogin(uid, upass);
 			

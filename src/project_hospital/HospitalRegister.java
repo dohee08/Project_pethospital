@@ -1,5 +1,6 @@
 package project_hospital;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -37,6 +38,15 @@ public class HospitalRegister {
 			JPanel jp_phone = new JPanel();
 			JPanel jp_kind = new JPanel();
 			JPanel jp_button = new JPanel();
+			
+			//색깔
+			jp_title.setBackground(Color.WHITE);
+			jp_id.setBackground(Color.WHITE);
+			jp_pass.setBackground(Color.WHITE);
+			jp_name.setBackground(Color.WHITE);
+			jp_phone.setBackground(Color.WHITE);
+			jp_kind.setBackground(Color.WHITE);
+			jp_button.setBackground(Color.WHITE);
 				
 			JLabel title = new JLabel("회원가입");		
 			JLabel id = new JLabel("아이디");
@@ -55,6 +65,11 @@ public class HospitalRegister {
 			JButton btnRegister = new JButton("회원가입");
 			JButton btnReset = new JButton("취소");
 			JButton btnExit = new JButton("종료");
+			
+			//색깔
+			btnRegister.setBackground(HospitalMgmUI.c1);
+			btnReset.setBackground(HospitalMgmUI.c2);
+			btnExit.setBackground(HospitalMgmUI.c3);
 			
 			title.setFont(font);  id.setFont(font);   pass.setFont(font);
 			name.setFont(font);   phone.setFont(font); kind.setFont(font);
@@ -78,6 +93,7 @@ public class HospitalRegister {
 			jf.add(jp_button);
 				
 			jf.setSize(400,500);	
+			jf.setBackground(Color.WHITE);
 				
 			Dimension fsize = jf.getSize();
 			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 

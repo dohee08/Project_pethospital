@@ -2,6 +2,7 @@ package project_hospital;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -77,11 +78,24 @@ public class HospitalManager {
 	    button_panel = new JPanel(new GridLayout(3,1));
 	    button_panel.setSize(40,100);
 	    
+	    //색깔
+	    main_panel.setBackground(Color.WHITE);
+	    button_panel.setBackground(Color.WHITE);
+	    listPane.setBackground(Color.WHITE);
+	    updatePane.setBackground(Color.WHITE);
+	    deletePane.setBackground(Color.WHITE);
+	    update_bottom.setBackground(Color.WHITE);
+	    button_panel.setBackground(Color.WHITE);
+	    
 	    //관리자 UI 버튼 정의
 	    btnList = new JButton("회원 리스트");
 	    btnUpdate = new JButton("회원정보 수정");
 		btnDelete = new JButton("회원정보 삭제");
-		btnList.setFont(font);  btnUpdate.setFont(font);  btnDelete.setFont(font);	
+		btnList.setFont(font);  btnUpdate.setFont(font);  btnDelete.setFont(font);
+		//색깔
+		btnList.setBackground(HospitalMgmUI.c1);
+		btnUpdate.setBackground(HospitalMgmUI.c2);
+		btnDelete.setBackground(HospitalMgmUI.c3);
 		
 		button_panel.add(btnList);
 		button_panel.add(btnUpdate);
@@ -121,9 +135,18 @@ public class HospitalManager {
 		JButton btnReset = new JButton("취소");
 		JButton btnExit = new JButton("종료");
 		
+		//폰트
 		title.setFont(font);  id.setFont(font);   pass.setFont(font);
 		btnLogin.setFont(font);    btnReset.setFont(font);
 		btnExit.setFont(font);
+		//색깔
+		jp_title.setBackground(Color.WHITE);
+		jp_id.setBackground(Color.WHITE);
+		jp_pass.setBackground(Color.WHITE);
+		jp_button.setBackground(Color.WHITE);
+		btnLogin.setBackground(HospitalMgmUI.c1);
+		btnReset.setBackground(HospitalMgmUI.c2);
+		btnExit.setBackground(HospitalMgmUI.c3);
 		
 		jp_title.add(title);
 		jp_id.add(id);     jp_id.add(tid);
@@ -137,6 +160,7 @@ public class HospitalManager {
 		jf_login.add(jp_button);
 		
 		jf_login.setSize(300,220);	
+		jf_login.setBackground(Color.WHITE);
 		
 		Dimension fsize = jf_login.getSize();
 		Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
@@ -159,6 +183,7 @@ public class HospitalManager {
 	public void showList() {
 		//listPane
 		JLabel jl_list = new JLabel("회원 리스트");
+		jl_list.setFont(font);
 		
 		//셀 가운데 정렬할 모델 생성 
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
@@ -171,6 +196,7 @@ public class HospitalManager {
 		Object[] columns = {"ID","패스워드","전화번호","애견이름","애견종류"};
 		DefaultTableModel model =new DefaultTableModel(columns,0);	
 		JTable table= new JTable(model);
+		table.setBackground(HospitalMgmUI.c1);
 		Object[] row =new Object[5];  //Jtable에 추가되는 하나의 row 추가될 객체
 
 		if(memlist.size() != 0) {
@@ -274,9 +300,11 @@ public class HospitalManager {
 		Panel search_panel = new Panel();
 		String title = "-- 수정할 멤버의 아이디를 입력해주세요 --";
 		Label title_label = new Label(title);
+		title_label.setFont(font);
 		Label label = new Label("아이디 >");
 		tf_update = new TextField(20);
 		update_search = new JButton("검색"); //Object의 주소로 ActionPerformed
+		update_search.setBackground(HospitalMgmUI.c2);
 		
 		tf_update_list.add(tf_update); //수정을 진행할 학번
 		
@@ -357,9 +385,11 @@ public class HospitalManager {
 	public void deleteMember() {
 		//deletePane
 		jp_deleteSearch = new JPanel();
+		jp_deleteSearch.setBackground(Color.WHITE);
 		jl_deleteSearchName = new JLabel("삭제 ID >");
 		jt_deleteSearch = new JTextField(20);
 		jb_deleteButton = new JButton("확인");
+		jb_deleteButton.setBackground(HospitalMgmUI.c3);
 		jl_deleteSearchName.setFont(main.getFont());
 		
 		jp_deleteSearch.add(jl_deleteSearchName);
