@@ -35,7 +35,9 @@ public class HospitalDAO extends DBConn {
 		
 		return result;
 	}
-	
+	/*
+	 * 미용미용 시간비교
+	 */
 	/* 
 	 * 병원 예약 등록 
 	 */

@@ -9,6 +9,7 @@ import java.awt.event.*;
 
 public class HospitalHairCut extends JFrame {
 	HospitalMgmUI main;
+	HospitalReserve hr = new HospitalReserve();
 	HospitalMgmSystem system = new HospitalMgmSystem();
 	
 	JPanel SalonResPane;
@@ -17,14 +18,19 @@ public class HospitalHairCut extends JFrame {
 	JRadioButton rb_man, rb_woman; // 남, 여
 	JTextArea ta_text; // 더하고싶은말
 	JButton btn_reserve, btn_reset; // 예약, 취소버튼
+	String mid;
 	
+	
+	//생성자
 	public HospitalHairCut() {}
 	public HospitalHairCut(HospitalMgmUI main) { // 가입용 생성자
 		this.main = main; 
 		this.SalonResPane = main.SalonResPane;
-		
-	}// 생성자
-
+		this.mid = main.id;
+	}
+	
+	
+	
 	public void hairCut() {
 		main.switchPane(HospitalMgmUI.SALONRES);
 		JPanel gender_pane = new JPanel();
@@ -83,7 +89,6 @@ public class HospitalHairCut extends JFrame {
 		SalonResPane.add(gender_pane);
 		SalonResPane.add(text_pane);
 		SalonResPane.add(jp_Button);
-	
 		
 		HospitalHairEvent hairEvent = new HospitalHairEvent();
 		btn_reserve.addActionListener(hairEvent);
@@ -96,6 +101,7 @@ public class HospitalHairCut extends JFrame {
 	}// createUI
 
 	public boolean regFormCheck() {
+		UserVO vo = new UserVO();
 		boolean result = false;
 		String date1 = tf_year.getText();
 		String date2 = tf_month.getText();
@@ -112,9 +118,13 @@ public class HospitalHairCut extends JFrame {
 			if(!integerOrNot(date1) || !integerOrNot(date2) || !integerOrNot(date3)){
 				JOptionPane.showMessageDialog(null, "날짜는 문자를 입력할 수 없습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 			}
+//			else if((boolean)cb_time.getSelectedItem().equals(vo.getHtime())) {
+//				JOptionPane.showMessageDialog(null, "병원 예약 시간과 겹칩니다", "알림", JOptionPane.INFORMATION_MESSAGE);
+//			}
+			else {
 			result = true;
+			}
 		}
-
 		return result;
 	}// regFormCheck method
 	
@@ -135,7 +145,6 @@ public class HospitalHairCut extends JFrame {
 	public void registerProc() {
 		// MemberVO 객체를 생성하여 등록
 		UserVO vo = new UserVO();
-		
 		String time = (String)cb_time.getSelectedItem();
 		String gender = "";
 		if(rb_man.isSelected()){
@@ -143,7 +152,7 @@ public class HospitalHairCut extends JFrame {
 		}else if(rb_woman.isSelected()){
 			gender = "암컷";
 		}
-	
+		
 		Random rd = new Random();
 		vo.setSno("S_"+ rd.nextInt(10000));		
 		vo.setSyear(tf_year.getText().trim());
@@ -152,7 +161,7 @@ public class HospitalHairCut extends JFrame {
 		vo.setStime(time);
 		vo.setSgender(gender);
 		vo.setStext(ta_text.getText().trim());
-		vo.setMid(null);
+		vo.setSmid(null);
 		
 
 		// MEMBER 테이블에 등록

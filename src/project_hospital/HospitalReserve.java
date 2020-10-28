@@ -33,7 +33,7 @@ public class HospitalReserve {
 	JCheckBox jch_visit_p1, jch_visit_p2;
 	JTextArea jta_symptom;
 	JTextField jt_visit_year, jt_visit_month, jt_visit_day;
-	Button btn_reserve;					
+	Button btn_reserve;	
 	
 	public HospitalReserve() {}
 	public HospitalReserve(HospitalMgmUI main) {
@@ -107,7 +107,6 @@ public class HospitalReserve {
 	/** 병원 예약 폼 체크 **/
 	public boolean resFormCheck() {
 		boolean result = false;
-		
 		if(jc_animal.getSelectedItem().toString().equals("선택해주세요")) {
 			JOptionPane.showMessageDialog(null, main.getMsg("동물을 선택해주세요"));
 			jc_animal.requestFocus();
@@ -131,12 +130,12 @@ public class HospitalReserve {
 			jc_visit_time.requestFocus();
 		}
 		else {
-			result = true;
+				return result = true;
 		}
-		
 		return result;
 	}//regFormCheck
 	
+
 	
 	/** 병원 예약proc **/
 	public void reserveProc() {
