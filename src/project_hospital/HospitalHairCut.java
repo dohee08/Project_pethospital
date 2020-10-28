@@ -161,7 +161,7 @@ public class HospitalHairCut extends JFrame {
 		vo.setStime(time);
 		vo.setSgender(gender);
 		vo.setStext(ta_text.getText().trim());
-		vo.setSmid(null);
+		vo.setSmid(mid);
 		
 
 		// MEMBER 테이블에 등록
