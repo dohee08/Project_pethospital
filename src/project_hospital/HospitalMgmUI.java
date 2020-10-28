@@ -1,6 +1,7 @@
 package project_hospital;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -28,7 +29,6 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		
 		JPanel showPane, showButtonPane;
-
 		JPanel mainPane, menuPane;
 
 		JPanel  buttonPane,mypage_menu_panel;
@@ -42,12 +42,8 @@ public class HospitalMgmUI extends JFrame{
 		String id;	//Login에서 가져온 id
 
 
-//		JPanel HospiResPane = new JPanel(new GridLayout(7,1));
-//		JPanel SalonResPane = new JPanel();
-
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
-
 		JPanel MyPagePane = new JPanel();
 		
 		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -75,7 +71,7 @@ public class HospitalMgmUI extends JFrame{
 			btnJoin = new JButton("회원가입");
 			
 			jl_title = new JLabel("\n== 애견병원 시스템에 오신것을 환영합니다 ==");
-			jl_img = new JLabel(new ImageIcon("images/main.png"));
+			jl_img = new JLabel(new ImageIcon("images/pet.jpg"));
 			jl_title.setFont(new Font("맑은 고딕",Font.BOLD,16));
 			btnLogin.setFont(font);
 			btnJoin.setFont(font);
@@ -87,11 +83,24 @@ public class HospitalMgmUI extends JFrame{
 			showButtonPane.add(btnManager);
 			showButtonPane.add(btnJoin);
 			
+			showPane.setBackground(Color.WHITE);
+			showButtonPane.setBackground(Color.WHITE);
+			
 			add(showPane, BorderLayout.CENTER);
 			add(showButtonPane, BorderLayout.SOUTH);
 			
 			setSize(600,500);
 			setVisible(true);
+			
+			Color c1 = new Color(255,231,159);
+			Color c2 = new Color(238,217,154);
+			Color c3 = new Color(229,197,148);
+			
+			btnLogin.setBackground(c1);
+			btnManager.setBackground(c2);
+			btnJoin.setBackground(c3);
+			
+			
 			
 			btnLogin.addActionListener(new HospitalMgmUIEvent(this));
 			btnManager.addActionListener(new HospitalMgmUIEvent(this));
