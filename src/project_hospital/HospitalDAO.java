@@ -378,8 +378,9 @@ public class HospitalDAO extends DBConn {
 		public UserVO mselect(String mid) {
 			UserVO vo = new UserVO();
 			try {
-				String sql = "select mid,mpass,mphone,mname,mkind from member";
+				String sql = "select mid,mpass,mphone,mname,mkind from member where mid = ?";
 				getPreparedStatement(sql);
+				pstmt.setString(1, mid);
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {
@@ -387,11 +388,9 @@ public class HospitalDAO extends DBConn {
 					vo.setMpass(rs.getString(2));
 					vo.setMphone(rs.getString(3));
 					vo.setMname(rs.getString(4));
-					vo.setMkind(rs.getString(5));
-					
-					
-					
+					vo.setMkind(rs.getString(5));	
 				}
+				
 				
 			} catch (Exception e) {
 				e.printStackTrace();

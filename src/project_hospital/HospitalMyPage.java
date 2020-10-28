@@ -124,8 +124,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		//Method
 		/** 내정보 수정 창 */
 		public void change(UserVO vo) {
-		//	resetMenuPanel();
-		//	switchPanel(CHANGE);
 			jp_change.removeAll();
 			tf_change_list = new ArrayList<TextField>();
 			
@@ -138,7 +136,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			JPanel btn_panel = new JPanel();
 			Button mem_insert = new Button("정보 수정");
 			Button mem_reset = new Button("취소");
+			Button mem_delete = new Button("내정보 삭제");
 			btn_panel.add(mem_insert); btn_panel.add(mem_reset);
+			btn_panel.add(mem_delete);
 			
 			String[] data_list = new String[5];
 			data_list[0]= vo.getMid();
@@ -176,6 +176,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			mem_insert.addActionListener(this);
 			mem_reset.addActionListener(this);
+			mem_delete.addActionListener(this);
 			
 		}
 		
@@ -212,6 +213,22 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "수정실패");
 			}
 		} //수정처리
+		
+		
+		/**
+		 * 내정보 삭제
+		 */
+		public void memberDelete() {
+			String mid = main.id;
+			
+			if(hms.delete(mid)) {
+				JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
+				logincheck();
+			}else {
+				JOptionPane.showMessageDialog(null, "삭제 실패");
+			}
+		}
+		
 		
 		/** 예약정보 초기창 
 		 * */
@@ -762,7 +779,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				 boolean result = hms.login(id, pass);
 				
 				if(result) {
-					UserVO vo = hms.selectMember(id);
+					UserVO vo = hms.selectMember(main.id);
 					JOptionPane.showMessageDialog(null, "로그인 성공!");
 					login_panel.setVisible(false);
 					jp_change.setVisible(true);
@@ -829,5 +846,12 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				 }else if(name.equals("미용예약확인")) {
 					 checklists();
 				 }
+				 else if(name.equals("내정보 삭제")) {
+					 String msg = "정말로 삭제하시겠습니까?";
+						int result = JOptionPane.showConfirmDialog(null,msg);
+						if(result == 0)  {
+							memberDelete();
+					}
+				 }		
 				}//end
 }//class
