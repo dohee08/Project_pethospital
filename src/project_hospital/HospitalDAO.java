@@ -568,4 +568,73 @@ public class HospitalDAO extends DBConn {
 		
 		return result;
 	}
+	
+	/** 매니저 - 수정 멤버 id검색 **/
+	public int searchMid(String mid) {
+		int result = 0;
+		
+		try {
+			String sql = "select count(*) from member where mid=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/** 매니저 - 수정 멤버 정보 출력 **/
+	public UserVO selectMemInfo(String mid) {
+		UserVO vo = new UserVO();
+		
+		try {
+			String sql = "select mpass, mphone, mname, mkind from member where mid=?";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo.setMpass(rs.getString(1));
+				vo.setMphone(rs.getString(2));
+				vo.setMname(rs.getString(3));
+				vo.setMkind(rs.getString(4));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
+	
+	/** 매니저 - 멤버 수정 완료 **/
+	public boolean menUpdate(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = "update member set mpass=?, mphone=?, mname=?, mkind=?"
+						+ "where mid=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getMpass());
+			pstmt.setString(2, vo.getMphone());
+			pstmt.setString(3, vo.getMname());
+			pstmt.setString(4, vo.getMkind());
+			pstmt.setString(5, vo.getMid());
+			
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }
