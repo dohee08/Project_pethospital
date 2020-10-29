@@ -551,7 +551,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> text = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select rownum rno, pname, ptext, pdate from post";
+			String sql ="select rownum rno, pno, pname, ptitle, pdate from post";
 			
 			getPreparedStatement(sql);
 			rs=pstmt.executeQuery(sql);
@@ -561,9 +561,10 @@ public class HospitalDAO extends DBConn {
 				UserVO vo = new UserVO();
 		
 				vo.setRno(rs.getString(1));
-				vo.setPname(rs.getString(2));
-				vo.setPtext(rs.getString(3));
-				vo.setPdate(rs.getString(4));
+				vo.setPno(rs.getString(2));
+				vo.setPname(rs.getString(3));
+				vo.setPtitle(rs.getString(4));
+				vo.setPdate(rs.getString(5));
 			
 				
 				text.add(vo);
