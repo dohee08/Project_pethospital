@@ -193,22 +193,23 @@ public class HospitalManager {
 		ArrayList<UserVO>memlist = main.system.memberSelectList();
 
 		//JTable
-		Object[] columns = {"ID","패스워드","전화번호","애견이름","애견종류"};
+		Object[] columns = {" ","ID","패스워드","전화번호","애견이름","애견종류"};
 		DefaultTableModel model =new DefaultTableModel(columns,0);	
 		JTable table= new JTable(model);
 		table.setBackground(HospitalMgmUI.c1);
-		Object[] row =new Object[5];  //Jtable에 추가되는 하나의 row 추가될 객체
+		Object[] row =new Object[6];  //Jtable에 추가되는 하나의 row 추가될 객체
 
 		if(memlist.size() != 0) {
 			model.setNumRows(0);
 			
 			for(UserVO vo : memlist) {
 				if(vo != null) {
-					row[0] = vo.getMid();
-					row[1] = vo.getMpass();
-					row[2] = vo.getMphone();
-					row[3] = vo.getMname();
-					row[4] = vo.getMkind();
+					row[0] = vo.getMno();
+					row[1] = vo.getMid();
+					row[2] = vo.getMpass();
+					row[3] = vo.getMphone();
+					row[4] = vo.getMname();
+					row[5] = vo.getMkind();
 				
 					model.addRow(row);
 				}
@@ -220,6 +221,7 @@ public class HospitalManager {
 		model.setColumnIdentifiers(columns);
 		table.setModel(model);
 		
+		table.getColumn(" ").setCellRenderer(dtcr);
 	    table.getColumn("ID").setCellRenderer(dtcr);
 	    table.getColumn("패스워드").setCellRenderer(dtcr);
 	    table.getColumn("전화번호").setCellRenderer(dtcr);
@@ -247,7 +249,6 @@ public class HospitalManager {
 			//TextField에 데이터가 존재 O
 			//검색 가능 --> sms 시스템에서 해당데이터 유/무 확인
 			idx = main.system.searchMid(mid);
-//			System.out.println("idx ==========>>" + idx);
 			if(idx != 0) {
 				//sms에 해당 학번의 학생정보 가져오기
 				UserVO vo = main.system.selectMemInfo(mid);
@@ -255,9 +256,7 @@ public class HospitalManager {
 				updateOKForm(vo);					
 			}else {
 				JOptionPane.showMessageDialog(null, "멤버 정보가 존재하지 않습니다");
-//				updateFailForm();
 			}
-//			JOptionPane.showMessageDialog(null, idx);
 		}
 	}
 	/** 수정 처리 메소드 **/
@@ -282,8 +281,8 @@ public class HospitalManager {
 			for(TextField tf : tf_update_list) {
 				tf.setText("");
 			}
+			showList();
 //			selectForm(); //조회화면 호출
-//			selectFormTable();
 		}else {
 			//수정실패
 			JOptionPane.showMessageDialog(null, "수정 실패");
@@ -298,10 +297,8 @@ public class HospitalManager {
 		//1. 학번 검색 폼 생성 및 검색버튼의 이벤트 추가
 		Panel update_top = new Panel(new BorderLayout());
 		Panel search_panel = new Panel();
-		String title = "-- 수정할 멤버의 아이디를 입력해주세요 --";
-		Label title_label = new Label(title);
-		title_label.setFont(font);
-		Label label = new Label("아이디 >");
+		
+		Label label = new Label("수정할 멤버 ID>");
 		tf_update = new TextField(20);
 		update_search = new JButton("검색"); //Object의 주소로 ActionPerformed
 		update_search.setBackground(HospitalMgmUI.c2);
@@ -312,7 +309,6 @@ public class HospitalManager {
 		search_panel.add(tf_update);
 		search_panel.add(update_search);
 		
-		update_top.add(BorderLayout.NORTH, title_label);
 		update_top.add(BorderLayout.CENTER, search_panel);
 		
 		updatePane.setLayout(new BorderLayout());
@@ -386,7 +382,7 @@ public class HospitalManager {
 		//deletePane
 		jp_deleteSearch = new JPanel();
 		jp_deleteSearch.setBackground(Color.WHITE);
-		jl_deleteSearchName = new JLabel("삭제 ID >");
+		jl_deleteSearchName = new JLabel("삭제할 멤버 ID >");
 		jt_deleteSearch = new JTextField(20);
 		jb_deleteButton = new JButton("확인");
 		jb_deleteButton.setBackground(HospitalMgmUI.c3);
