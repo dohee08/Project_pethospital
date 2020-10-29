@@ -704,7 +704,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "취소실패");
 			}
 			
-		}
+		} //병원예약 삭제
+	
 		
 		
 		/** 예약정보가 없을때 */
