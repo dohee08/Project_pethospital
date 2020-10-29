@@ -24,6 +24,12 @@ public class HospitalMgmSystem {
 			return dao.Hospital_reserve(vo);
 		}
 		
+		/** 병원 예약 시간 중복 체크 **/ 
+		public int reserveTimeCheck(UserVO vo) {
+			return dao.hcheck(vo);
+		}
+		
+		
 		/** 병원전체 리스트 출력 */
 		public ArrayList<UserVO> hselectList(String id){
 			return dao.hselectall(id);
