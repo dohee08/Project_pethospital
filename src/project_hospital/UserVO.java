@@ -3,14 +3,40 @@ package project_hospital;
 public class UserVO {
 	String sid, spass; // Manager
 	String mno,mid,mpass,mphone,mname,mkind;
+	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
+	String sno,syear,smonth,sday,stime,sgender,stext,smid;
+	String pno,pid,post,pdate;
+	
+	public String getPno() {
+		return pno;
+	}
+	public void setPno(String pno) {
+		this.pno = pno;
+	}
+	public String getPid() {
+		return pid;
+	}
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+	public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
+	public String getPdate() {
+		return pdate;
+	}
+	public void setPdate(String pdate) {
+		this.pdate = pdate;
+	}
 	public String getMno() {
 		return mno;
 	}
 	public void setMno(String mno) {
 		this.mno = mno;
 	}
-	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
-	String sno,syear,smonth,sday,stime,sgender,stext,smid;
 	
 	public String getSid() {
 		return sid;

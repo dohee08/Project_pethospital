@@ -86,7 +86,7 @@ public class HospitalReserve {
 		 
 		 	 
 		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","13:00", 
-				 "14:00","15:00","16:00", "17:00", "18:00"};
+				 					"14:00","15:00","16:00", "17:00", "18:00"};
 		 
 		 
 
@@ -209,6 +209,9 @@ public class HospitalReserve {
 				}
 			}else {
 				JOptionPane.showMessageDialog(null, HMui.getMsg("해당 예약시간을 선택할 수 없습니다. 다른 시간을 선택해주세요"));
+				if(HMui.system.reserveTimeCheck(vo) != 0) {
+					JOptionPane.showMessageDialog(null, HMui.getMsg("예약 가능 시간 : " ));
+				}
 			}
 //			if(HospitalMgmUI.list.add(vo))
 //				JOptionPane.showMessageDialog(null, HMui.getMsg("등록 성공!!"));
