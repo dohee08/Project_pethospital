@@ -1,22 +1,18 @@
 package project_hospital;
 
-import java.awt.*; 
-import java.sql.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 
-public class HospitalHairCut extends JFrame {
+public class HospitalHairCut extends JFrame{
 	HospitalMgmUI main;
 	HospitalMgmSystem system = new HospitalMgmSystem();
-	
 	JPanel SalonResPane;
 	JTextField tf_year, tf_month, tf_day; //날짜
 	JComboBox<String> cb_time; //시간
 	JRadioButton rb_man, rb_woman; // 남, 여
 	JTextArea ta_text; // 더하고싶은말
-	JButton btn_reserve, btn_reset; // 예약, 취소버튼
+	JButton btn_reserve, btn_reset,btn_timecheck; // 예약, 취소버튼
 	String mid;
 	
 	//생성자
@@ -49,9 +45,9 @@ public class HospitalHairCut extends JFrame {
 		date_pane.add(jp_date);
 		
 		JLabel lb_time = new JLabel("시간 :");
-		String[] arrtime = { "선택", "10:00 ~ 11:00", "11:00 ~ 12:00", "12:00 ~ 13:00"
-				, "13:00 ~ 14:00", "14:00 ~ 15:00", "15:00 ~ 16:00", "16:00 ~ 17:00", "17:00 ~ 18:00"};
-		cb_time = new JComboBox<String>(arrtime);
+//		String[] arrtime = { "선택", "10:00 ~ 11:00", "11:00 ~ 12:00", "12:00 ~ 13:00"
+//				, "13:00 ~ 14:00", "14:00 ~ 15:00", "15:00 ~ 16:00", "16:00 ~ 17:00", "17:00 ~ 18:00"};
+		cb_time = new JComboBox<String>();
 		JPanel jp_time = new JPanel();
 		jp_time.add(cb_time);
 		time_pane.add(lb_time);
@@ -75,6 +71,8 @@ public class HospitalHairCut extends JFrame {
 		text_pane.add(lb_text);
 		text_pane.add(pane);
 
+		btn_timecheck = new JButton("시간 조회");
+		date_pane.add(btn_timecheck);
 		btn_reserve = new JButton("예약");
 		btn_reset = new JButton("취소");
 		jp_Button.add(btn_reserve);
@@ -86,10 +84,10 @@ public class HospitalHairCut extends JFrame {
 		SalonResPane.add(text_pane);
 		SalonResPane.add(jp_Button);
 	
-		System.out.println(mid);
 		HospitalHairEvent hairEvent = new HospitalHairEvent();
 		btn_reserve.addActionListener(hairEvent);
 		btn_reset.addActionListener(hairEvent);
+		btn_timecheck.addActionListener(hairEvent);
 
 		
 		main.add(SalonResPane);
@@ -116,9 +114,21 @@ public class HospitalHairCut extends JFrame {
 			}
 			result = true;
 		}
-
 		return result;
 	}// regFormCheck method
+	public void timeCheck() {
+		cb_time.removeAllItems();
+		String y = tf_year.getText().trim();
+		String m = tf_month.getText().trim();
+		String d = tf_day.getText().trim();
+		ArrayList<String> tlist = system.timeCheckList(y, m, d);
+		cb_time.addItem("선택");
+		for(String item : tlist) {
+			cb_time.addItem(item);
+		}
+		
+		
+	}
 	
 	public boolean integerOrNot(String strData){ // 입력값이 숫자인지 문자인지 판별 : 
 		char[] charData = strData.toCharArray();
@@ -178,10 +188,13 @@ public class HospitalHairCut extends JFrame {
 
 		public void actionPerformed(ActionEvent ae) {
 			Object obj = ae.getSource();
-			if (btn_reserve == obj) {
+			if(btn_timecheck == obj) {
+				timeCheck();
+			}
+			else if (btn_reserve == obj) {
 				if (regFormCheck())
 					registerProc();
-			} else if (btn_reset == obj) {
+			}else if (btn_reset == obj) {
 				ta_text.setText("");
 				tf_year.setText("");
 				tf_month.setText("");

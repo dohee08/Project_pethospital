@@ -103,7 +103,34 @@ public class HospitalDAO extends DBConn {
 		
 		 return list;
 	}//select
-	
+	/*
+	 * 미용 타임 체크
+	 */
+	public ArrayList<String> timeck(String y,String m,String d){
+		ArrayList<String> tlist = new ArrayList<String>();
+		try {
+			String sql ="SELECT * FROM TIMECHECK" + 
+					" WHERE TIME NOT IN (SELECT STIME FROM SALONRES " + 
+					" WHERE SYEAR = ? AND SMONTH = ? AND SDAY = ?)" + 
+					" ORDER BY TIME";
+			
+			//System.out.println("1111");
+			getPreparedStatement(sql);
+			//System.out.println("2222");
+			pstmt.setString(1, y);
+			pstmt.setString(2, m);
+			pstmt.setString(3, d);
+			rs=pstmt.executeQuery();
+			//System.out.println("3333");
+			while(rs.next()) {
+				tlist.add(rs.getString(1));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return tlist;
+	}
 	/** 전체조회 미용편 
 	 *
 	 */

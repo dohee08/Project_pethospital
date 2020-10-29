@@ -18,7 +18,12 @@ public class HospitalMgmSystem {
 		public boolean hairCut(UserVO vo) {
 			return dao.insert(vo);
 		}
-		
+		/*
+		 * 타임체크
+		 */
+		public ArrayList<String> timeCheckList(String y,String m,String d){
+			return dao.timeck(y,m,d);
+		}
 		/** 병원 예약 등록 **/
 		public boolean Hospital_reserve(UserVO vo) {
 			return dao.Hospital_reserve(vo);
