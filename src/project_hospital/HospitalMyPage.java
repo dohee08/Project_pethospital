@@ -488,6 +488,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_panel.add(BorderLayout.CENTER, update_bottom);
 			content_panel.add(update_panel);
 			content_panel.setVisible(true);
+			main.setVisible(true);
 			MyPagePane.add(content_panel);
 			
 			jc_visit_time.addActionListener(this);
