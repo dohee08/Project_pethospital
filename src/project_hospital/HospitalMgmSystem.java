@@ -19,10 +19,10 @@ public class HospitalMgmSystem {
 			return dao.insert(vo);
 		}
 		/*
-		 * 타임체크
+		 * 미용 예약 시간 중복 체크
 		 */
-		public ArrayList<String> timeCheckList(String y,String m,String d){
-			return dao.timeck(y,m,d);
+		public int salonTimeCheck(UserVO vo){
+			return dao.scheck(vo);
 		}
 		/** 병원 예약 등록 **/
 		public boolean Hospital_reserve(UserVO vo) {

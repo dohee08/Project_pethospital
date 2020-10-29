@@ -1,24 +1,30 @@
 package project_hospital;
-
-import java.util.*;
+import java.util.*; 
 import javax.swing.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.*;
 
-public class HospitalHairCut extends JFrame{
+public class HospitalHairCut extends JFrame {
 	HospitalMgmUI main;
-	HospitalMgmSystem system = new HospitalMgmSystem();
+	
 	JPanel SalonResPane;
-	JTextField tf_year, tf_month, tf_day; //날짜
-	JComboBox<String> cb_time; //시간
+	JTextField tf_year, tf_month, tf_day; // 날짜
+	JComboBox<String> cb_time; // 시간
 	JRadioButton rb_man, rb_woman; // 남, 여
 	JTextArea ta_text; // 더하고싶은말
-	JButton btn_reserve, btn_reset,btn_timecheck; // 예약, 취소버튼
+	JButton btn_reserve, btn_reset; // 예약, 취소버튼
 	String mid;
-	
-	//생성자
-	public HospitalHairCut() {}
+	public static Font font = new Font("나눔스퀘어_ac", Font.BOLD, 12);
+	public static Font font1 = new Font("나눔스퀘어_ac", Font.BOLD, 16);
+	// 생성자
+	public HospitalHairCut() {
+	}
+
 	public HospitalHairCut(HospitalMgmUI main) { // 가입용 생성자
-		this.main = main; 
+		this.main = main;
 		this.SalonResPane = main.SalonResPane;
 		this.mid = main.id;
 	}
@@ -30,25 +36,34 @@ public class HospitalHairCut extends JFrame{
 		JPanel jp_Button = new JPanel();
 		JPanel date_pane = new JPanel();
 		JPanel time_pane = new JPanel();
+		JPanel intro_pane = new JPanel();
+		JLabel lb_intro = new JLabel("==================     미용 예약        ==================");
+		lb_intro.setHorizontalAlignment(JLabel.CENTER);
+		lb_intro.setFont(font1);
+		intro_pane.add(lb_intro);
 		
-		JLabel lb_date= new JLabel("날짜 : ");
+		JLabel lb_date = new JLabel("예약 날짜 : ");
+		lb_date.setFont(font);
 		tf_year = new JTextField(6);
 		tf_month = new JTextField(6);
 		tf_day = new JTextField(6);
 		JPanel jp_date = new JPanel();
+		jp_date.setBackground(Color.white);
 		jp_date.add(tf_year);
-		jp_date.add(new JLabel("/"));
+		jp_date.add(new JLabel("년"));
 		jp_date.add(tf_month);
-		jp_date.add(new JLabel("/"));
+		jp_date.add(new JLabel("월"));
 		jp_date.add(tf_day);
+		jp_date.add(new JLabel("일"));
 		date_pane.add(lb_date);
 		date_pane.add(jp_date);
-		
-		JLabel lb_time = new JLabel("시간 :");
-//		String[] arrtime = { "선택", "10:00 ~ 11:00", "11:00 ~ 12:00", "12:00 ~ 13:00"
-//				, "13:00 ~ 14:00", "14:00 ~ 15:00", "15:00 ~ 16:00", "16:00 ~ 17:00", "17:00 ~ 18:00"};
-		cb_time = new JComboBox<String>();
+		JLabel lb_time = new JLabel("예약 시간 :");
+		String[] arrtime = { "선택해주세요", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00",
+				"18:00" };
+		cb_time = new JComboBox<String>(arrtime);
 		JPanel jp_time = new JPanel();
+		cb_time.setBackground(Color.white);
+		jp_time.setBackground(Color.white);
 		jp_time.add(cb_time);
 		time_pane.add(lb_time);
 		time_pane.add(jp_time);
@@ -58,6 +73,9 @@ public class HospitalHairCut extends JFrame{
 		rb_man = new JRadioButton("수컷", true);
 		rb_woman = new JRadioButton("암컷", true);
 		ButtonGroup group = new ButtonGroup();
+		pGender.setBackground(Color.white);
+		rb_man.setBackground(Color.white);
+		rb_woman.setBackground(Color.white);
 		group.add(rb_man);
 		group.add(rb_woman);
 		pGender.add(rb_man);
@@ -66,30 +84,35 @@ public class HospitalHairCut extends JFrame{
 		gender_pane.add(pGender);
 
 		JLabel lb_text = new JLabel("기타 사항:");
-		ta_text = new JTextArea(3,20); // 행 : 열
+		ta_text = new JTextArea(3, 20); // 행 : 열
 		JScrollPane pane = new JScrollPane(ta_text);
 		text_pane.add(lb_text);
 		text_pane.add(pane);
 
-		btn_timecheck = new JButton("시간 조회");
-		date_pane.add(btn_timecheck);
 		btn_reserve = new JButton("예약");
 		btn_reset = new JButton("취소");
 		jp_Button.add(btn_reserve);
 		jp_Button.add(btn_reset);
+
+		date_pane.setBackground(Color.white);
+		time_pane.setBackground(Color.white);
+		gender_pane.setBackground(Color.white);
+		text_pane.setBackground(Color.white);
+		jp_Button.setBackground(Color.white);
+		intro_pane.setBackground(Color.white);
+
 		
+		SalonResPane.add(intro_pane);
 		SalonResPane.add(date_pane);
 		SalonResPane.add(time_pane);
 		SalonResPane.add(gender_pane);
 		SalonResPane.add(text_pane);
 		SalonResPane.add(jp_Button);
-	
+		
 		HospitalHairEvent hairEvent = new HospitalHairEvent();
 		btn_reserve.addActionListener(hairEvent);
 		btn_reset.addActionListener(hairEvent);
-		btn_timecheck.addActionListener(hairEvent);
 
-		
 		main.add(SalonResPane);
 		main.setVisible(true);
 
@@ -100,64 +123,62 @@ public class HospitalHairCut extends JFrame{
 		String date1 = tf_year.getText();
 		String date2 = tf_month.getText();
 		String date3 = tf_day.getText();
-		
-	    if (date1.trim().equals("") || date2.trim().equals("") || date3.trim().equals("")) {
-			JOptionPane.showMessageDialog(null, "날짜를 입력해주세요","알림",JOptionPane.INFORMATION_MESSAGE);
+
+		if (date1.trim().equals("") || date2.trim().equals("") || date3.trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "날짜를 입력해주세요", "알림", JOptionPane.INFORMATION_MESSAGE);
 			tf_year.requestFocus();
-		}
-		else if (cb_time.getSelectedItem().equals("선택")) {
-			JOptionPane.showMessageDialog(null, "시간을 선택해주세요","알림",JOptionPane.INFORMATION_MESSAGE);
-		} 
-		else {
-			if(!integerOrNot(date1) || !integerOrNot(date2) || !integerOrNot(date3)){
+		} else if (cb_time.getSelectedItem().equals("선택")) {
+			JOptionPane.showMessageDialog(null, "시간을 선택해주세요", "알림", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			if (!integerOrNot(date1) || !integerOrNot(date2) || !integerOrNot(date3)) {
 				JOptionPane.showMessageDialog(null, "날짜는 문자를 입력할 수 없습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
-			}
-			result = true;
+			} else
+				result = true;
 		}
 		return result;
 	}// regFormCheck method
-	public void timeCheck() {
-		cb_time.removeAllItems();
-		String y = tf_year.getText().trim();
-		String m = tf_month.getText().trim();
-		String d = tf_day.getText().trim();
-		ArrayList<String> tlist = system.timeCheckList(y, m, d);
-		cb_time.addItem("선택");
-		for(String item : tlist) {
-			cb_time.addItem(item);
-		}
-		
-		
-	}
-	
-	public boolean integerOrNot(String strData){ // 입력값이 숫자인지 문자인지 판별 : 
+
+//	public void timeCheck() {
+//		cb_time.removeAllItems();
+//		String y = tf_year.getText().trim();
+//		String m = tf_month.getText().trim();
+//		String d = tf_day.getText().trim();
+//		ArrayList<String> tlist = system.timeCheckList(y, m, d);
+//		cb_time.addItem("선택");
+//		for (String item : tlist) {
+//			cb_time.addItem(item);
+//		}
+//
+//	}
+
+	public boolean integerOrNot(String strData) { // 입력값이 숫자인지 문자인지 판별 :
 		char[] charData = strData.toCharArray();
-		boolean check=true;
-		while(check){
-			for(int i=0; i<charData.length; i++){		
-				if(!Character.isDigit(charData[i])){
-						check = !check;
-						break;
+		boolean check = true;
+		while (check) {
+			for (int i = 0; i < charData.length; i++) {
+				if (!Character.isDigit(charData[i])) {
+					check = !check;
+					break;
 				}
 			}
-			break;	
-		}return check;
+			break;
+		}
+		return check;
 	}
 
 	public void registerProc() {
 		// MemberVO 객체를 생성하여 등록
 		UserVO vo = new UserVO();
-		
-		String time = (String)cb_time.getSelectedItem();
+		String time = (String) cb_time.getSelectedItem();
 		String gender = "";
-		if(rb_man.isSelected()){
+		if (rb_man.isSelected()) {
 			gender = "수컷";
-		}else if(rb_woman.isSelected()){
+		} else if (rb_woman.isSelected()) {
 			gender = "암컷";
 		}
-	
+
 		Random rd = new Random();
-		vo.setSno("S_"+ rd.nextInt(10000));		
+		vo.setSno("S_" + rd.nextInt(10000));
 		vo.setSyear(tf_year.getText().trim());
 		vo.setSmonth(tf_month.getText().trim());
 		vo.setSday(tf_day.getText().trim());
@@ -165,21 +186,22 @@ public class HospitalHairCut extends JFrame{
 		vo.setSgender(gender);
 		vo.setStext(ta_text.getText().trim());
 		vo.setSmid(mid);
-		
 
 		// MEMBER 테이블에 등록
-     	boolean result = system.hairCut(vo);
-
-		if (result) {
-			JOptionPane.showMessageDialog(null, "등록 성공!!");
-			JOptionPane.showMessageDialog(null,"등록번호 : " + vo.getSno() 
-			+"\n"+"날짜 : " + vo.getSyear()+"년"+vo.getSmonth()+"월"+vo.getSday()+"일"
-			+ "\n" + "시간 : " + vo.getStime() 
-			+ "\n" + "성별 : " + vo.getSgender() 
-			+ "\n" + "기타사항 : " + vo.getStext() + "\n"
-			,"예약 확인",JOptionPane.PLAIN_MESSAGE);
+		if (main.system.salonTimeCheck(vo) == 0) {
+			boolean result = main.system.hairCut(vo);
+			if (result) {
+				JOptionPane.showMessageDialog(null, "등록 성공!!");
+				JOptionPane.showMessageDialog(null,
+						"등록번호 : " + vo.getSno() + "\n" + "날짜 : " + vo.getSyear() + "년" + vo.getSmonth() + "월"
+								+ vo.getSday() + "일" + "\n" + "시간 : " + vo.getStime() + "\n" + "성별 : " + vo.getSgender()
+								+ "\n" + "기타사항 : " + vo.getStext() + "\n",
+						"예약 확인", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "등록 실패!!");
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "등록 실패!!");
+			JOptionPane.showMessageDialog(null, main.getMsg("해당 예약시간을 선택할 수 없습니다. 다른 시간을 선택해주세요"));
 		}
 
 	}
@@ -188,19 +210,22 @@ public class HospitalHairCut extends JFrame{
 
 		public void actionPerformed(ActionEvent ae) {
 			Object obj = ae.getSource();
-			if(btn_timecheck == obj) {
-				timeCheck();
-			}
-			else if (btn_reserve == obj) {
+
+			if (btn_reserve == obj) {
 				if (regFormCheck())
 					registerProc();
-			}else if (btn_reset == obj) {
 				ta_text.setText("");
 				tf_year.setText("");
 				tf_month.setText("");
 				tf_day.setText("");
-				cb_time.setSelectedItem("선택");
-				
+				cb_time.setSelectedItem("선택해주세요");
+			} else if (btn_reset == obj) {
+				ta_text.setText("");
+				tf_year.setText("");
+				tf_month.setText("");
+				tf_day.setText("");
+				cb_time.setSelectedItem("선택해주세요");
+
 			}
 
 		}
