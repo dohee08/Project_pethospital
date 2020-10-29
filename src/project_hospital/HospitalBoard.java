@@ -24,15 +24,17 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import project_hospital.HospitalManager.JFrameObjectEvent;
+
 public class HospitalBoard extends WindowAdapter implements ActionListener {
-	JFrame jf,bif; 
+	JFrame jf,bif,bdf; 
 	HospitalMgmUI HMui;
 	UserVO vo;
 	
 	JPanel BoardPane, insert_panel;
 	JLabel la_text;
 	JTextField jtf_text;
-	JButton btn_insert;
+	JButton btn_insert, btn_delete;
 	JTextField title_tf;
 	JTextArea post ;
 	
@@ -52,6 +54,11 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	DefaultTableModel model =new DefaultTableModel(columns,0);
 	JTable table= new JTable(model);
 	Object[] row =new Object[4];
+	private JPanel jp_deleteSearch;
+	private JTextField jt_deleteSearch;
+	private JLabel jl_deleteSearchName;
+	private JButton jb_deleteButton;
+	private JPanel deletePane;
 	
 	public void HospitalBoard(){
 		HMui.switchPane(HospitalMgmUI.BOARD);
@@ -64,11 +71,13 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		jtf_text = new JTextField(40);
 		btn_insert = new JButton("글올리기");
 		JButton btn_reset = new JButton("새로고침");
+		btn_delete = new JButton("글삭제");
 		
 //		insert_panel.add(la_text);
 //		insert_panel.add(jtf_text);
 		insert_panel.add(btn_insert);
 		insert_panel.add(btn_reset);
+		insert_panel.add(btn_delete);
 		
 		list = new ArrayList<UserVO>();
 		
@@ -120,6 +129,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		btn_insert.addActionListener(this);
 		btn_reset.addActionListener(this);
+		btn_delete.addActionListener(this);
 	}
 	
 	
@@ -202,7 +212,43 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 	}
 	
+	//삭제
+	public void boarddelete() {
+		bdf = new JFrame();
+		jp_deleteSearch = new JPanel();
+		jp_deleteSearch.setBackground(Color.WHITE);
+		jl_deleteSearchName = new JLabel("삭제할 게시글 번호 >");
+		jt_deleteSearch = new JTextField(20);
+		jb_deleteButton = new JButton("확인");
+		jb_deleteButton.setBackground(HospitalMgmUI.c3);
+		jl_deleteSearchName.setFont(HMui.getFont());
+		
+		jp_deleteSearch.add(jl_deleteSearchName);
+		jp_deleteSearch.add(jt_deleteSearch);
+		jp_deleteSearch.add(jb_deleteButton);
+		
+		jt_deleteSearch.addActionListener(this);	
+		jb_deleteButton.addActionListener(this);	
+		
+		bdf.setSize(400,300);
+		bdf.add(jp_deleteSearch, BorderLayout.CENTER);
+		bdf.setVisible(true);
+	}
 	
+	/** 삭제할 아이디 체크 **/
+	public boolean deleteDataCheck(String pno) {
+		return HMui.system.deletePostSearch(pno);
+	}
+	
+	/** 삭제 진행 **/
+	public void deleteProc(String pno) {
+		boolean result = HMui.system.deletePost(pno);
+		if(result) {
+			JOptionPane.showMessageDialog(null, HMui.getMsg("삭제 완료~"));
+		}else {
+			JOptionPane.showMessageDialog(null, HMui.getMsg("삭제 실패~"));
+		}
+	}//deleteProc
 	
 	
 	//윈도우 이벤트 처리
@@ -224,6 +270,24 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 			write();
 		}else if(name.equals("취소")){
 			bif.setVisible(false);
+		}else if(name.equals("글삭제")) {
+			boarddelete();
+		}else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
+			String pno = jt_deleteSearch.getText().trim();
+			
+			if(deleteDataCheck(pno)) {
+				int result = JOptionPane.showConfirmDialog(null,
+						"정말로 삭제하시겠습니까?");				
+				if(result == 0)  deleteProc(pno);
+			}else {
+				//삭제할 데이터 없음
+				JOptionPane.showMessageDialog(null,
+						"삭제할 데이터가 존재하지 않습니다.");
+			}
+		}else {
+			JOptionPane.showMessageDialog(null,
+					"삭제명을 입력해주세요");
+			jt_deleteSearch.requestFocus();
 		}
 		
 		
