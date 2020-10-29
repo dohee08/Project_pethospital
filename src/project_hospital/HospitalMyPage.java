@@ -44,11 +44,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		String[] up_names = {"예약번호","이름","년","월","일","예약시간"};
 		ArrayList<TextField> tf_change_list;
 		ArrayList<TextField> tf_update_list;
-		HospitalMgmSystem hms;
 		int idx = -1;
 		
-		 String[] visit_times = {"선택해주세요","09:00 ~ 10:00", "10:00 ~ 11:00","11:00 ~ 12:00","12:00 ~ 13:00","13:00 ~ 14:00", 
-				 "14:00 ~ 15:00","15:00 ~ 16:00","16:00 ~ 17:00", "17:00 ~ 18:00", "18:00 ~ 19:00"};
+		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","12:00","13:00", 
+				 "14:00","15:00","16:00", "17:00", "18:00"};
 		 
 		
 		public HospitalMyPage() {}
@@ -79,7 +78,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void MyPage(){
 			main.switchPane(HospitalMgmUI.MYPAGE);
 			
-			hms = new HospitalMgmSystem();
 			
 			jp_change = new JPanel();
 			content_panel = new JPanel();
@@ -229,16 +227,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			vo.setMphone(dataList.get(2));
 			vo.setMname(dataList.get(3));
 			vo.setMkind(dataList.get(4));
+					
 			
-			
-			System.out.println(vo.getMid());
-			System.out.println(vo.getMpass());
-			System.out.println(vo.getMphone());
-			System.out.println(vo.getMname());
-			System.out.println(vo.getMkind());
-			
-			
-			if(hms.memberupdate(vo)) {
+			if(main.system.memberupdate(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
 			}else {
@@ -253,9 +244,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void memberDelete() {
 			String mid = main.id;
 			
-			if(hms.lastcheckh(mid)==0) {
-				if(hms.lastchecks(mid)==0) {
-			if(hms.delete(mid)) {
+			if(main.system.lastcheckh(mid)==0) {
+				if(main.system.lastchecks(mid)==0) {
+			if(main.system.delete(mid)) {
 				JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
 				System.exit(0);
 			}else {
@@ -604,23 +595,25 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "예약번호를 입력해주세요");
 			}else {
 				if(rno.indexOf("S")>=0) {
-					idx = hms.ssearchsno(rno);
+					idx = main.system.ssearchsno(rno);
 					if(idx != 0) {
-						UserVO vo = hms.sselectUser(rno);
+						UserVO vo = main.system.sselectUser(rno);
 						supdateOKForm(vo);						
 					}
 					else {
 						updateFailForm();
 					}
 				}else if(rno.indexOf("H")>=0) {
-					idx = hms.hsearchhno(rno);
+					idx =main.system.hsearchhno(rno);
 					if(idx != 0) {
-						UserVO vo = hms.hselectUser(rno);
+						UserVO vo = main.system.hselectUser(rno);
 						hupdateOKForm(vo);						
 					}else {
 						updateFailForm();
 					
 					}
+				}else {
+					updateFailForm();
 				}
 			}
 		}
@@ -645,8 +638,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			vo.setHday(dataList.get(3));
 			vo.setHtime(dataList.get(4));
 			
-			if(hms.hcheck(vo)==0) {
-			if(hms.update(vo)) {
+			if(main.system.hcheck(vo)==0) {
+			if(main.system.update(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
 			}else {
@@ -675,8 +668,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			vo.setSday(dataList.get(3));
 			vo.setStime(dataList.get(4));
 			
-			if(hms.scheck(vo)==0) {
-			if(hms.supdate(vo)) {
+			if(main.system.scheck(vo)==0) {
+			if(main.system.supdate(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
 			}else {
@@ -690,7 +683,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		 * */
 		public void sdelete() {
 			String sno = tf_update.getText();
-			if(hms.sdelete(sno)) {
+			if(main.system.sdelete(sno)) {
 				JOptionPane.showMessageDialog(null, "미용예약이 취소되었습니다.");
 			}else {
 				JOptionPane.showMessageDialog(null, "취소실패");
@@ -702,7 +695,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		 * */
 		public void hdelete() {
 			String hno = tf_update.getText();
-			if(hms.hdelete(hno)) {
+			if(main.system.hdelete(hno)) {
 				JOptionPane.showMessageDialog(null, "병원예약이 취소되었습니다.");
 			}else {
 				JOptionPane.showMessageDialog(null, "취소실패");
@@ -716,6 +709,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_bottom.removeAll();
 			update_bottom.add(BorderLayout.NORTH, new Label());
 			update_bottom.add(BorderLayout.CENTER, new Label("-- 예약 정보가 존재하지 않습니다 --"));
+			update_bottom.setBackground(Color.white);
 			
 			update_panel.add(BorderLayout.CENTER, update_bottom);
 			content_panel.add(update_panel);
@@ -753,7 +747,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		/** 예약 목록에서 출력될 병원데이터 가져오기 */
 		public void hcreateJtableData() {
 			
-			ArrayList<UserVO> list = hms.hselectList(main.id);
+			ArrayList<UserVO> list = main.system.hselectList(main.id);
 			
 			model.setNumRows(0);
 			for(UserVO vo : list) {
@@ -774,7 +768,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		/** 예약 목록에서 출력될 미용데이터 가져오기 */
 		public void screateJtableData() {
 			
-			ArrayList<UserVO> list = hms.sselectList(main.id);
+			ArrayList<UserVO> list = main.system.sselectList(main.id);
 			
 			smodel.setNumRows(0);
 			for(UserVO vo : list) {
@@ -843,10 +837,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				JOptionPane.showMessageDialog(null, "패스워드를 입력해주세요");
 				tf_pass.requestFocus();
 			}else {
-				 boolean result = hms.login(id, pass);
+				 boolean result = main.system.login(id, pass);
 				
 				if(result) {
-					UserVO vo = hms.selectMember(main.id);
+					UserVO vo = main.system.selectMember(main.id);
 					JOptionPane.showMessageDialog(null, "로그인 성공!");
 					login_panel.setVisible(false);
 					jp_change.setVisible(true);

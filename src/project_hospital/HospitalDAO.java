@@ -286,7 +286,6 @@ public class HospitalDAO extends DBConn {
 				pstmt.setString(4, vo.getHtime());
 				pstmt.setString(5, vo.getHno());
 
-				System.out.println(pstmt.executeUpdate());
 				
 				int count = pstmt.executeUpdate();
 				if(count != 0) result = true;
@@ -317,7 +316,6 @@ public class HospitalDAO extends DBConn {
 				pstmt.setString(5, vo.getSno());
 
 				
-				System.out.println(pstmt.executeUpdate());
 				
 				int count = pstmt.executeUpdate();
 				if(count != 0) result = true;
@@ -505,7 +503,7 @@ public class HospitalDAO extends DBConn {
 				pstmt.setString(5, vo.getMkind());
 				pstmt.setString(6, vo.getMid());
 				
-				System.out.println(pstmt.executeUpdate());
+
 				
 				int count = pstmt.executeUpdate();
 				if(count != 0) result = true;
