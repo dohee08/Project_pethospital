@@ -7,8 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -48,10 +49,10 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	}
 	
 	
-	Object[] columns = {"번호","닉네임","내용","날짜"};
+	Object[] columns = {"번호","코드","닉네임","제목","날짜"};
 	DefaultTableModel model =new DefaultTableModel(columns,0);
 	JTable table= new JTable(model);
-	Object[] row =new Object[4];
+	Object[] row =new Object[5];
 	
 	public void HospitalBoard(){
 		HMui.switchPane(HospitalMgmUI.BOARD);
@@ -59,14 +60,12 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		JLabel jl_list = new JLabel("게시판");
 		jl_list.setFont(font);
 		
-//		la_text = new JLabel("내용 :");
+
 		insert_panel = new JPanel();
 		jtf_text = new JTextField(40);
 		btn_insert = new JButton("글올리기");
 		JButton btn_reset = new JButton("새로고침");
 		
-//		insert_panel.add(la_text);
-//		insert_panel.add(jtf_text);
 		insert_panel.add(btn_insert);
 		insert_panel.add(btn_reset);
 		
@@ -84,9 +83,10 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		for(UserVO vo : list) {
 			if(vo != null) {
 				row[0]= vo.getRno();
-				row[1]=vo.getPname();
-				row[2]=vo.getPtext();
-				row[3]=vo.getPdate();
+				row[1]= vo.getPno();
+				row[2]=vo.getPname();
+				row[3]=vo.getPtitle();
+				row[4]=vo.getPdate();
 				
 				model.addRow(row);
 			}
@@ -98,8 +98,9 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		table.setModel(model);
 		
 		table.getColumn("번호").setCellRenderer(dtcr);
+		table.getColumn("코드").setCellRenderer(dtcr);
 	    table.getColumn("닉네임").setCellRenderer(dtcr);
-	    table.getColumn("내용").setCellRenderer(dtcr);
+	    table.getColumn("제목").setCellRenderer(dtcr);
 	    table.getColumn("날짜").setCellRenderer(dtcr);
 	    
 	    
@@ -157,8 +158,16 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	public void write() {
 		
-		Date time = new Date();
-		
+		Calendar cal = Calendar.getInstance();
+	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
+	      int year = cal.get(Calendar.YEAR);
+
+	      int month = cal.get(Calendar.MONTH)+1;
+
+	      int day = cal.get(Calendar.DAY_OF_MONTH);
+
+	      String date = s1.format(cal.getTime());
+	      
 		UserVO vo = new UserVO();
 		Random rd = new Random();
 		
@@ -167,7 +176,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		vo.setPname(a);
 		vo.setPtitle(title_tf.getText());
 		vo.setPtext(post.getText());
-		vo.setPdate(time.getYear()+"/"+time.getMonth()+"/"+time.getDay());
+		vo.setPdate(year+"/"+month+"/"+day);
 		vo.setMid(HMui.id);
 		
 		if(HMui.system.pinsert(vo)) {
@@ -189,9 +198,10 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		for(UserVO vo : list) {
 			if(vo != null) {
 				row[0]= vo.getRno();
-				row[1]=vo.getPname();
-				row[2]=vo.getPtext();
-				row[3]=vo.getPdate();
+				row[1]= vo.getPno();
+				row[2]=vo.getPname();
+				row[3]=vo.getPtitle();
+				row[4]=vo.getPdate();
 				
 				
 				model.addRow(row);
