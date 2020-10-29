@@ -145,7 +145,6 @@ public class HospitalLogin {
 //			String dpass = "1234";
 			String uid = tid.getText().trim();
 			String upass = tpass.getText().trim();
-			System.out.println("--" + uid);
 			
 			boolean result = main.system.memlogin(uid, upass);
 			

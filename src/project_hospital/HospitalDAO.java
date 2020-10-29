@@ -142,13 +142,13 @@ public class HospitalDAO extends DBConn {
 		 return list;
 	}//select
 		
-	/** 멤버 전체 조회 */
+	/** 매니저 - 멤버 전체 조회 **/
 	public ArrayList<UserVO> memberSelect(){
 			
 		ArrayList<UserVO> memlist = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select mid, mpass, mphone, mname, mkind from member";
+			String sql ="select rownum mno, mid, mpass, mphone, mname, mkind from member order by sysdate ";
 			
 			getPreparedStatement(sql);
 			rs=pstmt.executeQuery(sql);
@@ -156,11 +156,12 @@ public class HospitalDAO extends DBConn {
 			while(rs.next()) {
 				UserVO vo = new UserVO();
 				
-				vo.setMid(rs.getString(1));
-				vo.setMpass(rs.getString(2));
-				vo.setMphone(rs.getString(3));
-				vo.setMname(rs.getString(4));
-				vo.setMkind(rs.getString(5));
+				vo.setMno(rs.getString(1));
+				vo.setMid(rs.getString(2));
+				vo.setMpass(rs.getString(3));
+				vo.setMphone(rs.getString(4));
+				vo.setMname(rs.getString(5));
+				vo.setMkind(rs.getString(6));
 				
 				memlist.add(vo);
 			}

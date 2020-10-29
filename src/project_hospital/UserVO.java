@@ -2,7 +2,13 @@ package project_hospital;
 
 public class UserVO {
 	String sid, spass; // Manager
-	String mid,mpass,mphone,mname,mkind;
+	String mno,mid,mpass,mphone,mname,mkind;
+	public String getMno() {
+		return mno;
+	}
+	public void setMno(String mno) {
+		this.mno = mno;
+	}
 	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
 	String sno,syear,smonth,sday,stime,sgender,stext,smid;
 	
