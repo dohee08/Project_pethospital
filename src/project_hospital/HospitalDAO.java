@@ -619,6 +619,45 @@ public class HospitalDAO extends DBConn {
 		return result;
 	}
 		
+	/** 게시판 - 삭제 검색 **/
+	public boolean deletePostSearch(String pno) {
+		boolean result = false;
+		
+		try {
+			String sql = "SELECT COUNT(*) FROM POST WHERE PNO=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, pno);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1) != 0) result = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+		
+	/** 게시판- 삭제 진행  **/
+	public boolean deletePost(String pno) {
+		boolean result = false;
+		
+		try {
+			String sql = "DELETE FROM POST WHERE PNO=?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, pno);
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	/** 회원 로그인 -- 시작할 때 **/
 	public boolean memlogin(String id, String pass) {
 		boolean result = false;

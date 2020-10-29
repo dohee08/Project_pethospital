@@ -191,6 +191,16 @@ public class HospitalMgmSystem {
 			return result;
 		}
 		
+		/** 게시판 - 삭제 검색 **/
+		public boolean deletePostSearch(String pno) {
+			return dao.deletePostSearch(pno);
+		}
+		
+		/** 게시판 - 삭제 진행 **/
+		public boolean deletePost(String pno) {
+			return dao.deletePost(pno);
+		}
+		
 		/**이름가져오기 */
 		public String rename(String id) {
 			String result = "";
