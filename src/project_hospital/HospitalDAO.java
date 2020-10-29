@@ -544,6 +544,81 @@ public class HospitalDAO extends DBConn {
 		return result;
 	}
 		
+		
+		/** 게시판 내용 불러오기  
+		 * */
+	public ArrayList<UserVO> gettext() {
+		ArrayList<UserVO> text = new ArrayList<UserVO>();
+		
+		try {
+			String sql ="select rownum rno, pname, ptext, pdate from post";
+			
+			getPreparedStatement(sql);
+			rs=pstmt.executeQuery(sql);
+			
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+		
+				vo.setRno(rs.getString(1));
+				vo.setPname(rs.getString(2));
+				vo.setPtext(rs.getString(3));
+				vo.setPdate(rs.getString(4));
+			
+				
+				text.add(vo);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return text;
+	}
+	
+	/** 이름 가져오기 */
+	public String rename(String id) {
+		String result="";
+		
+		try {
+			String sql ="select mname from member where mid =?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) result = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/** 게시판 내용 업로드 */
+	public boolean pinsert(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = "insert into post (pno,pname,ptitle,ptext,pdate,mid) values(?,?,?,?,?,?)";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, vo.getPno());
+			pstmt.setString(2, vo.getPname());
+			pstmt.setString(3, vo.getPtitle());
+			pstmt.setString(4, vo.getPtext());
+			pstmt.setString(5, vo.getPdate());
+			pstmt.setString(6, vo.getMid());
+			
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+		
 	/** 회원 로그인 -- 시작할 때 **/
 	public boolean memlogin(String id, String pass) {
 		boolean result = false;

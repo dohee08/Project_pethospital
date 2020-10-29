@@ -177,6 +177,29 @@ public class HospitalMgmSystem {
 			return result;
 		}
 		
+		/** 게시판 내용 조회 */
+		public ArrayList<UserVO> gettext(){
+			return dao.gettext();
+		}
+		
+		/** 게시판 내용 입력 */
+		public boolean pinsert(UserVO vo) {
+			boolean result = false;
+			
+			result = dao.pinsert(vo);
+			
+			return result;
+		}
+		
+		/**이름가져오기 */
+		public String rename(String id) {
+			String result = "";
+			
+			result = dao.rename(id);
+			
+			return result;
+				
+		}
 		/** 로그인 */
 		public boolean login(String id ,String pass) {
 			boolean result = false;

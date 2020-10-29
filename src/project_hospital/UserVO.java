@@ -5,26 +5,40 @@ public class UserVO {
 	String mno,mid,mpass,mphone,mname,mkind;
 	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
 	String sno,syear,smonth,sday,stime,sgender,stext,smid;
-	String pno,pid,post,pdate;
+	String rno,pno,ptitle,ptext,pdate,pname;
 	
+	
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	public String getRno() {
+		return rno;
+	}
+	public void setRno(String rno) {
+		this.rno = rno;
+	}
+	public String getPtitle() {
+		return ptitle;
+	}
+	public void setPtitle(String ptitle) {
+		this.ptitle = ptitle;
+	}
+	public String getPtext() {
+		return ptext;
+	}
+	public void setPtext(String ptext) {
+		this.ptext = ptext;
+	}
 	public String getPno() {
 		return pno;
 	}
 	public void setPno(String pno) {
 		this.pno = pno;
 	}
-	public String getPid() {
-		return pid;
-	}
-	public void setPid(String pid) {
-		this.pid = pid;
-	}
-	public String getPost() {
-		return post;
-	}
-	public void setPost(String post) {
-		this.post = post;
-	}
+
 	public String getPdate() {
 		return pdate;
 	}
