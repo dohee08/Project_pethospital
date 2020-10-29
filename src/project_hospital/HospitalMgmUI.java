@@ -28,13 +28,14 @@ public class HospitalMgmUI extends JFrame{
 		public static final int HOSPIRES = 1;
 		public static final int SALONRES = 2;
 		public static final int MYPAGE = 3;
+		public static final int BOARD = 4;
 
 		JPanel showPane, showButtonPane;
 		JPanel mainPane, menuPane;
 
 		JPanel  buttonPane,mypage_menu_panel;
 		JButton btnLogin, btnJoin, btnManager;
-		JButton btnHospiRes, btnSalonRes, btnMyPage, btnExit;
+		JButton btnHospiRes, btnSalonRes, btnMyPage, btnBoard, btnExit;
 		JLabel jl_title, jl_img;
 		
 		JPanel status_panel;
@@ -47,6 +48,7 @@ public class HospitalMgmUI extends JFrame{
 		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
 		JPanel MyPagePane = new JPanel();
+//		JPanel BoardPane = new JPanel();
 		
 		//꾸미기
 		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -69,7 +71,6 @@ public class HospitalMgmUI extends JFrame{
 			if(uid != null) {
 				this.id = uid;
 			}
-			System.out.println("----" +id);
 			return id;
 		}
 		
@@ -134,7 +135,7 @@ public class HospitalMgmUI extends JFrame{
 		    menuPane.setBackground(Color.WHITE);
 		      
 		    status_panel = new JPanel(new BorderLayout());
-		    menuPane = new JPanel(new GridLayout(1,4));
+		    menuPane = new JPanel(new GridLayout(1,5));
 		    menuPane.setSize(300,300);
 		    mypage_menu_panel  = new JPanel(new GridLayout(3,1)); //마이페이지 메뉴
 		    
@@ -155,24 +156,28 @@ public class HospitalMgmUI extends JFrame{
 		    btnHospiRes = new JButton("병원 예약");
 			btnSalonRes = new JButton("미용 예약");
 			btnMyPage = new JButton("회원 정보");
+			btnBoard = new JButton("게시판");
 			btnExit = new JButton("종료");
 			
 			//2.버튼 폰트
 			btnHospiRes.setFont(font);
 			btnSalonRes.setFont(font);
 			btnMyPage.setFont(font);
+			btnBoard.setFont(font);
 			btnExit.setFont(font);
 			
 			//3.버튼 색깔
 			btnHospiRes.setBackground(c1);
 			btnSalonRes.setBackground(c2);
 			btnMyPage.setBackground(c3);
+			btnBoard.setBackground(c1);
 			btnExit.setBackground(Color.LIGHT_GRAY);
 			
 			//4.버튼 삽입
 			menuPane.add(btnHospiRes);
 			menuPane.add(btnSalonRes);
 			menuPane.add(btnMyPage);
+			menuPane.add(btnBoard);
 			menuPane.add(btnExit);
 			
 			//메인 UI> 버튼 이벤트 정의
@@ -181,6 +186,7 @@ public class HospitalMgmUI extends JFrame{
 			btnLogout.addActionListener(eventObj);
 			btnHospiRes.addActionListener(eventObj);
 			btnSalonRes.addActionListener(eventObj);
+			btnBoard.addActionListener(eventObj);
 			btnMyPage.addActionListener(eventObj);
 			btnExit.addActionListener(eventObj);
 			addWindowListener(eventObj);
@@ -217,6 +223,7 @@ public class HospitalMgmUI extends JFrame{
 			HospiResPane.setVisible(false);
 			SalonResPane.setVisible(false);
 			MyPagePane.setVisible(false);
+//			BoardPane.setVisibel(false);
 		}
 		
 		public void switchPane(String menu) {
@@ -232,6 +239,9 @@ public class HospitalMgmUI extends JFrame{
 				mypage_menu_panel.removeAll();
 				MyPagePane.setVisible(true);
 				mypage_menu_panel.setVisible(true);
+			}else if(menu.equals("게시판")) {		
+//				BoardPane.removeAll();
+//				BoardPane.setVisible(true);
 			}
 		}
 		
@@ -255,6 +265,11 @@ public class HospitalMgmUI extends JFrame{
 				mypage_menu_panel.setBackground(Color.WHITE);
 				MyPagePane.setVisible(true);
 				mypage_menu_panel.setVisible(true);
+				break;
+			case 4 : 
+//				BoardPane.removeAll();
+//				BoardPane.setVisible(true);
+//				BoardPane.setBackground(Color.WHITE);
 				break;
 				}
 		}//switchPane method
@@ -309,6 +324,10 @@ public class HospitalMgmUI extends JFrame{
 				}else if(btnMyPage == obj) {
 					// 회원 정보 창으로 넘기기!
 					new HospitalMyPage(main).MyPage();
+				}else if(btnBoard == obj) {
+					// 게시판 창으로 넘기기!
+//					new HospitalMyPage(main).MyPage();
+					JOptionPane.showMessageDialog(null, "게시판");
 				}else if(btnExit == obj) {
 					String msg = "프로그램을 종료하시겠습니까?";
 					int result = JOptionPane.showConfirmDialog(null, getMsg(msg));
