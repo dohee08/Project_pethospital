@@ -277,6 +277,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			intro_panel.add(s);
 			
 			content_panel.add(BorderLayout.NORTH,intro_panel);
+			main.setVisible(true);
 			
 			h.addActionListener(this);
 			s.addActionListener(this);
@@ -316,8 +317,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			hselect_panel.add(BorderLayout.NORTH, new Label("병원예약조회"));
 			hselect_panel.add(BorderLayout.CENTER,pane);
 			allselect_panel.add(hselect_panel);
-			allselect_panel.setVisible(true);
 			content_panel.add(BorderLayout.CENTER,allselect_panel);
+			main.setVisible(true);
 			
 			MyPagePane.add(content_panel);    
 		}
@@ -393,6 +394,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			content_panel.add(update_panel);
 			
 			MyPagePane.add(content_panel);
+			main.setVisible(true);
 			
 			tf_update.addActionListener(this);
 			update_search.addActionListener(this);
@@ -818,6 +820,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			
 			MyPagePane.add(content_panel);
+			main.setVisible(true);
 			
 			btn_login.addActionListener(this);
 			tf_pass.addActionListener(this);
