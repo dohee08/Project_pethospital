@@ -317,8 +317,9 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			hselect_panel.add(BorderLayout.NORTH, new Label("병원예약조회"));
 			hselect_panel.add(BorderLayout.CENTER,pane);
 			allselect_panel.add(hselect_panel);
+			allselect_panel.setVisible(true);
 			content_panel.add(BorderLayout.CENTER,allselect_panel);
-			main.setVisible(true);
+			
 			
 			MyPagePane.add(content_panel);    
 		}
