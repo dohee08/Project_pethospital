@@ -327,7 +327,6 @@ public class HospitalMgmUI extends JFrame{
 				}else if(btnBoard == obj) {
 					// 게시판 창으로 넘기기!
 					new HospitalBoard(main).HospitalBoard();
-//					JOptionPane.showMessageDialog(null, "게시판");
 				}else if(btnExit == obj) {
 					String msg = "프로그램을 종료하시겠습니까?";
 					int result = JOptionPane.showConfirmDialog(null, getMsg(msg));

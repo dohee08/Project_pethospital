@@ -1,8 +1,10 @@
 package project_hospital;
 
-import java.awt.BorderLayout; 
+import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,24 +29,24 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import project_hospital.HospitalManager.JFrameObjectEvent;
-
 public class HospitalBoard extends WindowAdapter implements ActionListener {
 	JFrame jf,bif,bdf; 
 	HospitalMgmUI HMui;
 	UserVO vo;
 	
-	JPanel BoardPane, insert_panel;
-	JLabel la_text;
-	JTextField jtf_text;
-	JButton btn_insert, btn_delete;
+	JPanel BoardPane, insert_panel, btnMenu_panel;
+	JButton btn_insert,btn_reset, btn_delete;
+	JButton btn_board, btn_onetoone;
 	JTextField title_tf;
 	JTextArea post ;
 	
 	ArrayList<UserVO> list;
 	
+	public static final int BOARD = 1;
+	public static final int ONETOONE = 2;
+	
 	public static Font font = new Font("나눔스퀘어_ac", Font.BOLD, 12);
-	public static Font font1 = new Font("나눔스퀘어_ac", Font.BOLD, 16);
+	public static Font font1 = new Font("나눔스퀘어_ac", Font.PLAIN, 14);
 	
 	public HospitalBoard() {}
 	public HospitalBoard(HospitalMgmUI HMui) {
@@ -67,16 +69,29 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	public void HospitalBoard(){
 		HMui.switchPane(HospitalMgmUI.BOARD);
 		
-		JLabel jl_list = new JLabel("게시판");
-		jl_list.setFont(font);
-		
-
 		insert_panel = new JPanel();
-		jtf_text = new JTextField(40);
+		btnMenu_panel = new JPanel(new GridLayout(2,1));
+		
+		btn_board = new JButton("자유 게시판");
+		btn_onetoone = new JButton("1대1 문의");
 		btn_insert = new JButton("글올리기");
-		JButton btn_reset = new JButton("새로고침");
+		btn_reset = new JButton("새로고침");
 		btn_delete = new JButton("글삭제");
 		
+		
+		Color c1 = new Color(255,231,159);
+		Color c3 = new Color(229,197,148);
+		btn_board.setBackground(c3);
+		btn_onetoone.setBackground(c1);
+		
+		btn_insert.setBackground(Color.lightGray);
+		btn_reset.setBackground(Color.lightGray);
+		btn_delete.setBackground(Color.lightGray);
+
+		
+		btnMenu_panel.add(btn_board);
+		btnMenu_panel.add(btn_onetoone);
+
 		insert_panel.add(btn_insert);
 		insert_panel.add(btn_reset);
 		insert_panel.add(btn_delete);
@@ -124,16 +139,21 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	    table.getColumn("닉네임").setCellRenderer(dtcr);
 	    table.getColumn("제목").setCellRenderer(dtcr);
 	    table.getColumn("날짜").setCellRenderer(dtcr);
-	    
+	    table.setBackground(Color.WHITE);
 	    
 	    JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0,100,600,250);
-		
+
 		pane.setBackground(Color.WHITE);
 		insert_panel.setBackground(Color.WHITE);
+		btnMenu_panel.setBackground(Color.WHITE);
+		BoardPane.setBackground(Color.WHITE);
+		
+		
 		BoardPane.setLayout(new BorderLayout());
 		BoardPane.add(pane,BorderLayout.CENTER);
-		BoardPane.add(jl_list, BorderLayout.NORTH);
+//		BoardPane.add(jl_list, BorderLayout.NORTH);
+		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
 		BoardPane.add(insert_panel, BorderLayout.SOUTH);
 		
 		
@@ -141,11 +161,13 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		HMui.setVisible(true);
 		
 		
+		btn_board.addActionListener(this);
+		btn_onetoone.addActionListener(this);
 		btn_insert.addActionListener(this);
 		btn_reset.addActionListener(this);
 		btn_delete.addActionListener(this);
+		
 	}
-	
 	
 	public void boardinsert() {
 		 bif = new JFrame();
@@ -284,8 +306,12 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		String name = e.getActionCommand().trim();
 		Object obj = e.getSource();
 		
-		if(name.equals("글올리기")) {
-			boardinsert();
+		if(name.equals("자유 게시판")) {
+			view();	
+		}else if(name.equals("1대1 문의")) {
+//				boardinsert();	
+		}else if(name.equals("글올리기")) {
+//			boardinsert();
 //			write();
 		}else if(name.equals("새로고침")) {
 			view();
