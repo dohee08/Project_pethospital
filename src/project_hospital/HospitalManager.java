@@ -13,6 +13,8 @@ import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -29,14 +31,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public class HospitalManager {
 	//Field
 	JFrame jf;
 	JPanel main_panel, button_panel;
-	JPanel listPane, updatePane, deletePane;
-	JButton btnList, btnUpdate, btnDelete;
+	JPanel listPane, updatePane, deletePane, replyPane;
+	JButton btnList, btnUpdate, btnDelete, btnReply;
 	TextArea ta;
 	HospitalMgmUI main;
 
@@ -57,6 +58,19 @@ public class HospitalManager {
 	JPanel update_bottom;
 	TextField tf_update_last;
 	
+	//답변
+	private JPanel receive_panel;
+	private JPanel send_panel;
+	ArrayList<UserVO> list;
+	DefaultTableModel model, model2;
+	Object[] row, row2;
+	JTable table, table2;
+	private JPanel table_panel;
+	
+	String uid;	//Login에서 가져온 id
+	JLabel jl_status;
+	private JPanel status_panel;
+	
 	public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
 	
 	//Constructor
@@ -72,11 +86,18 @@ public class HospitalManager {
 	    listPane = new JPanel();
 	    updatePane = new JPanel();
 	    deletePane = new JPanel();
+	    replyPane = new JPanel();
 	    
 	    update_bottom = new JPanel(new BorderLayout());
 	    
-	    button_panel = new JPanel(new GridLayout(3,1));
+	    button_panel = new JPanel(new GridLayout(4,1));
 	    button_panel.setSize(40,100);
+	    
+	    status_panel = new JPanel(new BorderLayout());
+	    jl_status = new JLabel("-- " + loginCheck() + "가 로그인 하였습니다 --");
+	    jl_status.setFont(font);
+	    jl_status.setBackground(Color.WHITE);
+	    status_panel.add(jl_status, BorderLayout.WEST);
 	    
 	    //색깔
 	    main_panel.setBackground(Color.WHITE);
@@ -84,6 +105,7 @@ public class HospitalManager {
 	    listPane.setBackground(Color.WHITE);
 	    updatePane.setBackground(Color.WHITE);
 	    deletePane.setBackground(Color.WHITE);
+	    replyPane.setBackground(Color.WHITE);
 	    update_bottom.setBackground(Color.WHITE);
 	    button_panel.setBackground(Color.WHITE);
 	    
@@ -91,19 +113,23 @@ public class HospitalManager {
 	    btnList = new JButton("회원 리스트");
 	    btnUpdate = new JButton("회원정보 수정");
 		btnDelete = new JButton("회원정보 삭제");
-		btnList.setFont(font);  btnUpdate.setFont(font);  btnDelete.setFont(font);
+		btnReply = new JButton("답변하기");
+		btnList.setFont(font);  btnUpdate.setFont(font);  btnDelete.setFont(font); btnReply.setFont(font);
 		//색깔
 		btnList.setBackground(HospitalMgmUI.c1);
 		btnUpdate.setBackground(HospitalMgmUI.c2);
 		btnDelete.setBackground(HospitalMgmUI.c3);
+		btnReply.setBackground(HospitalMgmUI.c1);
 		
 		button_panel.add(btnList);
 		button_panel.add(btnUpdate);
 		button_panel.add(btnDelete);
+		button_panel.add(btnReply);
 		
 		//메인 UI 창 위치 정의
 	    jf.add(BorderLayout.WEST, button_panel);      
 	    jf.add(BorderLayout.CENTER, main_panel); //- 원래는 메인 먼저 띄우기
+	    jf.add(BorderLayout.SOUTH, status_panel);
 	    
 	    jf.setSize(600,500);
 		jf.setVisible(false);
@@ -112,6 +138,7 @@ public class HospitalManager {
 		btnList.addActionListener(new JFrameObjectEvent(this));
 		btnUpdate.addActionListener(new JFrameObjectEvent(this));
 		btnDelete.addActionListener(new JFrameObjectEvent(this));
+		btnReply.addActionListener(new JFrameObjectEvent(this));
 		jf.addWindowListener(new JFrameObjectEvent(this));
 		
 	}
@@ -178,7 +205,32 @@ public class HospitalManager {
 		btnExit.addActionListener(eventObject);
 		tpass.addActionListener(eventObject);
 	}
+	
+	/** 매니저 로그인 체크 **/
+	public String loginCheck() {
+//		String did = "manager";  
+//		String dpass = "123";
+		String id = "";
+		uid = tid.getText().trim();
+		String upass = tpass.getText().trim();
+		
+		boolean result = main.system.manlogin(uid, upass);
+		
+		if(result) {
+			//로그인성공 : id,pass 동일
+			JOptionPane.showMessageDialog(null, "로그인 성공");
+			jf_login.setVisible(false);
+			id = uid;
+			jf.setVisible(true);
+				
+		}else {
+			//로그인 실패 : id 동일, pass 다름
+			JOptionPane.showMessageDialog(null, "로그인 실패");
+		}
+		return id;
+	}	
 
+			
 	/** 회원 리스트 화면 **/
 	public void showList() {
 		//listPane
@@ -416,12 +468,180 @@ public class HospitalManager {
 		}
 	}//deleteProc
 	
+	/** 답변하기 **/
+	public void replyPost() {
+		//replyPane
+		JButton btn_reset = new JButton("새로고침");
+		JPanel reset_panel = new JPanel();
+		reset_panel.setSize(20, 20);
+		reset_panel.add(btn_reset);
+		
+		receive_panel = new JPanel(new BorderLayout());	//답변 받은 패널
+		//라벨
+		JLabel jl_list = new JLabel("답변할 게시글");
+		jl_list.setFont(font);
+		
+		//테이블
+		list = new ArrayList<UserVO>();
+		Object[] columns = {"번호","코드","닉네임","제목","날짜"};
+		model =new DefaultTableModel(columns,0);
+		table= new JTable(model);
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		row =new Object[5];
+		
+		list = main.system.gettext();
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				row[0]= vo.getRno();
+				row[1]= vo.getPno();
+				row[2]=vo.getPname();
+				row[3]=vo.getPtitle();
+				row[4]=vo.getPdate();
+				
+				model.addRow(row);
+			}
+			table.repaint();
+		}
+		table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowNum = table.getSelectedRow();
+                UserVO vo = new UserVO();
+                vo = list.get(rowNum);
+                new HospitalBoardPopUp(vo);
+            }
+        });
+	 
+		model.fireTableDataChanged();
+		model.setColumnIdentifiers(columns);
+		table.setModel(model);
+		
+		table.getColumn("번호").setCellRenderer(dtcr);
+		table.getColumn("코드").setCellRenderer(dtcr);
+	    table.getColumn("닉네임").setCellRenderer(dtcr);
+	    table.getColumn("제목").setCellRenderer(dtcr);
+	    table.getColumn("날짜").setCellRenderer(dtcr);
+	    
+	    
+	    JScrollPane pane = new JScrollPane(table);
+		pane.setBounds(0,100,600,250);
+		
+		receive_panel.add(jl_list, BorderLayout.NORTH);
+		receive_panel.add(pane, BorderLayout.CENTER);
+		
+		
+		send_panel = new JPanel(new BorderLayout());		//답변 완료 패널
+		//라벨
+		JLabel jl_list2 = new JLabel("답변완료 게시글");
+		jl_list2.setFont(font);
+				
+		//테이블
+		Object[] columns2 = {"번호","코드","닉네임","제목","날짜"};
+		model2 =new DefaultTableModel(columns,0);
+		table2= new JTable(model2);
+		DefaultTableCellRenderer dtcr2 = new DefaultTableCellRenderer();
+		dtcr2.setHorizontalAlignment(SwingConstants.CENTER);
+				
+		row2 =new Object[5];
+				
+		for(UserVO vo : list) {
+			if(vo != null) {
+				row2[0]= vo.getRno();
+				row2[1]= vo.getPno();
+				row2[2]=vo.getPname();
+				row2[3]=vo.getPtitle();
+				row2[4]=vo.getPdate();
+						
+				model2.addRow(row2);
+			}
+			table2.repaint();
+		}
+		
+		table2.addMouseListener(new MouseAdapter() {
+			@Override
+		    public void mouseClicked(MouseEvent e) {
+				int rowNum = table2.getSelectedRow();
+				UserVO vo = new UserVO();
+				vo = list.get(rowNum);
+				new HospitalBoardPopUp(vo);
+			}
+		});
+			 
+		model2.fireTableDataChanged();
+		model2.setColumnIdentifiers(columns2);
+		table2.setModel(model2);
+				
+		table2.getColumn("번호").setCellRenderer(dtcr2);
+		table2.getColumn("코드").setCellRenderer(dtcr2);
+	    table2.getColumn("닉네임").setCellRenderer(dtcr2);
+	    table2.getColumn("제목").setCellRenderer(dtcr2);
+	    table2.getColumn("날짜").setCellRenderer(dtcr2);
+			    
+			    
+	    JScrollPane pane2 = new JScrollPane(table2);
+		pane2.setBounds(0,100,600,250);	
+		
+		send_panel.add(jl_list2, BorderLayout.NORTH);
+		send_panel.add(pane2, BorderLayout.CENTER);
+		
+		table_panel = new JPanel(new GridLayout(2,1));
+		table_panel.add(receive_panel);
+		table_panel.add(send_panel);
+		
+		replyPane = new JPanel(new BorderLayout());
+		replyPane.add(table_panel, BorderLayout.CENTER);
+		replyPane.add(reset_panel, BorderLayout.SOUTH);
+		
+		btn_reset.addActionListener(new JFrameObjectEvent());
+		replyPane.setSize(200,200);
+		jf.add(replyPane, BorderLayout.CENTER);
+		jf.setVisible(true);
+	}
+	
+	
+	/** 답변테이블 새로고침 **/
+	public void view() {
+		list = new ArrayList<UserVO>();
+		
+		list = main.system.gettext();
+		
+		model.setNumRows(0);
+		model2.setNumRows(0);
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				row[0]= vo.getRno();
+				row[1]= vo.getPno();
+				row[2]=vo.getPname();
+				row[3]=vo.getPtitle();
+				row[4]=vo.getPdate();
+				
+				row2[0]= vo.getRno();
+				row2[1]= vo.getPno();
+				row2[2]=vo.getPname();
+				row2[3]=vo.getPtitle();
+				row2[4]=vo.getPdate();
+				
+				model.addRow(row);
+				model2.addRow(row2);
+			}
+			table.repaint();
+			table2.repaint();
+		}
+		model.fireTableDataChanged();
+		model2.fireTableDataChanged();
+		
+	}
+	
 	/** 패널 보여주기 삭제 **/
 	public void resetPane() {
 		main_panel.setVisible(false);
 		listPane.setVisible(false);
 		updatePane.setVisible(false);
 		deletePane.setVisible(false);
+		replyPane.setVisible(false);
 	}
 	
 	/** 메뉴 이동 제어 **/
@@ -439,7 +659,12 @@ public class HospitalManager {
 			deletePane.removeAll();
 			deleteMember();
 			deletePane.setVisible(true);
+		}else if(menu.equals("답변하기")) {		
+			replyPane.removeAll();
+			replyPost();
+			replyPane.setVisible(true);
 		}
+		
 	}
 		
 	/** 매니저 로그인 데이터 유효성 체크 **/
@@ -459,28 +684,7 @@ public class HospitalManager {
 		return result;
 	}
 	
-	/** 매니저 로그인 체크 **/
-	public void loginCheck() {
-//		String did = "manager";  
-//		String dpass = "123";
-		String uid = tid.getText().trim();
-		String upass = tpass.getText().trim();
-		
-		boolean result = main.system.manlogin(uid, upass);
-		
-		if(result) {
-			//로그인성공 : id,pass 동일
-			JOptionPane.showMessageDialog(null, "로그인 성공");
-			jf_login.setVisible(false);
-			jf.setVisible(true);
-				
-		}else {
-			//로그인 실패 : id 동일, pass 다름
-			JOptionPane.showMessageDialog(null, "로그인 실패");
-		}
-		
-	}	
-
+	
 	/** 이벤트 처리 클래스 **/
 		class JFrameObjectEvent extends WindowAdapter
 												implements ActionListener{
@@ -516,6 +720,11 @@ public class HospitalManager {
 				}else if(bname.equals("회원정보 삭제")){
 					// 정보 삭제 출력
 					main.switchPane("회원정보 삭제");
+				}else if(bname.equals("답변하기")){
+					// 답변 출력
+					main.switchPane("답변하기");
+				}else if(bname.equals("새로고침")) {
+					view();
 				}else if(bname.equals("로그인") || tpass  == e.getSource()) {	
 					if(validationCheck()) 	loginCheck();				
 				}else if(bname.equals("취소")){
