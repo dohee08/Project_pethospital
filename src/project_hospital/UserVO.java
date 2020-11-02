@@ -8,8 +8,13 @@ public class UserVO {
 	String rno,pno,ptitle,ptext,pdate,pname;
 	String aid,atitle,atext,adate,amname,asname,amid,asid; //멤버가 받을 내용들
 	String bid,btitle,btext,bdate,bmname,bsname,bmid,bsid; //멤버가 보낸내용
-	
-	
+
+	public void setAmid(String amid) {
+		this.amid = amid;
+	}
+	public void setAsid(String asid) {
+		this.asid = asid;
+	}
 	public String getPname() {
 		return pname;
 	}
