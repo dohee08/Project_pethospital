@@ -488,8 +488,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_panel.add(BorderLayout.CENTER, update_bottom);
 			content_panel.add(update_panel);
 			content_panel.setVisible(true);
-			main.setVisible(true);
 			MyPagePane.add(content_panel);
+			main.setVisible(true);
 			
 			jc_visit_time.addActionListener(this);
 			btn_hupdate.addActionListener(this);
@@ -580,8 +580,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			update_panel.add(BorderLayout.CENTER, update_bottom);
 			content_panel.add(update_panel);
-			main.setVisible(true);
 			MyPagePane.add(content_panel);
+			main.setVisible(true);
 			
 			jc_visit_time.addActionListener(this);
 			btn_supdate.addActionListener(this);
@@ -627,6 +627,22 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void hupdateProc(String time) {
 			ArrayList<String> dataList = new ArrayList<String>();
 			
+			if(hyear.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "년도를 입력해주세요");
+				hyear.requestFocus();
+			}else if(hmonth.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "달을 입력해주세요");
+				hmonth.requestFocus();
+			}else if(hday.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "일을 입력해주세요");
+				hday.requestFocus();
+			}else if(jc_visit_time.getSelectedItem().toString().equals("선택해주세요")){
+				JOptionPane.showMessageDialog(null, "예약시간을 선택해주세요");
+				jc_visit_time.requestFocus();
+			}else {
+			
+			
+			
 			dataList.add(tf_update.getText());
 			dataList.add(hyear.getText());
 			dataList.add(hmonth.getText());
@@ -651,11 +667,28 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			}}else {
 				JOptionPane.showMessageDialog(null, "예약시간을 다시 선택해주세요.");
 			}
-		} //수정처리
+		 } 
+		}//수정처리
 	
 		/** 미용수정처리 메소드 */
 		public void supdateProc(String time) {
 			ArrayList<String> dataList = new ArrayList<String>();
+			
+			if(syear.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "년도를 입력해주세요");
+				syear.requestFocus();
+			}else if(smonth.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "달을 입력해주세요");
+				smonth.requestFocus();
+			}else if(sday.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "일을 입력해주세요");
+				sday.requestFocus();
+			}else if(jc_visit_time.getSelectedItem().toString().equals("선택해주세요")){
+				JOptionPane.showMessageDialog(null, "예약시간을 선택해주세요");
+				jc_visit_time.requestFocus();
+			}else {
+			
+			
 			
 			dataList.add(tf_update.getText());
 			dataList.add(syear.getText());
@@ -681,7 +714,8 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			}}else {
 				JOptionPane.showMessageDialog(null, "예약시간을 다시 선택해주세요.");
 			}
-		} //수정처리
+		}
+		}//수정처리
 		
 		/** 미용예약 삭제 
 		 * */
@@ -719,6 +753,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update_panel.add(BorderLayout.CENTER, update_bottom);
 			content_panel.add(update_panel);
 			MyPagePane.add(content_panel);
+			main.setVisible(true);
 		}	
 		
 		/** 메뉴 선택시 패널 스위칭  */

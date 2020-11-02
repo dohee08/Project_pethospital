@@ -5,6 +5,7 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,19 +29,26 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class HospitalBoard extends WindowAdapter implements ActionListener {
 	JFrame jf,bif,bdf; 
 	HospitalMgmUI HMui;
 	UserVO vo;
 	
-	JPanel BoardPane, insert_panel, btnMenu_panel;
+	JPanel BoardPane, insert_panel, btnMenu_panel,intro_panel,viewer_panel,receive_panel,rselect_panel;
 	JButton btn_insert,btn_reset, btn_delete;
 	JButton btn_board, btn_onetoone;
 	JTextField title_tf;
 	JTextArea post ;
 	
 	ArrayList<UserVO> list;
+	
+	
+	Object[] rcolumns = {"순번","코드","제목","날짜","보낸사람","답글코드"};
+	DefaultTableModel rmodel =new DefaultTableModel(rcolumns,0);
+	JTable rtable= new JTable(rmodel);
+	Object[] rrow =new Object[6];
 	
 	public static final int BOARD = 1;
 	public static final int ONETOONE = 2;
@@ -79,6 +87,12 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		btn_delete = new JButton("글삭제");
 		
 		
+		intro_panel = new JPanel();
+		viewer_panel = new JPanel();
+		receive_panel = new JPanel();
+		rselect_panel = new JPanel();
+		
+		
 		Color c1 = new Color(255,231,159);
 		Color c3 = new Color(229,197,148);
 		btn_board.setBackground(c3);
@@ -96,62 +110,62 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		insert_panel.add(btn_reset);
 		insert_panel.add(btn_delete);
 		
-		list = new ArrayList<UserVO>();
-		
-
-		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-
-		
-	   list = HMui.system.gettext();
-		
-
-		
-		for(UserVO vo : list) {
-			if(vo != null) {
-				row[0]= vo.getRno();
-				row[1]= vo.getPno();
-				row[2]=vo.getPname();
-				row[3]=vo.getPtitle();
-				row[4]=vo.getPdate();
-				
-				model.addRow(row);
-			}
-			table.repaint();
-		}
-		
-		 table.addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                int rowNum = table.getSelectedRow();
-	                UserVO vo = new UserVO();
-	                vo = list.get(rowNum);
-	                new HospitalBoardPopUp(vo);
-	            }
-	        });
-		 
-		model.fireTableDataChanged();
-		model.setColumnIdentifiers(columns);
-		table.setModel(model);
-		
-		table.getColumn("번호").setCellRenderer(dtcr);
-		table.getColumn("코드").setCellRenderer(dtcr);
-	    table.getColumn("닉네임").setCellRenderer(dtcr);
-	    table.getColumn("제목").setCellRenderer(dtcr);
-	    table.getColumn("날짜").setCellRenderer(dtcr);
-	    table.setBackground(Color.WHITE);
-	    
-	    JScrollPane pane = new JScrollPane(table);
-		pane.setBounds(0,100,600,250);
-
-		pane.setBackground(Color.WHITE);
+//		list = new ArrayList<UserVO>();
+//		
+//
+//		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+//		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+//
+//		
+//	   list = HMui.system.gettext();
+//		
+//
+//		
+//		for(UserVO vo : list) {
+//			if(vo != null) {
+//				row[0]= vo.getRno();
+//				row[1]= vo.getPno();
+//				row[2]=vo.getPname();
+//				row[3]=vo.getPtitle();
+//				row[4]=vo.getPdate();
+//				
+//				model.addRow(row);
+//			}
+//			table.repaint();
+//		}
+//		
+//		 table.addMouseListener(new MouseAdapter() {
+//	            @Override
+//	            public void mouseClicked(MouseEvent e) {
+//	                int rowNum = table.getSelectedRow();
+//	                UserVO vo = new UserVO();
+//	                vo = list.get(rowNum);
+//	                new HospitalBoardPopUp(vo);
+//	            }
+//	        });
+//		 
+//		model.fireTableDataChanged();
+//		model.setColumnIdentifiers(columns);
+//		table.setModel(model);
+//		
+//		table.getColumn("번호").setCellRenderer(dtcr);
+//		table.getColumn("코드").setCellRenderer(dtcr);
+//	    table.getColumn("닉네임").setCellRenderer(dtcr);
+//	    table.getColumn("제목").setCellRenderer(dtcr);
+//	    table.getColumn("날짜").setCellRenderer(dtcr);
+//	    table.setBackground(Color.WHITE);
+//	    
+//	    JScrollPane pane = new JScrollPane(table);
+//		pane.setBounds(0,100,600,250);
+//
+//		pane.setBackground(Color.WHITE);
 		insert_panel.setBackground(Color.WHITE);
 		btnMenu_panel.setBackground(Color.WHITE);
 		BoardPane.setBackground(Color.WHITE);
-		
-		
+//		
+//		
 		BoardPane.setLayout(new BorderLayout());
-		BoardPane.add(pane,BorderLayout.CENTER);
+//		BoardPane.add(pane,BorderLayout.CENTER);
 //		BoardPane.add(jl_list, BorderLayout.NORTH);
 		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
 		BoardPane.add(insert_panel, BorderLayout.SOUTH);
@@ -203,7 +217,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	public void write() {
 		
-		Calendar cal = Calendar.getInstance();
+		  Calendar cal = Calendar.getInstance();
 	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
 	      int year = cal.get(Calendar.YEAR);
 
@@ -233,6 +247,69 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 	}
 	
+	public void viewer() {
+		
+		BoardPane.removeAll();
+		
+		list = new ArrayList<UserVO>();
+		
+
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+
+		
+	    view();
+		
+		 table.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                int rowNum = table.getSelectedRow();
+	                UserVO vo = new UserVO();
+	                vo = list.get(rowNum);
+	                new HospitalBoardPopUp(vo);
+	            }
+	        });
+		 
+		model.fireTableDataChanged();
+		model.setColumnIdentifiers(columns);
+		table.setModel(model);
+		
+		table.getColumn("번호").setCellRenderer(dtcr);
+		table.getColumn("코드").setCellRenderer(dtcr);
+	    table.getColumn("닉네임").setCellRenderer(dtcr);
+	    table.getColumn("제목").setCellRenderer(dtcr);
+	    table.getColumn("날짜").setCellRenderer(dtcr);
+	    table.setBackground(Color.WHITE);
+	    
+	    JScrollPane pane = new JScrollPane(table);
+		pane.setBounds(0,100,600,250);
+
+		pane.setBackground(Color.WHITE);
+		insert_panel.setBackground(Color.WHITE);
+		btnMenu_panel.setBackground(Color.WHITE);
+		BoardPane.setBackground(Color.WHITE);
+
+		
+		
+		BoardPane.setLayout(new BorderLayout());
+		BoardPane.add(pane,BorderLayout.CENTER);
+//		BoardPane.add(jl_list, BorderLayout.NORTH);
+		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
+		BoardPane.add(insert_panel, BorderLayout.SOUTH);
+		
+		
+		HMui.add(BoardPane,BorderLayout.CENTER);
+		HMui.setVisible(true);
+		
+		
+		btn_board.addActionListener(this);
+		btn_onetoone.addActionListener(this);
+		btn_insert.addActionListener(this);
+		btn_reset.addActionListener(this);
+		btn_delete.addActionListener(this);
+		
+	}
+	
 	public void view() {
 		list = new ArrayList<UserVO>();
 		
@@ -254,6 +331,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 			table.repaint();
 		}
 		model.fireTableDataChanged();
+		
 		
 	}
 	
@@ -295,6 +373,125 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		}
 	}//deleteProc
 	
+	/** 1대 1 초기창
+	 * */
+	public void intro11() {
+		
+		resetMenuPanel();
+		intro_panel.removeAll();
+		BoardPane.removeAll();
+		
+		intro_panel.setLayout(new GridLayout(1,2));
+		Button s = new Button("1대1 문의 보내기");
+		Button r = new Button("1대1 답변 확인");
+		
+		intro_panel.add(s);
+		intro_panel.add(r);
+		
+		receive_panel.setLayout(new BorderLayout());
+		receive_panel.add(BorderLayout.NORTH,intro_panel);
+		
+		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
+		BoardPane.add(receive_panel,BorderLayout.CENTER);
+		
+		BoardPane.setBackground(Color.white);
+		intro_panel.setBackground(Color.white);
+		s.setBackground(Color.white);
+		r.setBackground(Color.white);
+		
+		HMui.add(BoardPane,BorderLayout.CENTER);
+		receive_panel.setVisible(true);
+		HMui.setVisible(true);
+		
+		r.addActionListener(this);
+		s.addActionListener(this);
+	}
+	
+	
+	/** 1대1 답변 받아오기
+	 */
+	public void receive() {
+		resetMenuPanel();
+		
+			
+		receive_panel.setVisible(true);
+		rselect_panel.removeAll();
+		
+		rcreateJtableData();	//출력되는 데이터 가져오기
+		
+		
+		rtable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int rowNum = rtable.getSelectedRow();
+				UserVO vo = new UserVO();
+				vo = list.get(rowNum);
+				new HospitalBoardPopUpR(vo);
+			}
+		});
+		
+		rmodel.fireTableDataChanged();
+		rmodel.setColumnIdentifiers(rcolumns);
+		rtable.setModel(rmodel);
+		
+		
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+	    TableColumnModel tcm = rtable.getColumnModel();
+	    
+	    rtable.getColumn("순번").setCellRenderer(dtcr);
+	    rtable.getColumn("코드").setCellRenderer(dtcr);
+	    rtable.getColumn("제목").setCellRenderer(dtcr);
+	    rtable.getColumn("날짜").setCellRenderer(dtcr);
+	    rtable.getColumn("보낸사람").setCellRenderer(dtcr);
+	    rtable.getColumn("답글코드").setCellRenderer(dtcr);
+		
+	    JScrollPane pane=new JScrollPane(rtable);
+		pane.setBounds(0,100,600,250);
+		
+		rselect_panel.setLayout(new BorderLayout());
+		rselect_panel.add(BorderLayout.CENTER,pane);
+		rselect_panel.add(BorderLayout.NORTH, new Label("1대1문의 답변 내역"));
+		receive_panel.add(BorderLayout.CENTER,rselect_panel);
+		BoardPane.add(BorderLayout.CENTER,receive_panel);
+		
+		pane.setBackground(Color.WHITE);
+		rselect_panel.setBackground(Color.white);
+		receive_panel.setBackground(Color.white);
+		BoardPane.setBackground(Color.white);
+		
+		HMui.add(BoardPane,BorderLayout.CENTER);
+		HMui.setVisible(true);    
+	}
+	
+	public void rcreateJtableData() {
+		list = new ArrayList<UserVO>();
+		
+		list = HMui.system.receive(HMui.id);
+		
+		rmodel.setNumRows(0);
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				rrow[0]= vo.getRno();
+				rrow[1]= vo.getAid();
+				rrow[2]=vo.getAtitle();
+				rrow[3]=vo.getAdate();
+				rrow[4]=vo.getAsname();
+				rrow[5]=vo.getBid();
+				
+				rmodel.addRow(rrow);
+			}
+			rtable.repaint();
+		}
+		rmodel.fireTableDataChanged();
+		
+	}
+	
+	public void resetMenuPanel() {
+//		receive_panel.setVisible(false);
+//		content_panel.setVisible(false);
+//		insert_panel.setVisible(false);
+	}
 	
 	//윈도우 이벤트 처리
 	public void windowClosing(WindowEvent e) {
@@ -307,12 +504,12 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		Object obj = e.getSource();
 		
 		if(name.equals("자유 게시판")) {
-			view();	
+			viewer();	
 		}else if(name.equals("1대1 문의")) {
-//				boardinsert();	
+			intro11();
+//			receive();
 		}else if(name.equals("글올리기")) {
-//			boardinsert();
-//			write();
+			boardinsert();
 		}else if(name.equals("새로고침")) {
 			view();
 		}else if(name.equals("등록하기")) {
@@ -321,6 +518,8 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 			bif.setVisible(false);
 		}else if(name.equals("글삭제")) {
 			boarddelete();
+		}else if(name.contentEquals("1대1 답변 확인")) {
+			receive();
 		}else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
 			String pno = jt_deleteSearch.getText().trim();
 			
