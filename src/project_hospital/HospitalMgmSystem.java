@@ -201,7 +201,7 @@ public class HospitalMgmSystem {
 			return dao.deletePost(pno);
 		}
 		
-		/**이름가져오기 */
+		/**게시판 이름가져오기 */
 		public String rename(String id) {
 			String result = "";
 			
@@ -209,6 +209,10 @@ public class HospitalMgmSystem {
 			
 			return result;
 				
+		}
+		/** 게시판 1대1 문의 답변보기 */
+		public ArrayList<UserVO> receive(String id){
+			return dao.receive(id);
 		}
 		/** 로그인 */
 		public boolean login(String id ,String pass) {

@@ -660,6 +660,40 @@ public class HospitalDAO extends DBConn {
 		return result;
 	}
 	
+	/** 1대1 게시판 내용 가져오기 **/
+	public ArrayList<UserVO> receive(String id) {
+		ArrayList<UserVO> list = new ArrayList<UserVO>();
+	
+		try {
+			String sql = "select rownum rno, aid ,atitle,atext ,adate,asname,bid from receive where mid = ?";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs=pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+		
+				vo.setRno(rs.getString(1));
+				vo.setAid(rs.getString(2));
+				vo.setAtitle(rs.getString(3));
+				vo.setAtext(rs.getString(4));
+				vo.setAdate(rs.getString(5));
+				vo.setAsname(rs.getString(6));
+				vo.setBid(rs.getString(7));
+						
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	
 	/** 회원 로그인 -- 시작할 때 **/
 	public boolean memlogin(String id, String pass) {
 		boolean result = false;
