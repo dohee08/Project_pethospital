@@ -596,6 +596,25 @@ public class HospitalDAO extends DBConn {
 		return result;
 	}
 	
+	/** 매니저 이름 가져오기 */
+	public String renameMan(String sid) {
+		String result="";
+		
+		try {
+			String sql ="select sname from manager where sid =?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, sid);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) result = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/** 게시판 내용 업로드 */
 	public boolean pinsert(UserVO vo) {
 		boolean result = false;
@@ -650,6 +669,114 @@ public class HospitalDAO extends DBConn {
 			String sql = "DELETE FROM POST WHERE PNO=?";
 			getPreparedStatement(sql);
 			pstmt.setString(1, pno);
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/** 1:1 문의 - send 테이블 정보 불러오기 **/
+	public ArrayList<UserVO> getSendInfo(String id) {
+		ArrayList<UserVO> send = new ArrayList<UserVO>();
+		String sid = id;
+		try {
+			String sql ="select rownum rno, bid, btitle, btext, bmname, bdate from send where sid = ? ";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, sid);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+		
+				vo.setRno(rs.getString(1));
+				vo.setBid(rs.getString(2));
+				vo.setBtitle(rs.getString(3));
+				vo.setBtext(rs.getString(4));
+				vo.setBmname(rs.getString(5));
+				vo.setBdate(rs.getString(6));
+				
+				send.add(vo);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return send;
+	}
+	
+	/** 1:1 문의 - receive 테이블 정보 불러오기 **/
+	public ArrayList<UserVO> getReceiveInfo(String id) {
+		ArrayList<UserVO> send = new ArrayList<UserVO>();
+		String sid = id;
+		try {
+			String sql ="select rownum rno, aid, atitle, atext, asname, amname, adate from receive where sid = ? ";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, sid);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+		
+				vo.setRno(rs.getString(1));
+				vo.setAid(rs.getString(2));
+				vo.setAtitle(rs.getString(3));
+				vo.setAtext(rs.getString(4));
+				vo.setAsname(rs.getString(5));
+				vo.setAmname(rs.getString(6));
+				vo.setAdate(rs.getString(7));
+				
+				send.add(vo);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return send;
+	}
+	
+	/** 매니저 - 멤버이름 가져오기 */
+	public String getMid(String Bmname) {
+		String result="";
+		
+		try {
+			String sql ="select mid from send where bmname =?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, Bmname);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) result = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/** 1:1문의 - 답변 내용 업로드 */
+	public boolean ainsert(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = "insert into receive (aid,atitle,atext,adate,amname,asname,mid,sid,bid) values(?,?,?,?,?,?,?,?,?)";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, vo.getAid());
+			pstmt.setString(2, vo.getAtitle());
+			pstmt.setString(3, vo.getAtext());
+			pstmt.setString(4, vo.getAdate());
+			pstmt.setString(5, vo.getAmname());
+			pstmt.setString(6, vo.getAsname());
+			pstmt.setString(7, vo.getMid());
+			pstmt.setString(8, vo.getSid());
+			pstmt.setString(9, vo.getBid());
+			
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;
 			

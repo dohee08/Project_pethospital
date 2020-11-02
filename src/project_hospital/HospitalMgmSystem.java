@@ -210,6 +210,46 @@ public class HospitalMgmSystem {
 			return result;
 				
 		}
+		
+		/** 1:1문의 - 매니저 이름가져오기 */
+		public String renameMan(String id) {
+			String result = "";
+			
+			result = dao.renameMan(id);
+			
+			return result;
+				
+		}
+		
+		/** 1:1문의 - 멤버 아이디 가져오기 */
+		public String getMid(String Bmname) {
+			String result = "";
+			
+			result = dao.getMid(Bmname);
+			
+			return result;
+				
+		}
+		
+		/** 1:1문의 - 매니저 답변 내용 입력 */
+		public boolean ainsert(UserVO vo) {
+			boolean result = false;
+			
+			result = dao.ainsert(vo);
+			
+			return result;
+		}
+		
+		/** 게시판 - 매니저 문의 받기 send테이블 정보 **/ 
+		public ArrayList<UserVO> getSendInfo(String id){
+			return dao.getSendInfo(id);
+		}
+		
+		/** 게시판 - 매니저 문의 받기 receive테이블 정보 **/
+		public ArrayList<UserVO> getReceiveInfo(String id){
+			return dao.getReceiveInfo(id);
+		}
+		
 		/** 로그인 */
 		public boolean login(String id ,String pass) {
 			boolean result = false;

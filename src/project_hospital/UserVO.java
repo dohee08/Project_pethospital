@@ -6,8 +6,81 @@ public class UserVO {
 	String hno,hsymptom,hyear,hmonth,hday,htime,hmid;
 	String sno,syear,smonth,sday,stime,sgender,stext,smid;
 	String rno,pno,ptitle,ptext,pdate,pname;
+	String aid, atitle, atext, asname, adate, amname;
+	String bid, btitle, btext, bsname, bdate, bmname;
 	
-	
+	public String getAid() {
+		return aid;
+	}
+	public void setAid(String aid) {
+		this.aid = aid;
+	}
+	public String getAtitle() {
+		return atitle;
+	}
+	public void setAtitle(String atitle) {
+		this.atitle = atitle;
+	}
+	public String getAtext() {
+		return atext;
+	}
+	public void setAtext(String atext) {
+		this.atext = atext;
+	}
+	public String getAsname() {
+		return asname;
+	}
+	public void setAsname(String asname) {
+		this.asname = asname;
+	}
+	public String getAdate() {
+		return adate;
+	}
+	public void setAdate(String adate) {
+		this.adate = adate;
+	}
+	public String getAmname() {
+		return amname;
+	}
+	public void setAmname(String amname) {
+		this.amname = amname;
+	}
+	public String getBid() {
+		return bid;
+	}
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	public String getBtitle() {
+		return btitle;
+	}
+	public void setBtitle(String btitle) {
+		this.btitle = btitle;
+	}
+	public String getBtext() {
+		return btext;
+	}
+	public void setBtext(String btext) {
+		this.btext = btext;
+	}
+	public String getBsname() {
+		return bsname;
+	}
+	public void setBsname(String bsname) {
+		this.bsname = bsname;
+	}
+	public String getBdate() {
+		return bdate;
+	}
+	public void setBdate(String bdate) {
+		this.bdate = bdate;
+	}
+	public String getBmname() {
+		return bmname;
+	}
+	public void setBmname(String bmname) {
+		this.bmname = bmname;
+	}
 	public String getPname() {
 		return pname;
 	}

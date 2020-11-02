@@ -17,7 +17,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -61,26 +64,51 @@ public class HospitalManager {
 	//답변
 	private JPanel receive_panel;
 	private JPanel send_panel;
-	ArrayList<UserVO> list;
+	ArrayList<UserVO> list, list2;
 	DefaultTableModel model, model2;
 	Object[] row, row2;
 	JTable table, table2;
 	private JPanel table_panel;
 	
-	String uid;	//Login에서 가져온 id
+	String id;	//Login에서 가져온 id
 	JLabel jl_status;
 	private JPanel status_panel;
 	
-	public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
+	public String sname;	//답장보낼 매니저 이름 구하기
 	
+	public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
+
 	//Constructor
 	public HospitalManager(HospitalMgmUI main) {
 		this.main = main;
 		login();
-		
+		showManager();
+	}
+	
+	//Method
+	/** 로그인 성공 시 아이디 불러오기 **/
+	public String callId(String uid) {
+		if(uid != null) {
+			this.id = uid;
+			System.out.println("-----"+id);
+		}
+		return id;
+	}
+	
+	/** 로그인 성공 시 매니저 이름 불러오기 **/
+	public String callName(String uid) {
+		if(uid != null) {
+			sname = main.system.renameMan(id);
+			this.sname = sname;
+			System.out.println("-----"+sname);
+		}
+		return sname;
+	}
+	
+	/** 매니저 로그인 후 화면 **/
+	public void showManager() {
 		Font font = new Font("맑은 고딕", Font.BOLD, 12);
 		jf = new JFrame("관리자 화면");	
-		
 		main_panel = new JPanel();
 	    button_panel = new JPanel();
 	    listPane = new JPanel();
@@ -94,7 +122,8 @@ public class HospitalManager {
 	    button_panel.setSize(40,100);
 	    
 	    status_panel = new JPanel(new BorderLayout());
-	    jl_status = new JLabel("-- " + loginCheck() + "가 로그인 하였습니다 --");
+	    status_panel.setBackground(Color.WHITE);
+	    jl_status = new JLabel("-- " + id + "가 로그인 하였습니다 --");
 	    jl_status.setFont(font);
 	    jl_status.setBackground(Color.WHITE);
 	    status_panel.add(jl_status, BorderLayout.WEST);
@@ -143,7 +172,6 @@ public class HospitalManager {
 		
 	}
 	
-	//Method
 	/**로그인 폼 **/
 	public void login() {
 		Font font = new Font("맑은 고딕", Font.BOLD, 12);
@@ -207,11 +235,10 @@ public class HospitalManager {
 	}
 	
 	/** 매니저 로그인 체크 **/
-	public String loginCheck() {
+	public void loginCheck() {
 //		String did = "manager";  
 //		String dpass = "123";
-		String id = "";
-		uid = tid.getText().trim();
+		String uid = tid.getText().trim();
 		String upass = tpass.getText().trim();
 		
 		boolean result = main.system.manlogin(uid, upass);
@@ -220,14 +247,15 @@ public class HospitalManager {
 			//로그인성공 : id,pass 동일
 			JOptionPane.showMessageDialog(null, "로그인 성공");
 			jf_login.setVisible(false);
-			id = uid;
+			callId(uid);
+			callName(uid);
+			showManager();
 			jf.setVisible(true);
 				
 		}else {
 			//로그인 실패 : id 동일, pass 다름
 			JOptionPane.showMessageDialog(null, "로그인 실패");
 		}
-		return id;
 	}	
 
 			
@@ -311,6 +339,7 @@ public class HospitalManager {
 			}
 		}
 	}
+	
 	/** 수정 처리 메소드 **/
 	public void updateProc() {
 		JOptionPane.showMessageDialog(null, "수정완료");
@@ -418,6 +447,7 @@ public class HospitalManager {
 		tf_update_last.addActionListener(new JFrameObjectEvent());
 		
 	}
+	
 	/** 수정실패 **/
 	public void updateFailForm() {
 		update_bottom.removeAll();
@@ -472,33 +502,39 @@ public class HospitalManager {
 	public void replyPost() {
 		//replyPane
 		JButton btn_reset = new JButton("새로고침");
+		btn_reset.setFont(font);
+		btn_reset.setBackground(main.c3);
 		JPanel reset_panel = new JPanel();
 		reset_panel.setSize(20, 20);
 		reset_panel.add(btn_reset);
+		reset_panel.setBackground(Color.WHITE);
 		
-		receive_panel = new JPanel(new BorderLayout());	//답변 받은 패널
+		//1.답변 받은 패널
+		receive_panel = new JPanel(new BorderLayout());	
+		receive_panel.setBackground(Color.WHITE);
 		//라벨
 		JLabel jl_list = new JLabel("답변할 게시글");
 		jl_list.setFont(font);
 		
 		//테이블
 		list = new ArrayList<UserVO>();
-		Object[] columns = {"번호","코드","닉네임","제목","날짜"};
+		Object[] columns = {"번호","게시글 코드","제목","글내용","멤버이름","날짜"};
 		model =new DefaultTableModel(columns,0);
 		table= new JTable(model);
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-		row =new Object[5];
+		row =new Object[columns.length];
 		
-		list = main.system.gettext();
+		list = main.system.getSendInfo(id);
 		
 		for(UserVO vo : list) {
 			if(vo != null) {
 				row[0]= vo.getRno();
-				row[1]= vo.getPno();
-				row[2]=vo.getPname();
-				row[3]=vo.getPtitle();
-				row[4]=vo.getPdate();
+				row[1]= vo.getBid();
+				row[2]= vo.getBtitle();
+				row[3]= vo.getBtext();
+				row[4]= vo.getBmname();
+				row[5]= vo.getBdate();
 				
 				model.addRow(row);
 			}
@@ -510,7 +546,9 @@ public class HospitalManager {
                 int rowNum = table.getSelectedRow();
                 UserVO vo = new UserVO();
                 vo = list.get(rowNum);
-                new HospitalBoardPopUp(vo);
+                HospitalManagerPopUp popup = new HospitalManagerPopUp(vo);
+                popup.callId(id);
+                popup.callName(sname);
             }
         });
 	 
@@ -519,9 +557,10 @@ public class HospitalManager {
 		table.setModel(model);
 		
 		table.getColumn("번호").setCellRenderer(dtcr);
-		table.getColumn("코드").setCellRenderer(dtcr);
-	    table.getColumn("닉네임").setCellRenderer(dtcr);
+		table.getColumn("게시글 코드").setCellRenderer(dtcr);
 	    table.getColumn("제목").setCellRenderer(dtcr);
+	    table.getColumn("글내용").setCellRenderer(dtcr);
+	    table.getColumn("멤버이름").setCellRenderer(dtcr);
 	    table.getColumn("날짜").setCellRenderer(dtcr);
 	    
 	    
@@ -531,28 +570,33 @@ public class HospitalManager {
 		receive_panel.add(jl_list, BorderLayout.NORTH);
 		receive_panel.add(pane, BorderLayout.CENTER);
 		
-		
-		send_panel = new JPanel(new BorderLayout());		//답변 완료 패널
+		//2.답변 완료 패널
+		send_panel = new JPanel(new BorderLayout());
 		//라벨
 		JLabel jl_list2 = new JLabel("답변완료 게시글");
 		jl_list2.setFont(font);
 				
 		//테이블
-		Object[] columns2 = {"번호","코드","닉네임","제목","날짜"};
+		list2 = new ArrayList<UserVO>();
+		Object[] columns2 = {"번호","게시글 코드","제목","글내용","매니저이름","멤버이름","날짜"};
 		model2 =new DefaultTableModel(columns,0);
 		table2= new JTable(model2);
 		DefaultTableCellRenderer dtcr2 = new DefaultTableCellRenderer();
 		dtcr2.setHorizontalAlignment(SwingConstants.CENTER);
 				
-		row2 =new Object[5];
+		row2 =new Object[columns2.length];
 				
-		for(UserVO vo : list) {
+		list2 = main.system.getReceiveInfo(id);
+		
+		for(UserVO vo : list2) {
 			if(vo != null) {
 				row2[0]= vo.getRno();
-				row2[1]= vo.getPno();
-				row2[2]=vo.getPname();
-				row2[3]=vo.getPtitle();
-				row2[4]=vo.getPdate();
+				row2[1]= vo.getAid();
+				row2[2]= vo.getAtitle();
+				row2[3]= vo.getAtext();
+				row2[4]= vo.getAsname();
+				row2[5]= vo.getAmname();
+				row2[6]= vo.getAdate();
 						
 				model2.addRow(row2);
 			}
@@ -564,8 +608,8 @@ public class HospitalManager {
 		    public void mouseClicked(MouseEvent e) {
 				int rowNum = table2.getSelectedRow();
 				UserVO vo = new UserVO();
-				vo = list.get(rowNum);
-				new HospitalBoardPopUp(vo);
+				vo = list2.get(rowNum);
+				new HospitalManagerComPopUp(vo);
 			}
 		});
 			 
@@ -574,9 +618,11 @@ public class HospitalManager {
 		table2.setModel(model2);
 				
 		table2.getColumn("번호").setCellRenderer(dtcr2);
-		table2.getColumn("코드").setCellRenderer(dtcr2);
-	    table2.getColumn("닉네임").setCellRenderer(dtcr2);
+		table2.getColumn("게시글 코드").setCellRenderer(dtcr2);
 	    table2.getColumn("제목").setCellRenderer(dtcr2);
+	    table2.getColumn("글내용").setCellRenderer(dtcr2);
+	    table2.getColumn("매니저이름").setCellRenderer(dtcr2);
+	    table2.getColumn("멤버이름").setCellRenderer(dtcr2);
 	    table2.getColumn("날짜").setCellRenderer(dtcr2);
 			    
 			    
@@ -585,14 +631,17 @@ public class HospitalManager {
 		
 		send_panel.add(jl_list2, BorderLayout.NORTH);
 		send_panel.add(pane2, BorderLayout.CENTER);
+		send_panel.setBackground(Color.WHITE);
 		
 		table_panel = new JPanel(new GridLayout(2,1));
 		table_panel.add(receive_panel);
 		table_panel.add(send_panel);
+		table_panel.setBackground(Color.WHITE);
 		
 		replyPane = new JPanel(new BorderLayout());
 		replyPane.add(table_panel, BorderLayout.CENTER);
 		replyPane.add(reset_panel, BorderLayout.SOUTH);
+		replyPane.setBackground(Color.WHITE);
 		
 		btn_reset.addActionListener(new JFrameObjectEvent());
 		replyPane.setSize(200,200);
@@ -603,37 +652,48 @@ public class HospitalManager {
 	
 	/** 답변테이블 새로고침 **/
 	public void view() {
-		list = new ArrayList<UserVO>();
+		this.list = new ArrayList<UserVO>();
 		
-		list = main.system.gettext();
+		list = main.system.getSendInfo(id);
+		list2 = main.system.getReceiveInfo(id);
 		
-		model.setNumRows(0);
-		model2.setNumRows(0);
+		this.model.setNumRows(0);
+		this.model2.setNumRows(0);
 		
 		for(UserVO vo : list) {
 			if(vo != null) {
-				row[0]= vo.getRno();
-				row[1]= vo.getPno();
-				row[2]=vo.getPname();
-				row[3]=vo.getPtitle();
-				row[4]=vo.getPdate();
-				
-				row2[0]= vo.getRno();
-				row2[1]= vo.getPno();
-				row2[2]=vo.getPname();
-				row2[3]=vo.getPtitle();
-				row2[4]=vo.getPdate();
-				
-				model.addRow(row);
-				model2.addRow(row2);
+				row[0] = vo.getRno();
+				row[1] = vo.getBid();
+				row[2] = vo.getBtitle();
+				row[3] = vo.getBtext();
+				row[4] = vo.getBmname();
+				row[5] = vo.getBdate();
+
+				this.model.addRow(row);
 			}
-			table.repaint();
-			table2.repaint();
+			this.table.repaint();
 		}
-		model.fireTableDataChanged();
-		model2.fireTableDataChanged();
+		
+		for(UserVO vo : list2) {
+			if(vo != null) {
+				row2[0] = vo.getRno();
+				row2[1] = vo.getAid();
+				row2[2] = vo.getAtitle();
+				row2[3] = vo.getAtext();
+				row2[4] = vo.getAsname();
+				row2[5] = vo.getAmname();
+				row2[6] = vo.getAdate();
+				
+				this.model2.addRow(row2);
+			}
+			this.table2.repaint();
+		}
+		this.model.fireTableDataChanged();
+		this.model2.fireTableDataChanged();
 		
 	}
+	
+	
 	
 	/** 패널 보여주기 삭제 **/
 	public void resetPane() {
