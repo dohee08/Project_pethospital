@@ -105,7 +105,7 @@ public class HospitalBoardPopUpS extends JFrame {
                 vo.setBmname(name);
                 vo.setBdate(year+"/"+month+"/"+day);
                 vo.setBsname(hosandsal);
-                vo.setAid(null);
+                
                 
                 system.send(vo);
                 JOptionPane.showMessageDialog(null, "등록완료");
