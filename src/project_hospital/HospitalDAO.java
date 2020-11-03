@@ -702,7 +702,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 	
 		try {
-			String sql = "select rownum rno, aid ,atitle,atext ,adate,asname,bid from receive where mid = ?";
+			String sql = "select rownum rno, r.aid ,atitle,atext ,adate,asname, btitle from receive r ,send s where r.bid =s.bid and r.mid = ?";
 			
 			getPreparedStatement(sql);
 			pstmt.setString(1, id);
@@ -729,6 +729,38 @@ public class HospitalDAO extends DBConn {
 		
 		return list;
 	}
+	
+	/** 1:1 문의 - send 테이블 정보 불러오기  (원장님 이름 가져오기)**/
+	public ArrayList<UserVO> send(String id) {
+		ArrayList<UserVO> send = new ArrayList<UserVO>();
+		String sid = id;
+		try {
+			String sql ="select rownum rno, bid, btitle, btext, bsname, bmname,bdate from send where sid = ? ";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, sid);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				UserVO vo = new UserVO();
+		
+				vo.setRno(rs.getString(1));
+				vo.setBid(rs.getString(2));
+				vo.setBtitle(rs.getString(3));
+				vo.setBtext(rs.getString(4));
+				vo.setBsname(rs.getString(5));
+				vo.setBsname(rs.getString(6));
+				vo.setBdate(rs.getString(7));
+				
+				send.add(vo);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		 return send;
+	}
+	
 	
 	/** 1:1 문의 - send 테이블 정보 불러오기 **/
 	public ArrayList<UserVO> getSendInfo(String id) {
@@ -862,7 +894,7 @@ public class HospitalDAO extends DBConn {
 		boolean result = false;
 		
 		try {
-			String sql = "insert into send values(?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into send values(?,?,?,?,?,?,?,?)";
 			
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getBid());
@@ -873,7 +905,6 @@ public class HospitalDAO extends DBConn {
 			pstmt.setString(6, vo.getBsname());
 			pstmt.setString(7, vo.getBdate());
 			pstmt.setString(8, vo.getBmname());
-			pstmt.setString(9, vo.getAid());
 			
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;

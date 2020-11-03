@@ -215,6 +215,11 @@ public class HospitalMgmSystem {
 			return dao.receive(id);
 		}
 		
+		/** 게시판 1대1 문의 보낸리스트  */
+		public ArrayList<UserVO> send(String id){
+			return dao.send(id);
+		}
+		
 		/** 1:1문의 - 매니저 이름가져오기 */
 		public String renameMan(String id) {
 			String result = "";

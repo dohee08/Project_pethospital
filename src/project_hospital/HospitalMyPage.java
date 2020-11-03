@@ -80,14 +80,14 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			
 			
 			jp_change = new JPanel();
-			content_panel = new JPanel();
+			content_panel = new JPanel(new BorderLayout());
 			check_panel = new JPanel();
 			update_panel = new JPanel();
 			search_panel = new JPanel();
 			hselect_panel = new JPanel();
 			sselect_panel = new JPanel();
 			allselect_panel = new JPanel();
-			intro_panel = new JPanel();
+			intro_panel = new JPanel(new GridLayout(1,2));
 			update_bottom = new JPanel();
 			login_panel = new JPanel(new BorderLayout());
 			all_panel = new JPanel(new BorderLayout());
@@ -268,15 +268,19 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			switchPanel(SELECT);
 			intro_panel.removeAll();
 			
-			
+			intro_panel.setLayout(new GridLayout(1,2));
 			
 			Button h = new Button("병원예약확인");
 			Button s = new Button("미용예약확인");
 			
+			h.setBackground(Color.white);
+			s.setBackground(Color.white);
+			
 			intro_panel.add(h);
 			intro_panel.add(s);
 			
-			content_panel.add(BorderLayout.NORTH,intro_panel);
+			content_panel.add(intro_panel,BorderLayout.NORTH);
+			MyPagePane.add(content_panel,BorderLayout.CENTER);
 			main.setVisible(true);
 			
 			h.addActionListener(this);
@@ -662,6 +666,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			if(main.system.update(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
+				update();
 			}else {
 				JOptionPane.showMessageDialog(null, "수정실패");
 			}}else {
@@ -709,6 +714,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			if(main.system.supdate(vo)) {
 				//수정 성공
 				JOptionPane.showMessageDialog(null, "수정완료!");
+				update();
 			}else {
 				JOptionPane.showMessageDialog(null, "수정실패");
 			}}else {
