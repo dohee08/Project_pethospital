@@ -614,6 +614,24 @@ public class HospitalDAO extends DBConn {
 		}
 		return result;
 	}
+	/** 매니저 아이디 가져오기 */
+	public String getManaId(String sid) {
+		String result="";
+		
+		try {
+			String sql ="select sid from manager where sname =?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, sid);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) result = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	/** 게시판 내용 업로드 */
 	public boolean pinsert(UserVO vo) {
@@ -791,6 +809,24 @@ public class HospitalDAO extends DBConn {
 		}
 		return result;
 	}
+	/**  멤버이름 가져오기 */
+	public String gettMid(String name) {
+		String result="";
+		
+		try {
+			String sql ="select mid from member where mname =?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) result = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	/** 1:1문의 - 답변 내용 업로드 */
 	public boolean ainsert(UserVO vo) {
@@ -809,6 +845,35 @@ public class HospitalDAO extends DBConn {
 			pstmt.setString(7, vo.getMid());
 			pstmt.setString(8, vo.getSid());
 			pstmt.setString(9, vo.getBid());
+			
+			int count = pstmt.executeUpdate();
+			if(count != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	/*
+	 * 1:1 문의 등록
+	 */
+	public boolean sinsert(UserVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = "insert into send values(?,?,?,?,?,?,?,?,?)";
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getBid());
+			pstmt.setString(2, vo.getBtitle());
+			pstmt.setString(3, vo.getBtext());
+			pstmt.setString(4, vo.getMid());
+			pstmt.setString(5, vo.getSid());
+			pstmt.setString(6, vo.getBsname());
+			pstmt.setString(7, vo.getBdate());
+			pstmt.setString(8, vo.getBmname());
+			pstmt.setString(9, vo.getAid());
 			
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;
