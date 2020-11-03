@@ -3,6 +3,7 @@ package project_hospital;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,7 +58,7 @@ public class HospitalManager {
 	TextField tf_update;
 	int idx;
 	ArrayList<TextField> tf_update_list; //수정메뉴 선택 시 새로운 값을 가져오기 위해 선언만 해 놓음
-	String[] form_names = {"패스워드", "전화번호", "애견이름", "애견종류"};
+	String[] form_names = {"비밀번호", "전화번호", "애견이름", "애견종류"};
 	JButton update_search;
 	JPanel update_bottom;
 	TextField tf_update_last;
@@ -99,7 +101,6 @@ public class HospitalManager {
 	public String callName(String uid) {
 		if(uid != null) {
 			sname = main.system.renameMan(id);
-			this.sname = sname;
 			System.out.println("-----"+sname);
 		}
 		return sname;
@@ -175,19 +176,19 @@ public class HospitalManager {
 	/**로그인 폼 **/
 	public void login() {
 		Font font = new Font("맑은 고딕", Font.BOLD, 12);
-		jf_login = new JFrame("로그인");	
+		jf_login = new JFrame("관리자 로그인 창");	
 		JPanel jp_title = new JPanel();
 		JPanel jp_id = new JPanel();
 		JPanel jp_pass = new JPanel();
 		JPanel jp_button = new JPanel();
 		
-		JLabel title = new JLabel("로그인 폼");		
-		JLabel id = new JLabel("아이디");
-		JLabel pass = new JLabel("패스워드");
+		JLabel title = new JLabel("< 관리자 로그인 >");		
+		JLabel id = new JLabel("ID");
+		JLabel pass = new JLabel("비밀번호");
 		tid = new JTextField(15);
 		tpass = new JPasswordField(15);
 		JButton btnLogin = new JButton("로그인");
-		JButton btnReset = new JButton("취소");
+		JButton btnReset = new JButton("초기화");
 		JButton btnExit = new JButton("종료");
 		
 		//폰트
@@ -204,17 +205,25 @@ public class HospitalManager {
 		btnExit.setBackground(HospitalMgmUI.c3);
 		
 		jp_title.add(title);
-		jp_id.add(id);     jp_id.add(tid);
-		jp_pass.add(pass);  jp_pass.add(tpass);
+		jp_id.setLayout(new BoxLayout(jp_id, BoxLayout.Y_AXIS));
+		jp_id.add(id);     jp_id.add(pass);
+		jp_pass.setLayout(new BoxLayout(jp_pass, BoxLayout.Y_AXIS));
+		jp_pass.add(tid);  jp_pass.add(tpass);
+		
+		JPanel jp_insert = new JPanel();
+		jp_insert.add(jp_id);  jp_insert.add(jp_pass);
+		jp_insert.setBackground(Color.WHITE);
+		
 		jp_button.add(btnLogin);
 		jp_button.add(btnReset);
 		jp_button.add(btnExit);
 		
-		jf_login.setLayout(new GridLayout(4,1));
-		jf_login.add(jp_title);		jf_login.add(jp_id);		jf_login.add(jp_pass);
-		jf_login.add(jp_button);
+		jf_login.setLayout(new BorderLayout());
+		jf_login.add(jp_title, BorderLayout.NORTH);		
+		jf_login.add(jp_insert, BorderLayout.CENTER);
+		jf_login.add(jp_button, BorderLayout.SOUTH);
 		
-		jf_login.setSize(300,220);	
+		jf_login.setSize(290,160);	
 		jf_login.setBackground(Color.WHITE);
 		
 		Dimension fsize = jf_login.getSize();
@@ -273,11 +282,10 @@ public class HospitalManager {
 		ArrayList<UserVO>memlist = main.system.memberSelectList();
 
 		//JTable
-		Object[] columns = {" ","ID","패스워드","전화번호","애견이름","애견종류"};
+		Object[] columns = {" ","ID","비밀번호","전화번호","애견이름","애견종류"};
 		DefaultTableModel model =new DefaultTableModel(columns,0);	
 		JTable table= new JTable(model);
-		table.setBackground(HospitalMgmUI.c1);
-		Object[] row =new Object[6];  //Jtable에 추가되는 하나의 row 추가될 객체
+		Object[] row =new Object[columns.length];  //Jtable에 추가되는 하나의 row 추가될 객체
 
 		if(memlist.size() != 0) {
 			model.setNumRows(0);
@@ -303,10 +311,12 @@ public class HospitalManager {
 		
 		table.getColumn(" ").setCellRenderer(dtcr);
 	    table.getColumn("ID").setCellRenderer(dtcr);
-	    table.getColumn("패스워드").setCellRenderer(dtcr);
+	    table.getColumn("비밀번호").setCellRenderer(dtcr);
 	    table.getColumn("전화번호").setCellRenderer(dtcr);
 	    table.getColumn("애견이름").setCellRenderer(dtcr);
 	    table.getColumn("애견종류").setCellRenderer(dtcr);
+	    
+	    table.getColumn(" ").setPreferredWidth(6);
 		
 	    JScrollPane pane=new JScrollPane(table);
 		pane.setBounds(0,100,600,250);
@@ -323,7 +333,7 @@ public class HospitalManager {
 		String mid = tf_update.getText().trim();
 		if(mid.equals("")) {
 			//TextField에 데이터가 존재 X
-			JOptionPane.showMessageDialog(null, "아이디를 입력해주세요");
+			JOptionPane.showMessageDialog(null, "ID를 입력해주세요");
 			tf_update.requestFocus();
 		}else {
 			//TextField에 데이터가 존재 O
@@ -362,8 +372,6 @@ public class HospitalManager {
 			for(TextField tf : tf_update_list) {
 				tf.setText("");
 			}
-			showList();
-//			selectForm(); //조회화면 호출
 		}else {
 			//수정실패
 			JOptionPane.showMessageDialog(null, "수정 실패");
@@ -401,7 +409,7 @@ public class HospitalManager {
 		update_search.addActionListener(new JFrameObjectEvent());
 	}
 	
-	/** 수정 데이터 등록 폼 : 패스워드, 전화번호, 애견이름, 애견종류 **/
+	/** 수정 데이터 등록 폼 : 비밀번호, 전화번호, 애견이름, 애견종류 **/
 	public void updateOKForm(UserVO vo) {
 		update_bottom.removeAll();
 		
@@ -508,17 +516,15 @@ public class HospitalManager {
 		reset_panel.setSize(20, 20);
 		reset_panel.add(btn_reset);
 		reset_panel.setBackground(Color.WHITE);
-		
+
 		//1.답변 받은 패널
 		receive_panel = new JPanel(new BorderLayout());	
-		receive_panel.setBackground(Color.WHITE);
 		//라벨
 		JLabel jl_list = new JLabel("답변할 게시글");
 		jl_list.setFont(font);
 		
 		//테이블
-		list = new ArrayList<UserVO>();
-		Object[] columns = {"번호","게시글 코드","제목","글내용","멤버이름","날짜"};
+		Object[] columns = {" ","문의코드","문의제목","문의내용","멤버이름","매니저이름","문의날짜"};
 		model =new DefaultTableModel(columns,0);
 		table= new JTable(model);
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
@@ -529,12 +535,13 @@ public class HospitalManager {
 		
 		for(UserVO vo : list) {
 			if(vo != null) {
-				row[0]= vo.getRno();
-				row[1]= vo.getBid();
-				row[2]= vo.getBtitle();
-				row[3]= vo.getBtext();
-				row[4]= vo.getBmname();
-				row[5]= vo.getBdate();
+				row[0] = vo.getRno();
+				row[1] = vo.getBid();
+				row[2] = vo.getBtitle();
+				row[3] = vo.getBtext();
+				row[4] = vo.getBmname();
+				row[5] = vo.getBsname();
+				row[6] = vo.getBdate();
 				
 				model.addRow(row);
 			}
@@ -556,19 +563,23 @@ public class HospitalManager {
 		model.setColumnIdentifiers(columns);
 		table.setModel(model);
 		
-		table.getColumn("번호").setCellRenderer(dtcr);
-		table.getColumn("게시글 코드").setCellRenderer(dtcr);
-	    table.getColumn("제목").setCellRenderer(dtcr);
-	    table.getColumn("글내용").setCellRenderer(dtcr);
+		table.getColumn(" ").setCellRenderer(dtcr);
+		table.getColumn("문의코드").setCellRenderer(dtcr);
+	    table.getColumn("문의제목").setCellRenderer(dtcr);
+	    table.getColumn("문의내용").setCellRenderer(dtcr);
 	    table.getColumn("멤버이름").setCellRenderer(dtcr);
-	    table.getColumn("날짜").setCellRenderer(dtcr);
+	    table.getColumn("매니저이름").setCellRenderer(dtcr);
+	    table.getColumn("문의날짜").setCellRenderer(dtcr);
 	    
+	    table.getColumn(" ").setPreferredWidth(6);
 	    
 	    JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0,100,600,250);
 		
 		receive_panel.add(jl_list, BorderLayout.NORTH);
 		receive_panel.add(pane, BorderLayout.CENTER);
+		receive_panel.setBackground(Color.WHITE);
+		
 		
 		//2.답변 완료 패널
 		send_panel = new JPanel(new BorderLayout());
@@ -577,8 +588,7 @@ public class HospitalManager {
 		jl_list2.setFont(font);
 				
 		//테이블
-		list2 = new ArrayList<UserVO>();
-		Object[] columns2 = {"번호","게시글 코드","제목","글내용","매니저이름","멤버이름","날짜"};
+		Object[] columns2 = {" ","답변코드","답변제목","답변내용","매니저이름","멤버이름","답변날짜"};
 		model2 =new DefaultTableModel(columns,0);
 		table2= new JTable(model2);
 		DefaultTableCellRenderer dtcr2 = new DefaultTableCellRenderer();
@@ -590,19 +600,18 @@ public class HospitalManager {
 		
 		for(UserVO vo : list2) {
 			if(vo != null) {
-				row2[0]= vo.getRno();
-				row2[1]= vo.getAid();
-				row2[2]= vo.getAtitle();
-				row2[3]= vo.getAtext();
-				row2[4]= vo.getAsname();
-				row2[5]= vo.getAmname();
-				row2[6]= vo.getAdate();
-						
+				row2[0] = vo.getRno();
+				row2[1] = vo.getAid();
+				row2[2] = vo.getAtitle();
+				row2[3] = vo.getAtext();
+				row2[4] = vo.getAsname();
+				row2[5] = vo.getAmname();
+				row2[6] = vo.getAdate();
+				
 				model2.addRow(row2);
 			}
 			table2.repaint();
 		}
-		
 		table2.addMouseListener(new MouseAdapter() {
 			@Override
 		    public void mouseClicked(MouseEvent e) {
@@ -612,19 +621,19 @@ public class HospitalManager {
 				new HospitalManagerComPopUp(vo);
 			}
 		});
-			 
 		model2.fireTableDataChanged();
-		model2.setColumnIdentifiers(columns2);
+		model2.setColumnIdentifiers(columns2);	 
 		table2.setModel(model2);
 				
-		table2.getColumn("번호").setCellRenderer(dtcr2);
-		table2.getColumn("게시글 코드").setCellRenderer(dtcr2);
-	    table2.getColumn("제목").setCellRenderer(dtcr2);
-	    table2.getColumn("글내용").setCellRenderer(dtcr2);
+		table2.getColumn(" ").setCellRenderer(dtcr2);
+		table2.getColumn("답변코드").setCellRenderer(dtcr2);
+	    table2.getColumn("답변제목").setCellRenderer(dtcr2);
+	    table2.getColumn("답변내용").setCellRenderer(dtcr2);
 	    table2.getColumn("매니저이름").setCellRenderer(dtcr2);
 	    table2.getColumn("멤버이름").setCellRenderer(dtcr2);
-	    table2.getColumn("날짜").setCellRenderer(dtcr2);
-			    
+	    table2.getColumn("답변날짜").setCellRenderer(dtcr2);
+	    
+	    table2.getColumn(" ").setPreferredWidth(6);
 			    
 	    JScrollPane pane2 = new JScrollPane(table2);
 		pane2.setBounds(0,100,600,250);	
@@ -644,7 +653,6 @@ public class HospitalManager {
 		replyPane.setBackground(Color.WHITE);
 		
 		btn_reset.addActionListener(new JFrameObjectEvent());
-		replyPane.setSize(200,200);
 		jf.add(replyPane, BorderLayout.CENTER);
 		jf.setVisible(true);
 	}
@@ -652,13 +660,11 @@ public class HospitalManager {
 	
 	/** 답변테이블 새로고침 **/
 	public void view() {
-		this.list = new ArrayList<UserVO>();
-		
 		list = main.system.getSendInfo(id);
 		list2 = main.system.getReceiveInfo(id);
 		
-		this.model.setNumRows(0);
-		this.model2.setNumRows(0);
+		model.setNumRows(0);
+		model2.setNumRows(0);
 		
 		for(UserVO vo : list) {
 			if(vo != null) {
@@ -669,9 +675,9 @@ public class HospitalManager {
 				row[4] = vo.getBmname();
 				row[5] = vo.getBdate();
 
-				this.model.addRow(row);
+				model.addRow(row);
 			}
-			this.table.repaint();
+			table.repaint();
 		}
 		
 		for(UserVO vo : list2) {
@@ -684,16 +690,13 @@ public class HospitalManager {
 				row2[5] = vo.getAmname();
 				row2[6] = vo.getAdate();
 				
-				this.model2.addRow(row2);
+				model2.addRow(row2);
 			}
-			this.table2.repaint();
+			table2.repaint();
 		}
-		this.model.fireTableDataChanged();
-		this.model2.fireTableDataChanged();
-		
+		model.fireTableDataChanged();
+		model2.fireTableDataChanged();
 	}
-	
-	
 	
 	/** 패널 보여주기 삭제 **/
 	public void resetPane() {
