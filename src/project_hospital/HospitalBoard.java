@@ -519,8 +519,11 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		}else if(name.equals("글삭제")) {
 			boarddelete();
 		}else if(name.contentEquals("1대1 답변 확인")) {
-			receive();
-		}else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
+			receive();	
+		}else if(name.contentEquals("1대1 문의 보내기")) {
+			new HospitalBoardPopUpS();
+		}
+		else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
 			String pno = jt_deleteSearch.getText().trim();
 			
 			if(deleteDataCheck(pno)) {

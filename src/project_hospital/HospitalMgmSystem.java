@@ -234,6 +234,16 @@ public class HospitalMgmSystem {
 			return result;
 				
 		}
+		/** 1:1문의 - 멤버 아이디 가져오기 */
+		public String gettMid(String name) {
+			String result = "";
+			
+			result = dao.gettMid(name);
+			
+			return result;
+				
+		}
+		
 		
 		/** 1:1문의 - 매니저 답변 내용 입력 */
 		public boolean ainsert(UserVO vo) {
@@ -304,6 +314,14 @@ public class HospitalMgmSystem {
 		/** 매니저 - 삭제 **/
 		public boolean delete(String mid) {
 			return dao.delete(mid);
+		}
+		/** 1:1 문의등록 */
+		public boolean send(UserVO vo) {
+			return dao.sinsert(vo);
+		}
+		/** 1:1 매니저아이디가져오기 */
+		public String getManagerId(String id) {
+			return dao.getManaId(id);
 		}
 		
 }
