@@ -244,12 +244,12 @@ public class HospitalMgmSystem {
 			return result;
 		}
 		
-		/** 게시판 - 매니저 문의 받기 send테이블 정보 **/ 
+		/** 1:1문의 - 매니저 문의 받기 send테이블 정보 **/ 
 		public ArrayList<UserVO> getSendInfo(String id){
 			return dao.getSendInfo(id);
 		}
 		
-		/** 게시판 - 매니저 문의 받기 receive테이블 정보 **/
+		/** 1:1문의 - 매니저 문의 받기 receive테이블 정보 **/
 		public ArrayList<UserVO> getReceiveInfo(String id){
 			return dao.getReceiveInfo(id);
 		}

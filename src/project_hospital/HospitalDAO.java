@@ -717,7 +717,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> send = new ArrayList<UserVO>();
 		String sid = id;
 		try {
-			String sql ="select rownum rno, bid, btitle, btext, bmname, bdate from send where sid = ? ";
+			String sql ="select rownum rno, bid, btitle, btext, bmname, bsname, bdate from send where sid = ? ";
 			
 			getPreparedStatement(sql);
 			pstmt.setString(1, sid);
@@ -731,7 +731,8 @@ public class HospitalDAO extends DBConn {
 				vo.setBtitle(rs.getString(3));
 				vo.setBtext(rs.getString(4));
 				vo.setBmname(rs.getString(5));
-				vo.setBdate(rs.getString(6));
+				vo.setBsname(rs.getString(6));
+				vo.setBdate(rs.getString(7));
 				
 				send.add(vo);
 			}
@@ -744,7 +745,7 @@ public class HospitalDAO extends DBConn {
 	
 	/** 1:1 문의 - receive 테이블 정보 불러오기 **/
 	public ArrayList<UserVO> getReceiveInfo(String id) {
-		ArrayList<UserVO> send = new ArrayList<UserVO>();
+		ArrayList<UserVO> receive = new ArrayList<UserVO>();
 		String sid = id;
 		try {
 			String sql ="select rownum rno, aid, atitle, atext, asname, amname, adate from receive where sid = ? ";
@@ -764,13 +765,12 @@ public class HospitalDAO extends DBConn {
 				vo.setAmname(rs.getString(6));
 				vo.setAdate(rs.getString(7));
 				
-				send.add(vo);
+				receive.add(vo);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		 return send;
+		 return receive;
 	}
 	
 	/** 매니저 - 멤버이름 가져오기 */
