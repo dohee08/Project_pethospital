@@ -58,7 +58,7 @@ public class HospitalMgmUI extends JFrame{
 		
 		//Constructor
 		public HospitalMgmUI() {
-			super("애견병원시스템");
+			super("애견예약관리시스템");
 			showMain();
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setSize(600,500);
@@ -81,7 +81,7 @@ public class HospitalMgmUI extends JFrame{
 			btnManager = new JButton("관리자");
 			btnJoin = new JButton("회원가입");
 			
-			jl_title = new JLabel("\n 애견병원 시스템에 오신것을 환영합니다 ");
+			jl_title = new JLabel("\n 애견예약관리시스템에 오신것을 환영합니다 ");
 			ImageIcon image_icon = new ImageIcon("images/pet.jpg");
 			Image image = image_icon.getImage();
 			Image changedImg = image.getScaledInstance(350, 350, Image.SCALE_SMOOTH);
