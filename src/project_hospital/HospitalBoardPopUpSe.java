@@ -45,7 +45,7 @@ public class HospitalBoardPopUpSe extends JFrame {
         lblNewLabel_2.setBounds(12, 140, 57, 15);
         getContentPane().add(lblNewLabel_2);
  
-        writer = new JTextField(vo.getBsname());
+        writer = new JTextField(vo.getBmname());
         writer.setBounds(81, 137, 116, 21);
         getContentPane().add(writer);
         writer.setColumns(10);
