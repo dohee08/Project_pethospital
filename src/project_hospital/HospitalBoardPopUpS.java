@@ -21,7 +21,11 @@ import javax.swing.JTextField;
  
 public class HospitalBoardPopUpS extends JFrame {
     HospitalMgmSystem system = new HospitalMgmSystem();
-   
+    JTextField title;
+    JTextArea textArea;
+    JTextField writer;
+    JRadioButton rb_hos;
+    JRadioButton rb_sal;
     
     public HospitalBoardPopUpS() {
     	sendMessage();
@@ -35,8 +39,8 @@ public class HospitalBoardPopUpS extends JFrame {
         lblNewLabel_1.setBounds(12, 1, 150, 20);
         getContentPane().add(lblNewLabel_1);
         
-        JRadioButton rb_hos = new JRadioButton("병원장", true);
-        JRadioButton rb_sal = new JRadioButton("미용장", false);
+        rb_hos = new JRadioButton("병원장", true);
+        rb_sal = new JRadioButton("미용장", false);
         ButtonGroup group = new ButtonGroup();
         rb_hos.setBounds(81, 1, 72, 15);
         rb_sal.setBounds(150, 1, 100, 15);
@@ -49,7 +53,7 @@ public class HospitalBoardPopUpS extends JFrame {
         lblNewLabel_2.setBounds(12, 25, 57, 15);
         getContentPane().add(lblNewLabel_2);
  
-        JTextField title = new JTextField();
+        title = new JTextField();
         title.setBounds(81, 22, 340, 21);
         getContentPane().add(title);
         title.setColumns(10);
@@ -58,7 +62,7 @@ public class HospitalBoardPopUpS extends JFrame {
         lblNewLabel_3.setBounds(12, 59, 57, 15);
         getContentPane().add(lblNewLabel_3);
  
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setRows(5);
         textArea.setBounds(81, 53, 340, 69);
@@ -68,7 +72,7 @@ public class HospitalBoardPopUpS extends JFrame {
         lblNewLabel_4.setBounds(12, 140, 57, 15);
         getContentPane().add(lblNewLabel_4);
  
-        JTextField writer = new JTextField();
+        writer = new JTextField();
         writer.setBounds(81, 137, 116, 21);
         getContentPane().add(writer);
         writer.setColumns(10);
@@ -79,38 +83,9 @@ public class HospitalBoardPopUpS extends JFrame {
  
             @Override
             public void actionPerformed(ActionEvent e) {
-              UserVO vo = new UserVO();
-              Calendar cal = Calendar.getInstance();
-      	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
-      	      int year = cal.get(Calendar.YEAR);
-      	      int month = cal.get(Calendar.MONTH)+1;
-      	      int day = cal.get(Calendar.DAY_OF_MONTH);
-      	      String date = s1.format(cal.getTime());
-      	      Random rd = new Random();
-              String titles = title.getText();//btitle
-              String txtarea = textArea.getText();//btext
-              String name = writer.getText();
-              String hosandsal = "";
-	      	    if (rb_hos.isSelected()) {
-	      	    	hosandsal = "병원장";
-	      		} else if (rb_sal.isSelected()) {
-	      			hosandsal = "미용장";
-	      		}      	    
-	      	    
-	      	    vo.setBid("S_" + rd.nextInt(10000));//bid
-                vo.setBtitle(titles);
-                vo.setBtext(txtarea);
-                vo.setMid(system.gettMid(name));
-                vo.setSid(system.getManagerId(hosandsal));
-                vo.setBmname(name);
-                vo.setBdate(year+"/"+month+"/"+day);
-                vo.setBsname(hosandsal);
-                vo.setAid(null);
-                
-                system.send(vo);
-                JOptionPane.showMessageDialog(null, "등록완료");
-                setVisible(false);
- 
+            if(FormCheck()) {
+            	sendProc();
+            }
             }
         });
         getContentPane().add(btnWrite);
@@ -131,4 +106,61 @@ public class HospitalBoardPopUpS extends JFrame {
         setVisible(true);
  
     }
+    
+    public boolean FormCheck() {
+		boolean result = false;
+
+		if (title.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "제목을 입력해주세요", "알림", JOptionPane.INFORMATION_MESSAGE);
+			title.requestFocus();
+		} else if (textArea.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "내용을 입력해주세요", "알림", JOptionPane.INFORMATION_MESSAGE);
+			textArea.requestFocus();
+		} else if(writer.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "작성자를 입력해주세요", "알림", JOptionPane.INFORMATION_MESSAGE);
+			writer.requestFocus();
+		}else {
+			result = true;
+		}
+		return result;
+	}// regFormCheck method
+    
+    public void sendProc() {
+		// MemberVO 객체를 생성하여 등록
+    	 UserVO vo = new UserVO();
+         Calendar cal = Calendar.getInstance();
+ 	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
+ 	      int year = cal.get(Calendar.YEAR);
+ 	      int month = cal.get(Calendar.MONTH)+1;
+ 	      int day = cal.get(Calendar.DAY_OF_MONTH);
+ 	      String date = s1.format(cal.getTime());
+ 	      Random rd = new Random();
+          String titles = title.getText();//btitle
+          String txtarea = textArea.getText();//btext
+          String name = writer.getText();
+          String hosandsal = "";
+     	    if (rb_hos.isSelected()) {
+     	    	hosandsal = "병원장";
+     		} else if (rb_sal.isSelected()) {
+     			hosandsal = "미용장";
+     		}      	    
+     	    
+     	   vo.setBid("S_" + rd.nextInt(10000));//bid
+           vo.setBtitle(titles);
+           vo.setBtext(txtarea);
+           vo.setMid(system.gettMid(name));
+           vo.setSid(system.getManagerId(hosandsal));
+           vo.setBmname(name);
+           vo.setBdate(year+"/"+month+"/"+day);
+           vo.setBsname(hosandsal);
+           
+           boolean result =  system.send(vo);
+           if (result) {
+				JOptionPane.showMessageDialog(null, "등록 성공!!");
+				setVisible(false);
+			} else {
+				JOptionPane.showMessageDialog(null, "등록 실패!!");
+			}
+
+	}
     }
