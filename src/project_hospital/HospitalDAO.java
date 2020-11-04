@@ -680,13 +680,14 @@ public class HospitalDAO extends DBConn {
 	}
 		
 	/** 게시판- 삭제 진행  **/
-	public boolean deletePost(String pno) {
+	public boolean deletePost(String pno ,String name) {
 		boolean result = false;
 		
 		try {
-			String sql = "DELETE FROM POST WHERE PNO=?";
+			String sql = "DELETE FROM POST WHERE PNO=? and pname = ?";
 			getPreparedStatement(sql);
 			pstmt.setString(1, pno);
+			pstmt.setString(2, name);
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;
 			
@@ -749,7 +750,7 @@ public class HospitalDAO extends DBConn {
 				vo.setBtitle(rs.getString(3));
 				vo.setBtext(rs.getString(4));
 				vo.setBsname(rs.getString(5));
-				vo.setBsname(rs.getString(6));
+				vo.setBmname(rs.getString(6));
 				vo.setBdate(rs.getString(7));
 				
 				send.add(vo);

@@ -374,11 +374,12 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	/** 삭제 진행 **/
 	public void deleteProc(String pno) {
-		boolean result = HMui.system.deletePost(pno);
+		String name = HMui.system.rename(HMui.id);
+		boolean result = HMui.system.deletePost(pno,name);
 		if(result) {
 			JOptionPane.showMessageDialog(null, HMui.getMsg("삭제 완료~"));
 		}else {
-			JOptionPane.showMessageDialog(null, HMui.getMsg("삭제 실패~"));
+			JOptionPane.showMessageDialog(null, HMui.getMsg("삭제 실패! 본인의 게시글만 삭제 가능합니다."));
 		}
 	}//deleteProc
 	
