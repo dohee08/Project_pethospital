@@ -21,22 +21,26 @@ import javax.swing.JTextField;
  
 public class HospitalBoardPopUpS extends JFrame {
     HospitalMgmSystem system = new HospitalMgmSystem();
-   
+    JTextField title;
+    JTextArea textArea;
+    JTextField writer;
+    JRadioButton rb_hos;
+    JRadioButton rb_sal;
     
     public HospitalBoardPopUpS() {
     	sendMessage();
     }
     public void sendMessage() {
     	setBounds(new Rectangle(600, 0, 500, 280));
-        setTitle("1:1¹®ÀÇµî·Ï");
+        setTitle("1:1ë¬¸ì˜ë“±ë¡");
         getContentPane().setLayout(null);
         
-        JLabel lblNewLabel_1 = new JLabel("¿øÀå´Ô ¼±ÅÃ");
+        JLabel lblNewLabel_1 = new JLabel("ì›ì¥ë‹˜ ì„ íƒ");
         lblNewLabel_1.setBounds(12, 1, 150, 20);
         getContentPane().add(lblNewLabel_1);
         
-        JRadioButton rb_hos = new JRadioButton("º´¿øÀå", true);
-        JRadioButton rb_sal = new JRadioButton("¹Ì¿ëÀå", false);
+        rb_hos = new JRadioButton("ë³‘ì›ì¥", true);
+        rb_sal = new JRadioButton("ë¯¸ìš©ì¥", false);
         ButtonGroup group = new ButtonGroup();
         rb_hos.setBounds(81, 1, 72, 15);
         rb_sal.setBounds(150, 1, 100, 15);
@@ -45,77 +49,48 @@ public class HospitalBoardPopUpS extends JFrame {
 		getContentPane().add(rb_hos);
 		getContentPane().add(rb_sal);
         
-        JLabel lblNewLabel_2 = new JLabel("±ÛÁ¦¸ñ");
+        JLabel lblNewLabel_2 = new JLabel("ê¸€ì œëª©");
         lblNewLabel_2.setBounds(12, 25, 57, 15);
         getContentPane().add(lblNewLabel_2);
  
-        JTextField title = new JTextField();
+        title = new JTextField();
         title.setBounds(81, 22, 340, 21);
         getContentPane().add(title);
         title.setColumns(10);
  
-        JLabel lblNewLabel_3 = new JLabel("±Û³»¿ë");
+        JLabel lblNewLabel_3 = new JLabel("ê¸€ë‚´ìš©");
         lblNewLabel_3.setBounds(12, 59, 57, 15);
         getContentPane().add(lblNewLabel_3);
  
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setRows(5);
         textArea.setBounds(81, 53, 340, 69);
         getContentPane().add(textArea);
  
-        JLabel lblNewLabel_4 = new JLabel("ÀÛ¼ºÀÚ");
+        JLabel lblNewLabel_4 = new JLabel("ì‘ì„±ì");
         lblNewLabel_4.setBounds(12, 140, 57, 15);
         getContentPane().add(lblNewLabel_4);
  
-        JTextField writer = new JTextField();
+        writer = new JTextField();
         writer.setBounds(81, 137, 116, 21);
         getContentPane().add(writer);
         writer.setColumns(10);
  
-        JButton btnWrite = new JButton("ÀÛ¼º¿Ï·á");
+        JButton btnWrite = new JButton("ì‘ì„±ì™„ë£Œ");
         btnWrite.setBounds(81, 180, 116, 23);
         btnWrite.addActionListener(new ActionListener() {
  
-            @Override
+             @Override
             public void actionPerformed(ActionEvent e) {
-              UserVO vo = new UserVO();
-              Calendar cal = Calendar.getInstance();
-      	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
-      	      int year = cal.get(Calendar.YEAR);
-      	      int month = cal.get(Calendar.MONTH)+1;
-      	      int day = cal.get(Calendar.DAY_OF_MONTH);
-      	      String date = s1.format(cal.getTime());
-      	      Random rd = new Random();
-              String titles = title.getText();//btitle
-              String txtarea = textArea.getText();//btext
-              String name = writer.getText();
-              String hosandsal = "";
-	      	    if (rb_hos.isSelected()) {
-	      	    	hosandsal = "º´¿øÀå";
-	      		} else if (rb_sal.isSelected()) {
-	      			hosandsal = "¹Ì¿ëÀå";
-	      		}      	    
-	      	    
-	      	    vo.setBid("S_" + rd.nextInt(10000));//bid
-                vo.setBtitle(titles);
-                vo.setBtext(txtarea);
-                vo.setMid(system.gettMid(name));
-                vo.setSid(system.getManagerId(hosandsal));
-                vo.setBmname(name);
-                vo.setBdate(year+"/"+month+"/"+day);
-                vo.setBsname(hosandsal);
-                
-                
-                system.send(vo);
-                JOptionPane.showMessageDialog(null, "µî·Ï¿Ï·á");
-                setVisible(false);
- 
+            if(FormCheck()) {
+            	sendProc();
+            }
             }
         });
         getContentPane().add(btnWrite);
  
-        JButton btnClose = new JButton("´İ±â");
+        JButton btnClose = new JButton("ë‹«ê¸°");
         btnClose.setBounds(209, 180, 97, 23);
         btnClose.addActionListener(new ActionListener() {
  
@@ -131,4 +106,61 @@ public class HospitalBoardPopUpS extends JFrame {
         setVisible(true);
  
     }
+    
+    public boolean FormCheck() {
+		boolean result = false;
+
+		if (title.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "ì œëª©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”", "ì•Œë¦¼", JOptionPane.INFORMATION_MESSAGE);
+			title.requestFocus();
+		} else if (textArea.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "ë‚´ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”", "ì•Œë¦¼", JOptionPane.INFORMATION_MESSAGE);
+			textArea.requestFocus();
+		} else if(writer.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "ì‘ì„±ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”", "ì•Œë¦¼", JOptionPane.INFORMATION_MESSAGE);
+			writer.requestFocus();
+		}else {
+			result = true;
+		}
+		return result;
+	}// regFormCheck method
+    
+    public void sendProc() {
+		// MemberVO ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë“±ë¡
+    	 UserVO vo = new UserVO();
+         Calendar cal = Calendar.getInstance();
+ 	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
+ 	      int year = cal.get(Calendar.YEAR);
+ 	      int month = cal.get(Calendar.MONTH)+1;
+ 	      int day = cal.get(Calendar.DAY_OF_MONTH);
+ 	      String date = s1.format(cal.getTime());
+ 	      Random rd = new Random();
+          String titles = title.getText();//btitle
+          String txtarea = textArea.getText();//btext
+          String name = writer.getText();
+          String hosandsal = "";
+     	    if (rb_hos.isSelected()) {
+     	    	hosandsal = "ë³‘ì›ì¥";
+     		} else if (rb_sal.isSelected()) {
+     			hosandsal = "ë¯¸ìš©ì¥";
+     		}      	    
+     	    
+     	   vo.setBid("S_" + rd.nextInt(10000));//bid
+           vo.setBtitle(titles);
+           vo.setBtext(txtarea);
+           vo.setMid(system.gettMid(name));
+           vo.setSid(system.getManagerId(hosandsal));
+           vo.setBmname(name);
+           vo.setBdate(year+"/"+month+"/"+day);
+           vo.setBsname(hosandsal);
+           
+           boolean result =  system.send(vo);
+           if (result) {
+				JOptionPane.showMessageDialog(null, "ë“±ë¡ ì„±ê³µ!!");
+				setVisible(false);
+			} else {
+				JOptionPane.showMessageDialog(null, "ë“±ë¡ ì‹¤íŒ¨!!");
+			}
+
+	}
     }
