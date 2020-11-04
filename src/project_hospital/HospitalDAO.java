@@ -148,7 +148,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> memlist = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select rownum mno, mid, mpass, mphone, mname, mkind from member order by sysdate ";
+			String sql ="select rownum mno, mid, mpass, mphone, mname, mkind from member ";
 			
 			getPreparedStatement(sql);
 			rs=pstmt.executeQuery(sql);
@@ -862,7 +862,7 @@ public class HospitalDAO extends DBConn {
 		boolean result = false;
 		
 		try {
-			String sql = "insert into send values(?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into send values(?,?,?,?,?,?,?,?)";
 			
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getBid());
@@ -873,7 +873,6 @@ public class HospitalDAO extends DBConn {
 			pstmt.setString(6, vo.getBsname());
 			pstmt.setString(7, vo.getBdate());
 			pstmt.setString(8, vo.getBmname());
-			pstmt.setString(9, vo.getAid());
 			
 			int count = pstmt.executeUpdate();
 			if(count != 0) result = true;
@@ -939,8 +938,6 @@ public class HospitalDAO extends DBConn {
 		boolean result = false;
 		
 		try {
-		//아이디가 있을경우
-		//아이디가 없을경우
 			String sql = "insert into member values(?,?,?,?,?) "; 
 			getPreparedStatement(sql);
 			

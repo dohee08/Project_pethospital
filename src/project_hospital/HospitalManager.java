@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.Rectangle;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
@@ -177,54 +178,52 @@ public class HospitalManager {
 	public void login() {
 		Font font = new Font("맑은 고딕", Font.BOLD, 12);
 		jf_login = new JFrame("관리자 로그인 창");	
-		JPanel jp_title = new JPanel();
-		JPanel jp_id = new JPanel();
-		JPanel jp_pass = new JPanel();
-		JPanel jp_button = new JPanel();
+		jf_login.setBounds(new Rectangle(300, 0, 320, 240));
+		jf_login.getContentPane().setLayout(null);
 		
 		JLabel title = new JLabel("< 관리자 로그인 >");		
+		title.setBounds(100, 15, 150, 15);
+		jf_login.getContentPane().add(title);
+		
 		JLabel id = new JLabel("ID");
+		id.setBounds(40, 25, 120, 90);
+		jf_login.getContentPane().add(id);
+		
 		JLabel pass = new JLabel("비밀번호");
+		pass.setBounds(40, 50, 120, 125);
+		jf_login.getContentPane().add(pass);
+		
 		tid = new JTextField(15);
+		tid.setBounds(95, 62, 175, 21);
+		jf_login.getContentPane().add(tid);
+		
 		tpass = new JPasswordField(15);
+		tpass.setBounds(95, 102, 175, 21);
+		jf_login.getContentPane().add(tpass);
+		
 		JButton btnLogin = new JButton("로그인");
+		btnLogin.setBounds(45, 155, 70, 25);
+		jf_login.getContentPane().add(btnLogin);
+		
 		JButton btnReset = new JButton("초기화");
-		JButton btnExit = new JButton("종료");
+		btnReset.setBounds(120, 155, 70, 25);
+		jf_login.getContentPane().add(btnReset);
+		
+		JButton btnExit = new JButton("취소");
+		btnExit.setBounds(195, 155, 70, 25);
+		jf_login.getContentPane().add(btnExit);
 		
 		//폰트
 		title.setFont(font);  id.setFont(font);   pass.setFont(font);
 		btnLogin.setFont(font);    btnReset.setFont(font);
 		btnExit.setFont(font);
 		//색깔
-		jp_title.setBackground(Color.WHITE);
-		jp_id.setBackground(Color.WHITE);
-		jp_pass.setBackground(Color.WHITE);
-		jp_button.setBackground(Color.WHITE);
 		btnLogin.setBackground(HospitalMgmUI.c1);
 		btnReset.setBackground(HospitalMgmUI.c2);
 		btnExit.setBackground(HospitalMgmUI.c3);
 		
-		jp_title.add(title);
-		jp_id.setLayout(new BoxLayout(jp_id, BoxLayout.Y_AXIS));
-		jp_id.add(id);     jp_id.add(pass);
-		jp_pass.setLayout(new BoxLayout(jp_pass, BoxLayout.Y_AXIS));
-		jp_pass.add(tid);  jp_pass.add(tpass);
-		
-		JPanel jp_insert = new JPanel();
-		jp_insert.add(jp_id);  jp_insert.add(jp_pass);
-		jp_insert.setBackground(Color.WHITE);
-		
-		jp_button.add(btnLogin);
-		jp_button.add(btnReset);
-		jp_button.add(btnExit);
-		
-		jf_login.setLayout(new BorderLayout());
-		jf_login.add(jp_title, BorderLayout.NORTH);		
-		jf_login.add(jp_insert, BorderLayout.CENTER);
-		jf_login.add(jp_button, BorderLayout.SOUTH);
-		
-		jf_login.setSize(290,160);	
 		jf_login.setBackground(Color.WHITE);
+		jf_login.getContentPane().setBackground(Color.WHITE);
 		
 		Dimension fsize = jf_login.getSize();
 		Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
@@ -571,7 +570,7 @@ public class HospitalManager {
 	    table.getColumn("매니저이름").setCellRenderer(dtcr);
 	    table.getColumn("문의날짜").setCellRenderer(dtcr);
 	    
-	    table.getColumn(" ").setPreferredWidth(6);
+	    table.getColumn(" ").setPreferredWidth(20);
 	    
 	    JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0,100,600,250);
@@ -633,7 +632,7 @@ public class HospitalManager {
 	    table2.getColumn("멤버이름").setCellRenderer(dtcr2);
 	    table2.getColumn("답변날짜").setCellRenderer(dtcr2);
 	    
-	    table2.getColumn(" ").setPreferredWidth(6);
+	    table2.getColumn(" ").setPreferredWidth(20);
 			    
 	    JScrollPane pane2 = new JScrollPane(table2);
 		pane2.setBounds(0,100,600,250);	
@@ -790,7 +789,7 @@ public class HospitalManager {
 					view();
 				}else if(bname.equals("로그인") || tpass  == e.getSource()) {	
 					if(validationCheck()) 	loginCheck();				
-				}else if(bname.equals("취소")){
+				}else if(bname.equals("초기화")){
 					tid.setText("");
 					tpass.setText("");
 					jf_login.setVisible(true);
@@ -800,9 +799,11 @@ public class HospitalManager {
 					updateProc();
 				}else if(bname.equals("수정취소")) {
 					JOptionPane.showMessageDialog(null, "수정취소");
-				}else if(bname.equals("종료")) {
-					System.out.println("--  종료 버튼이 클릭되었습니다. --");
-					System.exit(0);
+				}else if(bname.equals("취소")) {
+					int result = JOptionPane.showConfirmDialog(null, "로그인을 취소하겠습니까?");
+					if(result == 0)  {
+						jf_login.setVisible(false);
+					}
 				}else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
 					String mid = jt_deleteSearch.getText().trim();
 					
