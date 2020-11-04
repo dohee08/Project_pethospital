@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,26 +35,41 @@ public class HospitalLogin {
 			this.main = main;
 			
 			Font font = new Font("맑은 고딕", Font.BOLD, 12);
-			jf = new JFrame("로그인");	
-			JPanel jp_title = new JPanel();
-			JPanel jp_id = new JPanel();
-			JPanel jp_pass = new JPanel();
-			JPanel jp_button = new JPanel();
+			jf = new JFrame("회원 로그인 창");	
+			jf.setBounds(new Rectangle(300, 0, 320, 240));
+			jf.getContentPane().setLayout(null);
 			
-			//색깔
-			jp_title.setBackground(Color.WHITE);
-			jp_id.setBackground(Color.WHITE);
-			jp_pass.setBackground(Color.WHITE);
-			jp_button.setBackground(Color.WHITE);
+			JLabel title = new JLabel("< 회원 로그인 >");		
+			title.setBounds(110, 15, 150, 15);
+			jf.getContentPane().add(title);
 			
-			JLabel title = new JLabel("로그인 폼");		
-			JLabel id = new JLabel("아이디");
-			JLabel pass = new JLabel("패스워드");
+			JLabel id = new JLabel("ID");
+			id.setBounds(40, 25, 120, 90);
+			jf.getContentPane().add(id);
+			
+			JLabel pass = new JLabel("비밀번호");
+			pass.setBounds(40, 50, 120, 125);
+			jf.getContentPane().add(pass);
+			
 			tid = new JTextField(15);
+			tid.setBounds(95, 62, 175, 21);
+			jf.getContentPane().add(tid);
+			
 			tpass = new JPasswordField(15);
+			tpass.setBounds(95, 102, 175, 21);
+			jf.getContentPane().add(tpass);
+			
 			JButton btnLogin = new JButton("로그인");
-			JButton btnReset = new JButton("취소");
-			JButton btnExit = new JButton("종료");
+			btnLogin.setBounds(45, 155, 70, 25);
+			jf.getContentPane().add(btnLogin);
+			
+			JButton btnReset = new JButton("초기화");
+			btnReset.setBounds(120, 155, 70, 25);
+			jf.getContentPane().add(btnReset);
+			
+			JButton btnExit = new JButton("취소");
+			btnExit.setBounds(195, 155, 70, 25);
+			jf.getContentPane().add(btnExit);
 			
 			//색깔
 			btnLogin.setBackground(HospitalMgmUI.c1);
@@ -64,18 +80,8 @@ public class HospitalLogin {
 			btnLogin.setFont(font);    btnReset.setFont(font);
 			btnExit.setFont(font);
 			
-			jp_title.add(title);
-			jp_id.add(id);     jp_id.add(tid);
-			jp_pass.add(pass);  jp_pass.add(tpass);
-			jp_button.add(btnLogin);
-			jp_button.add(btnReset);
-			jp_button.add(btnExit);
-			
-			jf.setLayout(new GridLayout(4,1));
-			jf.add(jp_title);		jf.add(jp_id);		jf.add(jp_pass);
-			jf.add(jp_button);
-			
-			jf.setSize(300,220);	
+			jf.setBackground(Color.WHITE);
+			jf.getContentPane().setBackground(Color.WHITE);
 			
 			Dimension fsize = jf.getSize();
 			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
@@ -109,12 +115,17 @@ public class HospitalLogin {
 
 				if(bname.equals("로그인") || tpass  == e.getSource()) {	
 					if(validationCheck()) 	loginCheck();				
-				}else if(bname.equals("취소")){
+				}else if(bname.equals("초기화")){
 					tid.setText("");
 					tpass.setText("");
 					jf.setVisible(true);
 				}else if(bname.equals("종료")) {
 					jf.setVisible(false);
+				}else if(bname.equals("취소")) {
+					int result = JOptionPane.showConfirmDialog(null, "로그인을 취소하겠습니까?");
+					if(result == 0)  {
+						jf.setVisible(false);
+					}
 				}
 			}
 			

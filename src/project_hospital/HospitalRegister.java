@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,41 +31,65 @@ public class HospitalRegister {
 			this.main = main;
 			
 			Font font = new Font("맑은 고딕", Font.BOLD, 12);
-			jf = new JFrame("회원가입");	
-			JPanel jp_title = new JPanel();
-			JPanel jp_id = new JPanel();
-			JPanel jp_pass = new JPanel();
-			JPanel jp_name = new JPanel();
-			JPanel jp_phone = new JPanel();
-			JPanel jp_kind = new JPanel();
-			JPanel jp_button = new JPanel();
+			jf = new JFrame("회원가입 창");	
+			jf.setBounds(new Rectangle(380, 0, 380, 370));
+			jf.getContentPane().setLayout(null);
 			
-			//색깔
-			jp_title.setBackground(Color.WHITE);
-			jp_id.setBackground(Color.WHITE);
-			jp_pass.setBackground(Color.WHITE);
-			jp_name.setBackground(Color.WHITE);
-			jp_phone.setBackground(Color.WHITE);
-			jp_kind.setBackground(Color.WHITE);
-			jp_button.setBackground(Color.WHITE);
-				
-			JLabel title = new JLabel("회원가입");		
-			JLabel id = new JLabel("아이디");
-			JLabel pass = new JLabel("패스워드");
+			JLabel title = new JLabel("< 회원가입 >");		
+			title.setBounds(150, 15, 200, 20);
+			jf.getContentPane().add(title);
+			
+			JLabel id = new JLabel("ID");
+			id.setBounds(55, 25, 120, 100);
+			jf.getContentPane().add(id);
+			
+			JLabel pass = new JLabel("비밀번호");
+			pass.setBounds(55, 50, 120, 125);
+			jf.getContentPane().add(pass);
+			
 			JLabel phone = new JLabel("전화번호");
-			JLabel name = new JLabel("강아지 이름");
-			JLabel kind = new JLabel("강아지 종류");
+			phone.setBounds(55, 76, 120, 150);
+			jf.getContentPane().add(phone);
 			
+			JLabel name = new JLabel("동물 이름");
+			name.setBounds(55, 103, 120, 175);
+			jf.getContentPane().add(name);
+			
+			JLabel kind = new JLabel("동물 종류");
+			kind.setBounds(55, 130, 120, 200);
+			jf.getContentPane().add(kind);
 			
 			tid = new JTextField(20);
+			tid.setBounds(120, 65, 200, 20);
+			jf.getContentPane().add(tid);
+			
 			tpass = new JTextField(20);
-			tname = new JTextField(20);
+			tpass.setBounds(120, 104, 200, 20);
+			jf.getContentPane().add(tpass);
+			
 			tphone = new JTextField(20);
+			tphone.setBounds(120, 144, 200, 20);
+			jf.getContentPane().add(tphone);
+			
+			tname = new JTextField(20);
+			tname.setBounds(120, 184, 200, 20);
+			jf.getContentPane().add(tname);
+			
 			tkind = new JTextField(20);
+			tkind.setBounds(120, 224, 200, 20);
+			jf.getContentPane().add(tkind);
 			
 			JButton btnRegister = new JButton("회원가입");
-			JButton btnReset = new JButton("취소");
-			JButton btnExit = new JButton("종료");
+			btnRegister.setBounds(65, 270, 90, 25);
+			jf.getContentPane().add(btnRegister);
+			
+			JButton btnReset = new JButton("초기화");
+			btnReset.setBounds(160, 270, 70, 25);
+			jf.getContentPane().add(btnReset);
+			
+			JButton btnExit = new JButton("취소");
+			btnExit.setBounds(235, 270, 70, 25);
+			jf.getContentPane().add(btnExit);
 			
 			//색깔
 			btnRegister.setBackground(HospitalMgmUI.c1);
@@ -76,24 +101,8 @@ public class HospitalRegister {
 			btnRegister.setFont(font);    btnReset.setFont(font);
 			btnExit.setFont(font);
 				
-			jp_title.add(title);
-			jp_id.add(id);       jp_id.add(tid);
-			jp_pass.add(pass);   jp_pass.add(tpass);
-			jp_name.add(name);   jp_name.add(tname);
-			jp_phone.add(phone); jp_phone.add(tphone);
-			jp_kind.add(kind);   jp_kind.add(tkind);
-			
-			jp_button.add(btnRegister);
-			jp_button.add(btnReset);
-			jp_button.add(btnExit);
-				
-			jf.setLayout(new GridLayout(7,1));
-			jf.add(jp_title);		jf.add(jp_id);		jf.add(jp_pass);
-			jf.add(jp_phone);		jf.add(jp_name); 	jf.add(jp_kind);
-			jf.add(jp_button);
-				
-			jf.setSize(400,500);	
 			jf.setBackground(Color.WHITE);
+			jf.getContentPane().setBackground(Color.WHITE);
 				
 			Dimension fsize = jf.getSize();
 			Dimension scsize = Toolkit.getDefaultToolkit().getScreenSize(); 
@@ -129,7 +138,7 @@ public class HospitalRegister {
 					if(validationCheck()) {
 						RegisterCheck();
 					}
-				}else if(bname.equals("취소")){
+				}else if(bname.equals("초기화")){
 					tid.setText("");
 					tpass.setText("");
 					tname.setText("");
@@ -138,6 +147,11 @@ public class HospitalRegister {
 					jf.setVisible(true);
 				}else if(bname.equals("종료")) {
 					jf.setVisible(false);
+				}else if(bname.equals("취소")) {
+					int result = JOptionPane.showConfirmDialog(null, "회원가입을 취소하겠습니까?");
+					if(result == 0)  {
+						jf.setVisible(false);
+					}
 				}
 			}
 				
