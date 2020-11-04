@@ -260,6 +260,11 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		BoardPane.removeAll();
 		
+		JPanel insert_panel = new JPanel();
+		JButton btn_insert = new JButton("글올리기");
+		JButton btn_reset = new JButton("새로고침");
+		JButton btn_delete = new JButton("글삭제");
+		
 		list = new ArrayList<UserVO>();
 		
 
@@ -298,7 +303,9 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		btnMenu_panel.setBackground(Color.WHITE);
 		BoardPane.setBackground(Color.WHITE);
 
-		
+		insert_panel.add(btn_insert);
+		insert_panel.add(btn_reset);
+		insert_panel.add(btn_delete);
 		
 		BoardPane.setLayout(new BorderLayout());
 		BoardPane.add(pane,BorderLayout.CENTER);
