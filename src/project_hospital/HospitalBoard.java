@@ -46,16 +46,10 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	ArrayList<UserVO> list;
 	
 	
-	Object[] rcolumns = {"순번","코드","제목","날짜","보낸사람","질문했던 제목"};
-	DefaultTableModel rmodel =new DefaultTableModel(rcolumns,0);
-	JTable rtable= new JTable(rmodel);
-	Object[] rrow =new Object[6];
+
 	
 	
-	Object[] scolumns = {"순번","코드","제목","날짜","받는사람"};
-	DefaultTableModel smodel =new DefaultTableModel(scolumns,0);
-	JTable stable= new JTable(smodel);
-	Object[] srow =new Object[5];
+
 	public static final int BOARD = 1;
 	public static final int ONETOONE = 2;
 	
@@ -69,9 +63,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	}
 	
 	
-	Object[] columns = {"번호","코드","닉네임","제목","날짜"};
-	DefaultTableModel model =new DefaultTableModel(columns,0);
-	JTable table= new JTable(model);
+
 
 	private JPanel jp_deleteSearch;
 	private JTextField jt_deleteSearch;
@@ -258,21 +250,49 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	public void viewer() {
 		
-		BoardPane.removeAll();
+		Object[] columns = {"번호","코드","닉네임","제목","날짜"};
+		DefaultTableModel model =new DefaultTableModel(columns,0);
+		JTable table= new JTable(model);
 		
+		BoardPane.removeAll();
+		table.removeAll();
+		
+		
+		JPanel btnMenu_panel = new JPanel(new GridLayout(2,1));
 		JPanel insert_panel = new JPanel();
+		
+		JButton btn_board = new JButton("자유 게시판");
+		JButton btn_onetoone = new JButton("1대1 문의");
 		JButton btn_insert = new JButton("글올리기");
 		JButton btn_reset = new JButton("새로고침");
 		JButton btn_delete = new JButton("글삭제");
 		
-		list = new ArrayList<UserVO>();
-		
+	
 
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
 
 		
-	    view();
+		list = new ArrayList<UserVO>();
+		
+		list = HMui.system.gettext();
+		
+		model.setNumRows(0);
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				row[0]= vo.getRno();
+				row[1]= vo.getPno();
+				row[2]=vo.getPname();
+				row[3]=vo.getPtitle();
+				row[4]=vo.getPdate();
+				
+				
+				model.addRow(row);
+			}
+			table.repaint();
+		}
+		model.fireTableDataChanged();
 		
 		 table.addMouseListener(new MouseAdapter() {
 	            @Override
@@ -298,11 +318,25 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	    JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0,100,600,250);
 
+		
+		
+		Color c1 = new Color(255,231,159);
+		Color c3 = new Color(229,197,148);
+		btn_board.setBackground(c3);
+		btn_onetoone.setBackground(c1);
+		
+		btn_insert.setBackground(Color.lightGray);
+		btn_reset.setBackground(Color.lightGray);
+		btn_delete.setBackground(Color.lightGray);
+		
 		pane.setBackground(Color.WHITE);
 		insert_panel.setBackground(Color.WHITE);
 		btnMenu_panel.setBackground(Color.WHITE);
 		BoardPane.setBackground(Color.WHITE);
 
+		btnMenu_panel.add(btn_board);
+		btnMenu_panel.add(btn_onetoone);
+		
 		insert_panel.add(btn_insert);
 		insert_panel.add(btn_reset);
 		insert_panel.add(btn_delete);
@@ -326,30 +360,30 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 	}
 	
-	public void view() {
-		list = new ArrayList<UserVO>();
-		
-		list = HMui.system.gettext();
-		
-		model.setNumRows(0);
-		
-		for(UserVO vo : list) {
-			if(vo != null) {
-				row[0]= vo.getRno();
-				row[1]= vo.getPno();
-				row[2]=vo.getPname();
-				row[3]=vo.getPtitle();
-				row[4]=vo.getPdate();
-				
-				
-				model.addRow(row);
-			}
-			table.repaint();
-		}
-		model.fireTableDataChanged();
-		
-		
-	}
+//	public void view() {
+//		list = new ArrayList<UserVO>();
+//		
+//		list = HMui.system.gettext();
+//		
+//		model.setNumRows(0);
+//		
+//		for(UserVO vo : list) {
+//			if(vo != null) {
+//				row[0]= vo.getRno();
+//				row[1]= vo.getPno();
+//				row[2]=vo.getPname();
+//				row[3]=vo.getPtitle();
+//				row[4]=vo.getPdate();
+//				
+//				
+//				model.addRow(row);
+//			}
+//			table.repaint();
+//		}
+//		model.fireTableDataChanged();
+//		
+//		
+//	}
 	
 	//삭제
 	public void boarddelete() {
@@ -435,7 +469,31 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		receive_panel.removeAll();
 		rselect_panel.removeAll();
 		
-		rcreateJtableData();	//출력되는 데이터 가져오기
+		Object[] rcolumns = {"순번","코드","제목","날짜","보낸사람","질문했던 제목"};
+		DefaultTableModel rmodel =new DefaultTableModel(rcolumns,0);
+		JTable rtable= new JTable(rmodel);
+		Object[] rrow =new Object[6];
+		
+		list = new ArrayList<UserVO>();
+		
+		list = HMui.system.receive(HMui.id);
+		
+		rmodel.setNumRows(0);
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				rrow[0]= vo.getRno();
+				rrow[1]= vo.getAid();
+				rrow[2]=vo.getAtitle();
+				rrow[3]=vo.getAdate();
+				rrow[4]=vo.getAsname();
+				rrow[5]=vo.getBid();
+				
+				rmodel.addRow(rrow);
+			}
+			rtable.repaint();
+		}
+		rmodel.fireTableDataChanged();
 		
 		
 		rtable.addMouseListener(new MouseAdapter() {
@@ -482,29 +540,29 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		HMui.setVisible(true);    
 	}
 	
-	public void rcreateJtableData() {
-		list = new ArrayList<UserVO>();
-		
-		list = HMui.system.receive(HMui.id);
-		
-		rmodel.setNumRows(0);
-		
-		for(UserVO vo : list) {
-			if(vo != null) {
-				rrow[0]= vo.getRno();
-				rrow[1]= vo.getAid();
-				rrow[2]=vo.getAtitle();
-				rrow[3]=vo.getAdate();
-				rrow[4]=vo.getAsname();
-				rrow[5]=vo.getBid();
-				
-				rmodel.addRow(rrow);
-			}
-			rtable.repaint();
-		}
-		rmodel.fireTableDataChanged();
-		
-	}
+//	public void rcreateJtableData() {
+//		list = new ArrayList<UserVO>();
+//		
+//		list = HMui.system.receive(HMui.id);
+//		
+//		rmodel.setNumRows(0);
+//		
+//		for(UserVO vo : list) {
+//			if(vo != null) {
+//				rrow[0]= vo.getRno();
+//				rrow[1]= vo.getAid();
+//				rrow[2]=vo.getAtitle();
+//				rrow[3]=vo.getAdate();
+//				rrow[4]=vo.getAsname();
+//				rrow[5]=vo.getBid();
+//				
+//				rmodel.addRow(rrow);
+//			}
+//			rtable.repaint();
+//		}
+//		rmodel.fireTableDataChanged();
+//		
+//	}
 	
 	public void send() {
 		resetMenuPanel();
@@ -515,7 +573,30 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		Button send = new Button("1대1 문의하기");
 		
-		screateJtableData();	//출력되는 데이터 가져오기
+		Object[] scolumns = {"순번","코드","제목","날짜","받는사람"};
+		DefaultTableModel smodel =new DefaultTableModel(scolumns,0);
+		JTable stable= new JTable(smodel);
+		Object[] srow =new Object[5];
+		
+		list = new ArrayList<UserVO>();
+		
+		list = HMui.system.send(HMui.id);
+		
+		smodel.setNumRows(0);
+		
+		for(UserVO vo : list) {
+			if(vo != null) {
+				srow[0]= vo.getRno();
+				srow[1]= vo.getBid();
+				srow[2]=vo.getBtitle();
+				srow[3]=vo.getBdate();
+				srow[4]=vo.getBsname();
+				
+				smodel.addRow(srow);
+			}
+			stable.repaint();
+		}
+		smodel.fireTableDataChanged();
 		
 		
 		stable.addMouseListener(new MouseAdapter() {
@@ -565,28 +646,28 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		send.addActionListener(this);
 	}
 	
-	public void screateJtableData() {
-		list = new ArrayList<UserVO>();
-		
-		list = HMui.system.send(HMui.id);
-		
-		smodel.setNumRows(0);
-		
-		for(UserVO vo : list) {
-			if(vo != null) {
-				srow[0]= vo.getRno();
-				srow[1]= vo.getBid();
-				srow[2]=vo.getBtitle();
-				srow[3]=vo.getBdate();
-				srow[4]=vo.getBsname();
-				
-				smodel.addRow(srow);
-			}
-			stable.repaint();
-		}
-		smodel.fireTableDataChanged();
-		
-	}
+//	public void screateJtableData() {
+//		list = new ArrayList<UserVO>();
+//		
+//		list = HMui.system.send(HMui.id);
+//		
+//		smodel.setNumRows(0);
+//		
+//		for(UserVO vo : list) {
+//			if(vo != null) {
+//				srow[0]= vo.getRno();
+//				srow[1]= vo.getBid();
+//				srow[2]=vo.getBtitle();
+//				srow[3]=vo.getBdate();
+//				srow[4]=vo.getBsname();
+//				
+//				smodel.addRow(srow);
+//			}
+//			stable.repaint();
+//		}
+//		smodel.fireTableDataChanged();
+//		
+//	}
 	
 	public void resetMenuPanel() {
 //		receive_panel.setVisible(false);
@@ -611,7 +692,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		}else if(name.equals("글올리기")) {
 			boardinsert();
 		}else if(name.equals("새로고침")) {
-			view();
+			viewer();
 		}else if(name.equals("등록하기")) {
 			write();
 		}else if(name.equals("취소")){
