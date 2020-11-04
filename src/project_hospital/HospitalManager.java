@@ -798,8 +798,7 @@ public class HospitalManager {
 				}else if(bname.equals("수정취소")) {
 					JOptionPane.showMessageDialog(null, "수정취소");
 				}else if(bname.equals("종료")) {
-					System.out.println("--  종료 버튼이 클릭되었습니다. --");
-					System.exit(0);
+					jf_login.setVisible(false);
 				}else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
 					String mid = jt_deleteSearch.getText().trim();
 					
