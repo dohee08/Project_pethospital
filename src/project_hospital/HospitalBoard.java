@@ -193,7 +193,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	}
 	
 	public void boardinsert() {
-		 bif = new JFrame();
+		bif = new JFrame();
 		JPanel content_panel = new JPanel(new BorderLayout());
 		JPanel post_panel = new JPanel();
 		JPanel btns_panel = new JPanel();
@@ -613,10 +613,9 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		}else if(name.contentEquals("1대1 답변 확인")) {
 			receive();	
 		}else if(name.contentEquals("1대1 문의 보내기")) {
-//			new HospitalBoardPopUpS();
 			send();
 		}else if(name.contentEquals("1대1 문의하기")){
-			new HospitalBoardPopUpS();
+			new HospitalBoardPopUpS(HMui).sendMessage();
 		}
 		else if(!jt_deleteSearch.getText().equals("") || jb_deleteButton.equals("확인")) {
 			String pno = jt_deleteSearch.getText().trim();

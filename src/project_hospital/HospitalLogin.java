@@ -114,8 +114,7 @@ public class HospitalLogin {
 					tpass.setText("");
 					jf.setVisible(true);
 				}else if(bname.equals("종료")) {
-					System.out.println("--  종료 버튼이 클릭되었습니다. --");
-					System.exit(0);
+					jf.setVisible(false);
 				}
 			}
 			

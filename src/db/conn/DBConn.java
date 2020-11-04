@@ -46,7 +46,6 @@ public class DBConn {	//DB연동 공통모듈 생성
 	public void getPreparedStatement(String sql) {
 		try {
 			pstmt = conn.prepareStatement(sql);
-			System.out.println("3-> PreparedStatement객체 생성");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
