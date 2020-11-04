@@ -734,12 +734,11 @@ public class HospitalDAO extends DBConn {
 	/** 1:1 문의 - send 테이블 정보 불러오기  (원장님 이름 가져오기)**/
 	public ArrayList<UserVO> send(String id) {
 		ArrayList<UserVO> send = new ArrayList<UserVO>();
-		String sid = id;
 		try {
-			String sql ="select rownum rno, bid, btitle, btext, bsname, bmname,bdate from send where sid = ? ";
+			String sql ="select rownum rno, bid, btitle, btext, bsname, bmname,bdate from send where mid = ? ";
 			
 			getPreparedStatement(sql);
-			pstmt.setString(1, sid);
+			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
