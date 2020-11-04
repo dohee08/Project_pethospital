@@ -197,8 +197,8 @@ public class HospitalMgmSystem {
 		}
 		
 		/** 게시판 - 삭제 진행 **/
-		public boolean deletePost(String pno) {
-			return dao.deletePost(pno);
+		public boolean deletePost(String pno,String name) {
+			return dao.deletePost(pno,name);
 		}
 		
 		/**게시판 이름가져오기 */
