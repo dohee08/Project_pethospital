@@ -46,10 +46,6 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	ArrayList<UserVO> list;
 	
 	
-
-	
-	
-
 	public static final int BOARD = 1;
 	public static final int ONETOONE = 2;
 	
@@ -192,27 +188,31 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	}
 	
 	public void boardinsert() {
-		bif = new JFrame();
+		bif = new JFrame("게시글 작성");
 		JPanel content_panel = new JPanel(new BorderLayout());
 		JPanel post_panel = new JPanel();
 		JPanel btns_panel = new JPanel();
 		JPanel top = new JPanel();
 		
-		JButton btn_insert = new JButton("등록하기");
+		JButton btn_insert = new JButton("등록");
 		JButton btn_nop = new JButton("취소");
-		btns_panel.add(btn_insert); btns_panel.add(btn_nop);
+		btns_panel.add(btn_insert); btns_panel.add(btn_nop); 
 		
 		JLabel title_la = new JLabel("제목");
-		JLabel title_o = new JLabel(":");
 		title_tf = new JTextField(30);
-		top.add(title_la);  top.add(title_o); top.add(title_tf);
+		top.add(title_la); top.add(title_tf);
 		
+		JLabel text = new JLabel("     ");
 		post = new JTextArea(30,30);
+		post_panel.add(text);	
 		post_panel.add(post);
 		
 		content_panel.add(BorderLayout.NORTH,top);
 		content_panel.add(BorderLayout.CENTER,post_panel);
 		content_panel.add(BorderLayout.SOUTH,btns_panel);
+		
+		btn_insert.setBackground(Color.WHITE);
+		btn_nop.setBackground(Color.WHITE);
 		
 		bif.add(content_panel);
 		bif.setSize(500, 500);
@@ -220,7 +220,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 		btn_insert.addActionListener(this);
 		btn_nop.addActionListener(this);	
-		
+	
 	}
 	
 	public void write() {
@@ -704,7 +704,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 			boardinsert();
 		}else if(name.equals("새로고침")) {
 			viewer();
-		}else if(name.equals("등록하기")) {
+		}else if(name.equals("등록")) {
 			write();
 		}else if(name.equals("취소")){
 			bif.setVisible(false);

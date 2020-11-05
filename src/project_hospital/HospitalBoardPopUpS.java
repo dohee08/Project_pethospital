@@ -1,6 +1,7 @@
 package project_hospital;
 
 
+import java.awt.Color;
 import java.awt.Rectangle;  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -85,6 +86,7 @@ public class HospitalBoardPopUpS extends JFrame {
         writer.setColumns(10);
  
         JButton btnWrite = new JButton("작성완료");
+        btnWrite.setBackground(Color.WHITE);
         btnWrite.setBounds(81, 180, 116, 23);
         btnWrite.addActionListener(new ActionListener() {
  
@@ -98,6 +100,7 @@ public class HospitalBoardPopUpS extends JFrame {
         getContentPane().add(btnWrite);
  
         JButton btnClose = new JButton("닫기");
+        btnClose.setBackground(Color.WHITE);
         btnClose.setBounds(209, 180, 97, 23);
         btnClose.addActionListener(new ActionListener() {
  
