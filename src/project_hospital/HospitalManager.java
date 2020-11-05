@@ -123,7 +123,11 @@ public class HospitalManager {
 	    
 	    status_panel = new JPanel(new BorderLayout());
 	    status_panel.setBackground(Color.WHITE);
-	    jl_status = new JLabel("-- " + id + "가 로그인 하였습니다 --");
+	    
+	    HospitalMgmSystem system = new HospitalMgmSystem();
+	    String sname = system.renameMan(id);
+	    jl_status = new JLabel(" " + sname + "이 로그인 하였습니다");
+	    
 	    jl_status.setFont(font);
 	    jl_status.setBackground(Color.WHITE);
 	    status_panel.add(jl_status, BorderLayout.WEST);

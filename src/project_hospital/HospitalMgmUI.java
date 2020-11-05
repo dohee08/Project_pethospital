@@ -140,7 +140,8 @@ public class HospitalMgmUI extends JFrame{
 		    mypage_menu_panel  = new JPanel(new GridLayout(3,1)); //마이페이지 메뉴
 		    
 		    //메인 UI> 회원 아이디 상태 띄우기
-		    jl_status = new JLabel("-- " + id + "가 로그인 하였습니다 --");
+		    String mname = system.rename(id);
+		    jl_status = new JLabel(" " + mname + "가 로그인 하였습니다");
 		    jl_status.setFont(font);
 		    jl_status.setBackground(Color.WHITE);
 		    status_panel.setLayout(new BorderLayout());
@@ -295,9 +296,12 @@ public class HospitalMgmUI extends JFrame{
 			}		
 			//윈도우 이벤트 처리
 			public void windowClosing(WindowEvent we) {
-				JOptionPane.showMessageDialog(null,getMsg("프로그램 종료!!!"));
-				system.dao.close();
-				System.exit(0);
+				int result = JOptionPane.showConfirmDialog(null,"프로그램을 종료하겠습니까?");
+				if(result == 0)  {
+					//DB close
+					system.dao.close();		//부모 메소드 사용가능
+					System.exit(0);
+				}
 			}
 			
 			//액션 이벤트 처리
