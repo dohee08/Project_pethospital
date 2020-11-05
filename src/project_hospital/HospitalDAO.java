@@ -1015,7 +1015,7 @@ public class HospitalDAO extends DBConn {
 		boolean result = false;
 		
 		try {
-			String sql = "DELETE FROM MEMBER WHERE MID=?";
+			String sql = "DELETE FROM MEMBER casecade WHERE MID=?";
 			getPreparedStatement(sql);
 			pstmt.setString(1, mid);
 			int count = pstmt.executeUpdate();
