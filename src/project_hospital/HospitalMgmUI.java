@@ -45,13 +45,13 @@ public class HospitalMgmUI extends JFrame{
 		JButton btnLogout;
 
 
-		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
-		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
+		JPanel HospiResPane = new JPanel(new GridLayout(6,1));
+		JPanel SalonResPane = new JPanel(new GridLayout(6,1));
 		JPanel MyPagePane = new JPanel();
 		JPanel BoardPane = new JPanel();
 		
 		//꾸미기
-		public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
+		public static Font font = new Font("나눔스퀘어_ac", Font.PLAIN, 14);
 		public static Color c1 = new Color(255,231,159);
 		public static Color c2 = new Color(238,217,154);
 		public static Color c3 = new Color(229,197,148);
@@ -88,7 +88,7 @@ public class HospitalMgmUI extends JFrame{
 			ImageIcon icon = new ImageIcon(changedImg);
 			jl_img = new JLabel(icon);
 			
-			jl_title.setFont(new Font("맑은 고딕",Font.BOLD,16));
+			jl_title.setFont(new Font("나눔스퀘어_ac",Font.BOLD,16));
 			btnLogin.setFont(font);
 			btnJoin.setFont(font);
 			btnManager.setFont(font);
@@ -140,7 +140,7 @@ public class HospitalMgmUI extends JFrame{
 		    mypage_menu_panel  = new JPanel(new GridLayout(3,1)); //마이페이지 메뉴
 		    
 		    //메인 UI> 회원 아이디 상태 띄우기
-		    jl_status = new JLabel("-- " + id + "가 로그인 하였습니다 --");
+		    jl_status = new JLabel("  "+id +"님이 로그인 하였습니다");
 		    jl_status.setFont(font);
 		    jl_status.setBackground(Color.WHITE);
 		    status_panel.setLayout(new BorderLayout());

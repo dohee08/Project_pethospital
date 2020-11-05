@@ -1,6 +1,7 @@
 package project_hospital;
 import java.util.*; 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +18,8 @@ public class HospitalHairCut extends JFrame {
 	JTextArea ta_text; // 더하고싶은말
 	JButton btn_reserve, btn_reset; // 예약, 취소버튼
 	String mid;
-	public static Font font = new Font("나눔스퀘어_ac", Font.BOLD, 12);
-	public static Font font1 = new Font("나눔스퀘어_ac", Font.BOLD, 16);
+	public static Font font = new Font("나눔스퀘어_ac", Font.BOLD, 15);
+	public static Font font1 = new Font("나눔스퀘어_ac", Font.BOLD, 18);
 	// 생성자
 	public HospitalHairCut() {
 	}
@@ -39,11 +40,24 @@ public class HospitalHairCut extends JFrame {
 		JPanel intro_pane = new JPanel();
 		JLabel lb_intro = new JLabel("==================     미용 예약        ==================");
 		lb_intro.setHorizontalAlignment(JLabel.CENTER);
-		lb_intro.setFont(font1);
 		intro_pane.add(lb_intro);
 		
-		JLabel lb_date = new JLabel("예약 날짜 : ");
-		lb_date.setFont(font);
+		JLabel lGender = new JLabel("성별 ");
+		JPanel pGender = new JPanel();
+		rb_man = new JRadioButton("수컷", null);
+		rb_woman = new JRadioButton("암컷", null);
+		ButtonGroup group = new ButtonGroup();
+		pGender.setBackground(Color.white);
+		rb_man.setBackground(Color.white);
+		rb_woman.setBackground(Color.white);
+		
+		group.add(rb_man);
+		group.add(rb_woman);
+		pGender.add(rb_man);
+		pGender.add(rb_woman);
+		gender_pane.add(lGender);
+		gender_pane.add(pGender);
+		JLabel lb_date = new JLabel("예약 날짜 ");
 		tf_year = new JTextField(6);
 		tf_month = new JTextField(6);
 		tf_day = new JTextField(6);
@@ -57,7 +71,8 @@ public class HospitalHairCut extends JFrame {
 		jp_date.add(new JLabel("일"));
 		date_pane.add(lb_date);
 		date_pane.add(jp_date);
-		JLabel lb_time = new JLabel("예약 시간 :");
+		JLabel lb_time = new JLabel("예약 시간 ");
+		lb_time.setFont(font);
 		String[] arrtime = { "선택해주세요", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00",
 				"18:00" };
 		cb_time = new JComboBox<String>(arrtime);
@@ -68,32 +83,37 @@ public class HospitalHairCut extends JFrame {
 		time_pane.add(lb_time);
 		time_pane.add(jp_time);
 
-		JLabel lGender = new JLabel("성별 :");
-		JPanel pGender = new JPanel();
-		rb_man = new JRadioButton("수컷", true);
-		rb_woman = new JRadioButton("암컷", true);
-		ButtonGroup group = new ButtonGroup();
-		pGender.setBackground(Color.white);
-		rb_man.setBackground(Color.white);
-		rb_woman.setBackground(Color.white);
-		group.add(rb_man);
-		group.add(rb_woman);
-		pGender.add(rb_man);
-		pGender.add(rb_woman);
-		gender_pane.add(lGender);
-		gender_pane.add(pGender);
 
-		JLabel lb_text = new JLabel("기타 사항:");
-		ta_text = new JTextArea(3, 20); // 행 : 열
+		JLabel lb_text = new JLabel("기타 사항 ");
+		ta_text = new JTextArea(3, 30); // 행 : 열
 		JScrollPane pane = new JScrollPane(ta_text);
 		text_pane.add(lb_text);
 		text_pane.add(pane);
+		
+		lb_intro.setFont(font1);
+		lb_date.setFont(font);
+		lGender.setFont(font);
+		rb_man.setFont(font);
+		rb_woman.setFont(font);
+		lb_text.setFont(font);
 
 		btn_reserve = new JButton("예약");
 		btn_reset = new JButton("취소");
 		jp_Button.add(btn_reserve);
 		jp_Button.add(btn_reset);
 
+		Border lineBorder = BorderFactory.createLineBorder(Color.black, 2);
+		Border emptyBorder = BorderFactory.createEmptyBorder(7, 7, 7, 7);
+		ta_text.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+		tf_year.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+		tf_month.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+		tf_day.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+		
+		
+		
+		btn_reserve.setBackground(Color.WHITE);
+		btn_reset.setBackground(Color.WHITE);
 		date_pane.setBackground(Color.white);
 		time_pane.setBackground(Color.white);
 		gender_pane.setBackground(Color.white);
@@ -103,9 +123,9 @@ public class HospitalHairCut extends JFrame {
 
 		
 		SalonResPane.add(intro_pane);
+		SalonResPane.add(gender_pane);
 		SalonResPane.add(date_pane);
 		SalonResPane.add(time_pane);
-		SalonResPane.add(gender_pane);
 		SalonResPane.add(text_pane);
 		SalonResPane.add(jp_Button);
 		

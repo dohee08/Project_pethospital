@@ -53,8 +53,8 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	public static final int BOARD = 1;
 	public static final int ONETOONE = 2;
 	
-	public static Font font = new Font("³ª´®½ºÄù¾î_ac", Font.BOLD, 12);
-	public static Font font1 = new Font("³ª´®½ºÄù¾î_ac", Font.PLAIN, 14);
+	public static Font font = new Font("³ª´®½ºÄù¾î_ac", Font.PLAIN, 14);
+	public static Font font1 = new Font("³ª´®½ºÄù¾î_ac", Font.BOLD, 12);
 	
 	public HospitalBoard() {}
 	public HospitalBoard(HospitalMgmUI HMui) {
@@ -102,6 +102,13 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		btn_insert.setBackground(Color.lightGray);
 		btn_reset.setBackground(Color.lightGray);
 		btn_delete.setBackground(Color.lightGray);
+		
+		btn_board.setFont(font);
+		btn_onetoone.setFont(font);
+		btn_insert.setFont(font); 
+		btn_reset.setFont(font);
+		btn_delete.setFont(font);
+		
 
 		
 		btnMenu_panel.add(btn_board);
@@ -267,7 +274,11 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		JButton btn_reset = new JButton("»õ·Î°íÄ§");
 		JButton btn_delete = new JButton("±Û»èÁ¦");
 		
-	
+		btn_board.setFont(font);
+		btn_onetoone.setFont(font);
+		btn_insert.setFont(font); 
+		btn_reset.setFont(font);
+		btn_delete.setFont(font);
 
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
