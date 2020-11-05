@@ -244,20 +244,20 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void memberDelete() {
 			String mid = main.id;
 			
-			if(main.system.lastcheckh(mid)==0) {
-				if(main.system.lastchecks(mid)==0) {
+//			if(main.system.lastcheckh(mid)==0) {
+//				if(main.system.lastchecks(mid)==0) {
 			if(main.system.delete(mid)) {
 				JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
 				System.exit(0);
 			}else {
 				JOptionPane.showMessageDialog(null, "삭제 실패");
 			}
-			}else {
-				JOptionPane.showMessageDialog(null, "미용 예약 삭제를 먼저 해주세요");
-			}}
-			else {
-				JOptionPane.showMessageDialog(null, "병원 예약 삭제를 먼저 해주세요");
-			}
+//			}else {
+//				JOptionPane.showMessageDialog(null, "미용 예약 삭제를 먼저 해주세요");
+//			}}
+//			else {
+//				JOptionPane.showMessageDialog(null, "병원 예약 삭제를 먼저 해주세요");
+//			}
 		}
 		
 		
