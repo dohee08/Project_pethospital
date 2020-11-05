@@ -3,6 +3,7 @@ package project_hospital;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -45,7 +46,7 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		ArrayList<TextField> tf_change_list;
 		ArrayList<TextField> tf_update_list;
 		int idx = -1;
-		
+		public static Font font = new Font("나눔스퀘어_ac", Font.PLAIN, 14);
 		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","12:00","13:00", 
 				 "14:00","15:00","16:00", "17:00", "18:00"};
 		 
@@ -118,6 +119,10 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			update.setBackground(c2);
 			change.setBackground(c3);
 			
+			
+			view.setFont(font);
+			update.setFont(font);
+			change.setFont(font);
 //			menu_panel.add(view);
 //			menu_panel.add(update);
 //			menu_panel.add(change);

@@ -45,13 +45,13 @@ public class HospitalMgmUI extends JFrame{
 		JButton btnLogout;
 
 
-		JPanel HospiResPane = new JPanel(new GridLayout(8,1));
-		JPanel SalonResPane = new JPanel(new GridLayout(7,1));
+		JPanel HospiResPane = new JPanel(new GridLayout(6,1));
+		JPanel SalonResPane = new JPanel(new GridLayout(6,1));
 		JPanel MyPagePane = new JPanel();
 		JPanel BoardPane = new JPanel();
 		
 		//²Ù¹Ì±â
-		public static Font font = new Font("¸¼Àº °íµñ", Font.BOLD, 12);
+		public static Font font = new Font("³ª´®½ºÄù¾î_ac", Font.PLAIN, 14);
 		public static Color c1 = new Color(255,231,159);
 		public static Color c2 = new Color(238,217,154);
 		public static Color c3 = new Color(229,197,148);
@@ -88,7 +88,7 @@ public class HospitalMgmUI extends JFrame{
 			ImageIcon icon = new ImageIcon(changedImg);
 			jl_img = new JLabel(icon);
 			
-			jl_title.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,16));
+			jl_title.setFont(new Font("³ª´®½ºÄù¾î_ac",Font.BOLD,16));
 			btnLogin.setFont(font);
 			btnJoin.setFont(font);
 			btnManager.setFont(font);
