@@ -74,7 +74,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select hno, mname, hyear,hmonth,hday , htime from hbooking h, member m where h.mid = m.mid and h.mid = ?";
+			String sql ="select hno, mname, hyear,hmonth,hday , htime from hbooking h, member m where h.mid = m.mid and h.mid = ? order by hyear,hmonth,hday,htime asc";
 			
 			//getStatement();
 			//rs = stmt.executeQuery(sql);
@@ -112,7 +112,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select sno, mname, syear, smonth,sday , stime from SALONRES s, member m where s.mid = m.mid and s.mid = ?";
+			String sql ="select sno, mname, syear, smonth,sday , stime from SALONRES s, member m where s.mid = m.mid and s.mid = ? order by syear,smonth,sday,stime asc";
 			
 			//getStatement();
 			//rs = stmt.executeQuery(sql);
@@ -551,7 +551,7 @@ public class HospitalDAO extends DBConn {
 		ArrayList<UserVO> text = new ArrayList<UserVO>();
 		
 		try {
-			String sql ="select rownum rno, pno, pname, ptitle, ptext, pdate from post";
+			String sql ="select rownum rno, pno, pname, ptitle, ptext, pdate from post order by pdate asc";
 			
 			getPreparedStatement(sql);
 			rs=pstmt.executeQuery(sql);
