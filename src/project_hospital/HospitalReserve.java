@@ -27,9 +27,8 @@ public class HospitalReserve {
 	
 	HospitalMgmUI HMui;
 	JFrame reserveOKf;
-	JPanel HospiResPane, la_HospiResPane;
-	JPanel intro_panel, title_panel, hno_panel, visitPurpose_panel, symptom_panel, 
-			visitDate_panel, visitTime_panel,btnReserve_panel, reserveOKp, b_panel;
+	JPanel HospiResPane, la_HospiResPan, intro_panel, title_panel, hno_panel, visitPurpose_panel, 
+			symptom_panel, visitDate_panel, visitTime_panel,btnReserve_panel, reserveOKp;
 	JLabel la_hno, la_title, la_visit_purpose, la_symptom, la_visit_year,la_visit_month,
 			la_visit_day,la_visit_date,la_visit_time;
 	JLabel la_intro, la_title1, la_hno1, la_visit_purpose1, la_visit_purpose2, la_symptom1, 
@@ -56,7 +55,6 @@ public class HospitalReserve {
 		
 		 HMui.switchPane(HospitalMgmUI.HOSPIRES);
 		
-		 b_panel = new JPanel();
 		 intro_panel = new JPanel();
 		 visitPurpose_panel = new JPanel();
 		 symptom_panel = new JPanel();
@@ -138,7 +136,7 @@ public class HospitalReserve {
 		HospiResPane.add(visitTime_panel);
 		HospiResPane.add(btnReserve_panel);
 		
-		b_panel.setBackground(Color.WHITE);
+		
 		intro_panel.setBackground(Color.WHITE);
 		visitPurpose_panel.setBackground(Color.WHITE);
 		symptom_panel.setBackground(Color.WHITE);
@@ -295,6 +293,7 @@ public class HospitalReserve {
 		 reserveOKf.add(reserveOKp, BorderLayout.CENTER);
 		 reserveOKf.setVisible(true);
 		 reserveOKf.setSize(400,400);
+		 reserveOKf.setLocation(400,200);
 		 
 		 Hospital_ReserveEvent reserveEvent = new Hospital_ReserveEvent();
 			btn_reserveOK.addActionListener(reserveEvent);

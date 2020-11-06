@@ -33,6 +33,7 @@ public class HospitalManagerComPopUp extends JFrame {
         setBounds(new Rectangle(600, 0, 450, 280));
         setTitle("답변완료 게시글");
         super.setBackground(Color.WHITE);
+        super.setLocation(350,250);
         getContentPane().setLayout(null);
         lineBorder = BorderFactory.createLineBorder(Color.black, 1);
 		emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);

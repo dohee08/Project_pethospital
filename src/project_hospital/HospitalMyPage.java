@@ -31,10 +31,8 @@ import javax.swing.table.TableColumnModel;
 public class HospitalMyPage extends WindowAdapter implements ActionListener{
 	//Field
 		HospitalMgmUI main;
-		JPanel MyPagePane;
-		JPanel mypage_menu_panel;
-		JPanel jp_change,content_panel,check_panel,search_panel,update_panel,update_bottom
-				,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel,intro_panel;
+		JPanel MyPagePane, mypage_menu_panel, jp_change,content_panel,check_panel,search_panel,
+			update_panel,update_bottom,hselect_panel,login_panel,all_panel,sselect_panel,allselect_panel,intro_panel;
 		JTextField  jt_kind, jt_delete,tf_id;
 		TextField tf_update,tf_up_last,hyear,hmonth,hday,mkind,mname,syear,smonth,sday,stime;
 		JComboBox jc_visit_time;
@@ -43,13 +41,13 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		Button update_search;
 		String[] form_names = {"아이디","비밀번호","전화번호","동물이름","종류"};
 		String[] up_names = {"예약번호","이름","년","월","일","예약시간"};
+		String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","12:00","13:00", 
+				"14:00","15:00","16:00", "17:00", "18:00"};
+		
 		ArrayList<TextField> tf_change_list;
 		ArrayList<TextField> tf_update_list;
 		int idx = -1;
 		public static Font font = new Font("나눔스퀘어_ac", Font.PLAIN, 14);
-		 String[] visit_times = {"선택해주세요","09:00", "10:00","11:00","12:00","13:00", 
-				 "14:00","15:00","16:00", "17:00", "18:00"};
-		 
 		
 		public HospitalMyPage() {}
 		public HospitalMyPage(HospitalMgmUI main) {
@@ -58,14 +56,13 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			this.mypage_menu_panel = main.mypage_menu_panel;
 		}
 		
-		//JTable
+		//JTable - 병원 예약
 		Object[] columns = {"예약번호","이름","년","월","일","시간"};
 		DefaultTableModel model =new DefaultTableModel(columns,0);
 		JTable table= new JTable(model);
 		Object[] row =new Object[6];  //Jtable에 추가되는 하나의 row 추가될 객체
 		
-		
-		//JTable
+		//JTable - 미용 예약
 		Object[] scolumns = {"예약번호","이름","년","월","일","시간"};
 		DefaultTableModel smodel =new DefaultTableModel(scolumns,0);
 		JTable stable= new JTable(model);
@@ -123,9 +120,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 			view.setFont(font);
 			update.setFont(font);
 			change.setFont(font);
-//			menu_panel.add(view);
-//			menu_panel.add(update);
-//			menu_panel.add(change);
 			
 			mypage_menu_panel.add(view);
 			mypage_menu_panel.add(update);
@@ -249,20 +243,12 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		public void memberDelete() {
 			String mid = main.id;
 			
-//			if(main.system.lastcheckh(mid)==0) {
-//				if(main.system.lastchecks(mid)==0) {
 			if(main.system.delete(mid)) {
 				JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
 				System.exit(0);
 			}else {
 				JOptionPane.showMessageDialog(null, "삭제 실패");
 			}
-//			}else {
-//				JOptionPane.showMessageDialog(null, "미용 예약 삭제를 먼저 해주세요");
-//			}}
-//			else {
-//				JOptionPane.showMessageDialog(null, "병원 예약 삭제를 먼저 해주세요");
-//			}
 		}
 		
 		
@@ -778,7 +764,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 				update_panel.setVisible(true); break;
 			case 3:
 				login_panel.setVisible(true); break;
-				//jp_change.setVisible(true); break;
 			}
 		}
 		
@@ -841,7 +826,6 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 		/** 내정보 들어가기전에 로그인 창 */
 		public void logincheck() {
 			
-		//	resetMenuPanel();
 			switchPanel(CHECK);
 			login_panel.removeAll();
 			
@@ -964,5 +948,5 @@ public class HospitalMyPage extends WindowAdapter implements ActionListener{
 							memberDelete();
 					}
 				 }		
-				}//end
+		}//end
 }//class

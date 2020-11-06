@@ -62,7 +62,7 @@ public class HospitalBoardPopUpR extends JFrame {
         });
         getContentPane().add(btnClose);
         setVisible(true);
- 
+        setLocation(300,150);
     }
 }
 

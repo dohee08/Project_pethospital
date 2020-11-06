@@ -42,6 +42,7 @@ public class HospitalBoardPopUpS extends JFrame {
         setBounds(new Rectangle(600, 0, 500, 280));
         setTitle("1:1문의등록");
         getContentPane().setLayout(null);
+        setLocation(300,150);
         
         JLabel lblNewLabel_1 = new JLabel("원장님 선택");
         lblNewLabel_1.setBounds(12, 1, 150, 20);
@@ -162,6 +163,6 @@ public class HospitalBoardPopUpS extends JFrame {
          system.send(vo);
          JOptionPane.showMessageDialog(null, "등록완료");
          setVisible(false);
-
+         
 	}
     }

@@ -186,9 +186,6 @@ public class HospitalRegister {
 		
 		/** 회원가입 체크 **/
 		public void RegisterCheck() {
-			//데이터 중복 체크!!!! -> db list
-//			String did = "test";  
-//			String dpass = "1234";
 			
 			//회원가입 TextField에서 가져온 값
 			String mid = tid.getText().trim();

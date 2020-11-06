@@ -38,8 +38,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	JPanel BoardPane, insert_panel, btnMenu_panel,intro_panel,viewer_panel,receive_panel,rselect_panel
 		   ,send_panel,sselect_panel;
-	JButton btn_insert,btn_reset, btn_delete;
-	JButton btn_board, btn_onetoone;
+	JButton btn_insert,btn_reset, btn_delete, btn_board, btn_onetoone;
 	JTextField title_tf;
 	JTextArea post ;
 	
@@ -58,18 +57,17 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		this.BoardPane = HMui.BoardPane;
 	}
 	
-	
-
-
 	private JPanel jp_deleteSearch;
 	private JTextField jt_deleteSearch;
 	private JLabel jl_deleteSearchName;
 	private JButton jb_deleteButton;
 	private JPanel deletePane;
+	
 	Object[] row =new Object[5];
 	
 	
 	public void HospitalBoard(){
+		
 		HMui.switchPane(HospitalMgmUI.BOARD);
 		
 		insert_panel = new JPanel();
@@ -109,71 +107,19 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		btnMenu_panel.add(btn_board);
 		btnMenu_panel.add(btn_onetoone);
-
+		
 		insert_panel.add(btn_insert);
 		insert_panel.add(btn_reset);
 		insert_panel.add(btn_delete);
 		
-//		list = new ArrayList<UserVO>();
-//		
-//
-//		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-//		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-//
-//		
-//	   list = HMui.system.gettext();
-//		
-//
-//		
-//		for(UserVO vo : list) {
-//			if(vo != null) {
-//				row[0]= vo.getRno();
-//				row[1]= vo.getPno();
-//				row[2]=vo.getPname();
-//				row[3]=vo.getPtitle();
-//				row[4]=vo.getPdate();
-//				
-//				model.addRow(row);
-//			}
-//			table.repaint();
-//		}
-//		
-//		 table.addMouseListener(new MouseAdapter() {
-//	            @Override
-//	            public void mouseClicked(MouseEvent e) {
-//	                int rowNum = table.getSelectedRow();
-//	                UserVO vo = new UserVO();
-//	                vo = list.get(rowNum);
-//	                new HospitalBoardPopUp(vo);
-//	            }
-//	        });
-//		 
-//		model.fireTableDataChanged();
-//		model.setColumnIdentifiers(columns);
-//		table.setModel(model);
-//		
-//		table.getColumn("번호").setCellRenderer(dtcr);
-//		table.getColumn("코드").setCellRenderer(dtcr);
-//	    table.getColumn("닉네임").setCellRenderer(dtcr);
-//	    table.getColumn("제목").setCellRenderer(dtcr);
-//	    table.getColumn("날짜").setCellRenderer(dtcr);
-//	    table.setBackground(Color.WHITE);
-//	    
-//	    JScrollPane pane = new JScrollPane(table);
-//		pane.setBounds(0,100,600,250);
-//
-//		pane.setBackground(Color.WHITE);
 		insert_panel.setBackground(Color.WHITE);
 		btnMenu_panel.setBackground(Color.WHITE);
 		BoardPane.setBackground(Color.WHITE);
-//		
-//		
+
+		
 		BoardPane.setLayout(new BorderLayout());
-//		BoardPane.add(pane,BorderLayout.CENTER);
-//		BoardPane.add(jl_list, BorderLayout.NORTH);
 		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
 		BoardPane.add(insert_panel, BorderLayout.SOUTH);
-		
 		
 		HMui.add(BoardPane,BorderLayout.CENTER);
 		HMui.setVisible(true);
@@ -188,6 +134,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	}
 	
 	public void boardinsert() {
+		
 		bif = new JFrame("게시글 작성");
 		JPanel content_panel = new JPanel(new BorderLayout());
 		JPanel post_panel = new JPanel();
@@ -217,7 +164,8 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		bif.add(content_panel);
 		bif.setSize(500, 500);
 		bif.setVisible(true);
-	
+		bif.setLocation(350,150);
+		
 		btn_insert.addActionListener(this);
 		btn_nop.addActionListener(this);	
 	
@@ -225,15 +173,14 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	
 	public void write() {
 		
-		  Calendar cal = Calendar.getInstance();
-	      SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
-	      int year = cal.get(Calendar.YEAR);
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat s1 = new SimpleDateFormat("yy/mm/dd");
+	      
+	    int year = cal.get(Calendar.YEAR);
+	    int month = cal.get(Calendar.MONTH)+1;
+	    int day = cal.get(Calendar.DAY_OF_MONTH);
 
-	      int month = cal.get(Calendar.MONTH)+1;
-
-	      int day = cal.get(Calendar.DAY_OF_MONTH);
-
-	      String date = s1.format(cal.getTime());
+	    String date = s1.format(cal.getTime());
 	      
 		UserVO vo = new UserVO();
 		Random rd = new Random();
@@ -354,7 +301,6 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		BoardPane.setLayout(new BorderLayout());
 		BoardPane.add(pane,BorderLayout.CENTER);
-//		BoardPane.add(jl_list, BorderLayout.NORTH);
 		BoardPane.add(btnMenu_panel, BorderLayout.WEST);
 		BoardPane.add(insert_panel, BorderLayout.SOUTH);
 		
@@ -371,34 +317,9 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 	}
 	
-//	public void view() {
-//		list = new ArrayList<UserVO>();
-//		
-//		list = HMui.system.gettext();
-//		
-//		model.setNumRows(0);
-//		
-//		for(UserVO vo : list) {
-//			if(vo != null) {
-//				row[0]= vo.getRno();
-//				row[1]= vo.getPno();
-//				row[2]=vo.getPname();
-//				row[3]=vo.getPtitle();
-//				row[4]=vo.getPdate();
-//				
-//				
-//				model.addRow(row);
-//			}
-//			table.repaint();
-//		}
-//		model.fireTableDataChanged();
-//		
-//		
-//	}
-	
 	//삭제
 	public void boarddelete() {
-		bdf = new JFrame();
+		bdf = new JFrame("게시글 삭제");
 		jp_deleteSearch = new JPanel();
 		jp_deleteSearch.setBackground(Color.WHITE);
 		jl_deleteSearchName = new JLabel("삭제할 게시글 번호 >");
@@ -414,9 +335,10 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		jt_deleteSearch.addActionListener(this);	
 		jb_deleteButton.addActionListener(this);	
 		
-		bdf.setSize(400,300);
+		bdf.setSize(400,100);
 		bdf.add(jp_deleteSearch, BorderLayout.CENTER);
 		bdf.setVisible(true);
+		bdf.setLocation(350,250);
 	}
 	
 	/** 삭제할 아이디 체크 **/
@@ -439,7 +361,6 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	 * */
 	public void intro11() {
 		
-		resetMenuPanel();
 		intro_panel.removeAll();
 		BoardPane.removeAll();
 		
@@ -473,8 +394,6 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 	/** 1대1 답변 받아오기
 	 */
 	public void receive() {
-		resetMenuPanel();
-		
 			
 		receive_panel.setVisible(true);
 		receive_panel.removeAll();
@@ -551,32 +470,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		HMui.setVisible(true);    
 	}
 	
-//	public void rcreateJtableData() {
-//		list = new ArrayList<UserVO>();
-//		
-//		list = HMui.system.receive(HMui.id);
-//		
-//		rmodel.setNumRows(0);
-//		
-//		for(UserVO vo : list) {
-//			if(vo != null) {
-//				rrow[0]= vo.getRno();
-//				rrow[1]= vo.getAid();
-//				rrow[2]=vo.getAtitle();
-//				rrow[3]=vo.getAdate();
-//				rrow[4]=vo.getAsname();
-//				rrow[5]=vo.getBid();
-//				
-//				rmodel.addRow(rrow);
-//			}
-//			rtable.repaint();
-//		}
-//		rmodel.fireTableDataChanged();
-//		
-//	}
-	
 	public void send() {
-		resetMenuPanel();
 		
 		receive_panel.setVisible(true);
 		receive_panel.removeAll();
@@ -656,35 +550,7 @@ public class HospitalBoard extends WindowAdapter implements ActionListener {
 		
 		send.addActionListener(this);
 	}
-	
-//	public void screateJtableData() {
-//		list = new ArrayList<UserVO>();
-//		
-//		list = HMui.system.send(HMui.id);
-//		
-//		smodel.setNumRows(0);
-//		
-//		for(UserVO vo : list) {
-//			if(vo != null) {
-//				srow[0]= vo.getRno();
-//				srow[1]= vo.getBid();
-//				srow[2]=vo.getBtitle();
-//				srow[3]=vo.getBdate();
-//				srow[4]=vo.getBsname();
-//				
-//				smodel.addRow(srow);
-//			}
-//			stable.repaint();
-//		}
-//		smodel.fireTableDataChanged();
-//		
-//	}
-	
-	public void resetMenuPanel() {
-//		receive_panel.setVisible(false);
-//		content_panel.setVisible(false);
-//		insert_panel.setVisible(false);
-	}
+
 	
 	//윈도우 이벤트 처리
 	public void windowClosing(WindowEvent e) {

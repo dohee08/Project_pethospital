@@ -139,6 +139,7 @@ public class HospitalManagerPopUp{
         btnReply.addActionListener(new JFrameObjectEvent());
         btnClose.addActionListener(new JFrameObjectEvent());
         jf_post.setVisible(true);
+        jf_post.setLocation(300, 150);
     }
     
     //답장 창 띄우기
@@ -200,6 +201,7 @@ public class HospitalManagerPopUp{
 		jf_reply.add(content_panel);
 		jf_reply.setBackground(Color.WHITE);
 		jf_reply.setSize(500, 500);
+		jf_reply.setLocation(300, 100);
     }
     
     /** 답변 창 쓰기 **/

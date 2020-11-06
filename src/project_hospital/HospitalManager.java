@@ -40,45 +40,36 @@ import javax.swing.table.DefaultTableModel;
 
 public class HospitalManager {
 	//Field
-	JFrame jf;
-	JPanel main_panel, button_panel;
-	JPanel listPane, updatePane, deletePane, replyPane;
-	JButton btnList, btnUpdate, btnDelete, btnReply;
-	TextArea ta;
 	HospitalMgmUI main;
-
-	JTextField tid;  
+	JFrame jf, jf_login;
+	JPanel main_panel, button_panel, listPane, updatePane, deletePane, replyPane, jp_deleteSearch;
+	JButton btnList, btnUpdate, btnDelete, btnReply, jb_deleteButton;	
+	JTextField tid, jt_deleteSearch;
+	TextArea ta;
 	JPasswordField tpass;
-	JFrame jf_login;
-	JPanel jp_deleteSearch;
-	JLabel jl_deleteSearchName;
-	JTextField jt_deleteSearch;
-	JButton jb_deleteButton;
+	JLabel jl_deleteSearchName, jl_status;
 	
 	//수정
-	TextField tf_update;
-	int idx;
+	TextField tf_update, tf_update_last;
 	ArrayList<TextField> tf_update_list; //수정메뉴 선택 시 새로운 값을 가져오기 위해 선언만 해 놓음
 	String[] form_names = {"비밀번호", "전화번호", "애견이름", "애견종류"};
 	JButton update_search;
 	JPanel update_bottom;
-	TextField tf_update_last;
+	int idx;
 	
 	//답변
 	private JPanel receive_panel;
 	private JPanel send_panel;
+	private JPanel table_panel;
+	private JPanel status_panel;
 	ArrayList<UserVO> list, list2;
 	DefaultTableModel model, model2;
 	Object[] row, row2;
 	JTable table, table2;
-	private JPanel table_panel;
 	
 	String id;	//Login에서 가져온 id
-	JLabel jl_status;
-	private JPanel status_panel;
 	
 	public String sname;	//답장보낼 매니저 이름 구하기
-	
 	public static Font font = new Font("맑은 고딕", Font.BOLD, 12);
 
 	//Constructor
@@ -166,6 +157,7 @@ public class HospitalManager {
 	    
 	    jf.setSize(600,500);
 		jf.setVisible(false);
+		jf.setLocation(300,150);
 		
 		//관리자 UI 버튼 이벤트 정의
 		btnList.addActionListener(new JFrameObjectEvent(this));
@@ -246,8 +238,7 @@ public class HospitalManager {
 	
 	/** 매니저 로그인 체크 **/
 	public void loginCheck() {
-//		String did = "manager";  
-//		String dpass = "123";
+		
 		String uid = tid.getText().trim();
 		String upass = tpass.getText().trim();
 		

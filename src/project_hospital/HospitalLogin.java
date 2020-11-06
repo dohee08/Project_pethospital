@@ -151,8 +151,7 @@ public class HospitalLogin {
 		
 		/** 로그인 체크 **/
 		public void loginCheck() {
-//			String did = "test";  
-//			String dpass = "1234";
+			
 			String uid = tid.getText().trim();
 			String upass = tpass.getText().trim();
 			

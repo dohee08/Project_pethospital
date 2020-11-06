@@ -30,25 +30,15 @@ public class HospitalMgmUI extends JFrame{
 		public static final int MYPAGE = 3;
 		public static final int BOARD = 4;
 
-		JPanel showPane, showButtonPane;
-		JPanel mainPane, menuPane;
-
-		JPanel  buttonPane,mypage_menu_panel;
-		JButton btnLogin, btnJoin, btnManager;
-		JButton btnHospiRes, btnSalonRes, btnMyPage, btnBoard, btnExit;
-		JLabel jl_title, jl_img;
-		
-		JPanel status_panel;
-		JLabel jl_status, jl_main;
-		
-		String id;	//Login에서 가져온 id
-		JButton btnLogout;
-
-
+		JPanel showPane, showButtonPane, mainPane, menuPane, status_panel, buttonPane,mypage_menu_panel;
 		JPanel HospiResPane = new JPanel(new GridLayout(6,1));
 		JPanel SalonResPane = new JPanel(new GridLayout(6,1));
 		JPanel MyPagePane = new JPanel();
 		JPanel BoardPane = new JPanel();
+		JButton btnLogin, btnJoin, btnManager, btnLogout, btnHospiRes, 
+				btnSalonRes, btnMyPage, btnBoard, btnExit;
+		JLabel jl_title, jl_img, jl_status, jl_main;
+		String id;	//Login에서 가져온 id
 		
 		//꾸미기
 		public static Font font = new Font("나눔스퀘어_ac", Font.PLAIN, 14);
@@ -63,6 +53,7 @@ public class HospitalMgmUI extends JFrame{
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setSize(600,500);
 			setVisible(true);
+			setLocation(300,100);
 		}
 		
 		//Method
@@ -103,17 +94,13 @@ public class HospitalMgmUI extends JFrame{
 			showPane.setBackground(Color.WHITE);
 			showButtonPane.setBackground(Color.WHITE);
 			
-			add(showPane, BorderLayout.CENTER);
-			add(showButtonPane, BorderLayout.SOUTH);
-			
-			
-			
-			
 			
 			btnLogin.setBackground(c1);
 			btnManager.setBackground(c2);
 			btnJoin.setBackground(c3);
 			
+			add(showPane, BorderLayout.CENTER);
+			add(showButtonPane, BorderLayout.SOUTH);
 			
 			
 			btnLogin.addActionListener(new HospitalMgmUIEvent(this));
@@ -141,7 +128,7 @@ public class HospitalMgmUI extends JFrame{
 		    
 		    //메인 UI> 회원 아이디 상태 띄우기
 		    String mname = system.rename(id);
-		    jl_status = new JLabel(" " + mname + "가 로그인 하였습니다");
+		    jl_status = new JLabel(" " + mname + "님이 로그인 하였습니다");
 		    jl_status.setFont(font);
 		    jl_status.setBackground(Color.WHITE);
 		    status_panel.setLayout(new BorderLayout());
@@ -191,11 +178,6 @@ public class HospitalMgmUI extends JFrame{
 			btnMyPage.addActionListener(eventObj);
 			btnExit.addActionListener(eventObj);
 			addWindowListener(eventObj);
-			
-			//메인 UI> 시작 화면 
-//			jl_main = new JLabel("시작 화면");
-//			jl_main.setFont(font);
-//			mainPane.add(jl_main);
 		     
 			//메인 UI 창 위치 정의
 		    add(BorderLayout.NORTH, menuPane);      
@@ -212,6 +194,7 @@ public class HospitalMgmUI extends JFrame{
 			setLocation(width, height);
 		    setSize(800,600);
 		    setVisible(true);
+		    setLocation(300,100);
 		 }//start method
 		
 		

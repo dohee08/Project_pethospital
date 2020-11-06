@@ -158,19 +158,6 @@ public class HospitalHairCut extends JFrame {
 		return result;
 	}// regFormCheck method
 
-//	public void timeCheck() {
-//		cb_time.removeAllItems();
-//		String y = tf_year.getText().trim();
-//		String m = tf_month.getText().trim();
-//		String d = tf_day.getText().trim();
-//		ArrayList<String> tlist = system.timeCheckList(y, m, d);
-//		cb_time.addItem("선택");
-//		for (String item : tlist) {
-//			cb_time.addItem(item);
-//		}
-//
-//	}
-
 	public boolean integerOrNot(String strData) { // 입력값이 숫자인지 문자인지 판별 :
 		char[] charData = strData.toCharArray();
 		boolean check = true;
